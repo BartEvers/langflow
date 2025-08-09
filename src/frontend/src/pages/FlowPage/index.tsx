@@ -153,6 +153,28 @@ export default function FlowPage({ view }: { view?: boolean }): JSX.Element {
     setCurrentFlow(flow);
   };
 
+  // Scoped WebSocket: refresh only the canvas when this flow updates
+  useEffect(() => {
+    if (!id) return;
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const ws = new WebSocket(
+      `${protocol}//${window.location.host}/api/v1/events/ws`,
+    );
+    ws.onmessage = async (ev) => {
+      try {
+        const msg = JSON.parse(ev.data);
+        if (msg?.type === "flow_updated" && msg.flow_id === id) {
+          // Re-fetch the current flow and update the canvas state
+          const flow = await getFlow({ id });
+          setCurrentFlow(flow);
+        }
+      } catch {
+        // ignore parse errors
+      }
+    };
+    return () => ws.close();
+  }, [id]);
+
   const isMobile = useIsMobile();
 
   return (

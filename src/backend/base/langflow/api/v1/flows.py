@@ -37,6 +37,7 @@ from langflow.services.database.models.folder.constants import DEFAULT_FOLDER_NA
 from langflow.services.database.models.folder.model import Folder
 from langflow.services.deps import get_settings_service
 from langflow.utils.compression import compress_response
+from langflow.api.v1.events import broadcast_flow_updated
 
 # build router
 router = APIRouter(prefix="/flows", tags=["Flows"])
@@ -378,6 +379,13 @@ async def update_flow(
         if hasattr(e, "status_code"):
             raise HTTPException(status_code=e.status_code, detail=str(e)) from e
         raise HTTPException(status_code=500, detail=str(e)) from e
+
+    # Notify via WebSocket that this flow was updated. Errors here should not
+    # affect the API response.
+    try:
+        await broadcast_flow_updated(str(db_flow.id))
+    except Exception:
+        pass
 
     return db_flow
 
