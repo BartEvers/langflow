@@ -1238,6 +1238,47 @@
     @apply relative inline-flex h-8 w-full items-center justify-center gap-1.5 rounded px-3 py-1.5 text-sm font-normal transition-all duration-500 ease-in-out;
   }
 
+  .airelius-btn-flow-toolbar {
+  @apply relative inline-flex h-8 w-full items-center justify-center gap-1.5 rounded px-3 py-1.5 text-sm font-normal transition-all duration-500 ease-in-out;
+}
+
+/* Airelius Chat Interface Styles */
+.airelius-chat-floating {
+  @apply fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50;
+}
+
+.airelius-chat-input {
+  @apply min-w-[300px] max-w-[500px] resize-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent;
+}
+
+.airelius-chat-dialog {
+  @apply fixed inset-0 z-50 flex items-end justify-center p-4 bg-black/50;
+}
+
+.airelius-chat-message {
+  @apply flex gap-3;
+}
+
+.airelius-chat-message-user {
+  @apply justify-end;
+}
+
+.airelius-chat-message-ai {
+  @apply justify-start;
+}
+
+.airelius-chat-avatar {
+  @apply flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center;
+}
+
+.airelius-chat-avatar-user {
+  @apply bg-primary text-primary-foreground;
+}
+
+.airelius-chat-avatar-ai {
+  @apply bg-muted text-muted-foreground;
+}
+
   .input-slider-text {
     @apply absolute right-3 w-14 -translate-y-3.5 cursor-text rounded-sm px-2 py-[1px] text-center hover:ring-[1px] hover:ring-slider-input-border;
   }

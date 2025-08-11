@@ -20,7 +20,7 @@ from sqlmodel import and_, col, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from langflow.api.utils import CurrentActiveUser, DbSession, cascade_delete_flow, remove_api_keys, validate_is_component
-from langflow.api.v1.schemas import FlowListCreate
+from langflow.api.v1.schemas import FlowListCreate, FlowOpsRequest
 from langflow.helpers.user import get_user_by_flow_id_or_endpoint_name
 from langflow.initial_setup.constants import STARTER_FOLDER_NAME
 from langflow.logging import logger
@@ -56,6 +56,92 @@ async def _save_flow_to_fs(flow: Flow) -> None:
                 await f.write(flow.model_dump_json())
             except OSError:
                 logger.exception("Failed to write flow %s to path %s", flow.name, flow.fs_path)
+
+
+def _index_by_id(items: list[dict]) -> dict[str, int]:
+    index: dict[str, int] = {}
+    for idx, item in enumerate(items):
+        item_id = item.get("id")
+        if isinstance(item_id, str):
+            index[item_id] = idx
+    return index
+
+
+def _apply_flow_operations(flow_data: dict | None, ops: list, *, validate_edges: bool = False) -> dict:
+    if flow_data is None:
+        flow_data = {}
+    data = {
+        "nodes": list(flow_data.get("nodes", [])),
+        "edges": list(flow_data.get("edges", [])),
+        "viewport": flow_data.get("viewport"),
+    }
+
+    node_index = _index_by_id(data["nodes"]) if isinstance(data["nodes"], list) else {}
+    edge_index = _index_by_id(data["edges"]) if isinstance(data["edges"], list) else {}
+
+    for op in ops:
+        kind = op.get("op") if isinstance(op, dict) else None
+        if kind == "add_node":
+            node = op["node"]
+            node_id = node.get("id")
+            if node_id in node_index:
+                raise HTTPException(status_code=400, detail=f"Node with id {node_id} already exists")
+            data["nodes"].append(node)
+            node_index[node_id] = len(data["nodes"]) - 1
+        elif kind == "update_node":
+            node_id = op["id"]
+            if node_id not in node_index:
+                raise HTTPException(status_code=404, detail=f"Node with id {node_id} not found")
+            idx = node_index[node_id]
+            # shallow merge 'set' into node
+            def deep_merge(a: dict, b: dict) -> dict:
+                for k, v in b.items():
+                    if isinstance(v, dict) and isinstance(a.get(k), dict):
+                        a[k] = deep_merge(a[k], v)
+                    else:
+                        a[k] = v
+                return a
+
+            data["nodes"][idx] = deep_merge(dict(data["nodes"][idx]), dict(op.get("set", {})))
+        elif kind == "remove_node":
+            node_id = op["id"]
+            if node_id not in node_index:
+                # idempotent remove
+                continue
+            idx = node_index.pop(node_id)
+            data["nodes"].pop(idx)
+            # rebuild index after removal
+            node_index = _index_by_id(data["nodes"])  # small lists, simpler
+            # also remove edges connected to this node
+            new_edges = [e for e in data["edges"] if e.get("source") != node_id and e.get("target") != node_id]
+            data["edges"] = new_edges
+            edge_index = _index_by_id(data["edges"])  # rebuild
+        elif kind == "add_edge":
+            edge = op["edge"]
+            edge_id = edge.get("id")
+            if edge_id in edge_index:
+                raise HTTPException(status_code=400, detail=f"Edge with id {edge_id} already exists")
+            # optional validation
+            if validate_edges:
+                src = edge.get("source")
+                tgt = edge.get("target")
+                if src not in node_index or tgt not in node_index:
+                    raise HTTPException(status_code=400, detail="Edge references unknown nodes")
+            data["edges"].append(edge)
+            edge_index[edge_id] = len(data["edges"]) - 1
+        elif kind == "remove_edge":
+            edge_id = op["id"]
+            if edge_id not in edge_index:
+                # idempotent remove
+                continue
+            idx = edge_index.pop(edge_id)
+            data["edges"].pop(idx)
+            edge_index = _index_by_id(data["edges"])  # rebuild
+        else:
+            raise HTTPException(status_code=400, detail=f"Unsupported operation: {kind}")
+
+    return data
+
 
 
 async def _new_flow(
@@ -312,6 +398,62 @@ async def read_public_flow(
 
     current_user = await get_user_by_flow_id_or_endpoint_name(str(flow_id))
     return await read_flow(session=session, flow_id=flow_id, current_user=current_user)
+
+
+@router.post("/{flow_id}/ops", response_model=FlowRead, status_code=200)
+async def apply_flow_operations(
+    *,
+    session: DbSession,
+    flow_id: UUID,
+    request: FlowOpsRequest,
+    current_user: CurrentActiveUser,
+):
+    """Apply a list of incremental operations to a flow's data.
+
+    Supports optimistic concurrency via base_version matching flow.updated_at.
+    """
+    try:
+        db_flow = await _read_flow(session=session, flow_id=flow_id, user_id=current_user.id)
+        if not db_flow:
+            raise HTTPException(status_code=404, detail="Flow not found")
+
+        # optimistic concurrency
+        if request.base_version and db_flow.updated_at and request.base_version != db_flow.updated_at:
+            raise HTTPException(status_code=409, detail="Flow has been updated; please refresh and retry")
+
+        # apply operations
+        new_data = _apply_flow_operations(db_flow.data, [op.model_dump() for op in request.operations])
+
+        # Validate graph integrity by attempting to build Graph
+        try:
+            from langflow.graph.graph.base import Graph
+
+            Graph.from_payload(new_data)
+        except Exception as exc:  # noqa: BLE001
+            raise HTTPException(status_code=400, detail=f"Invalid flow after applying operations: {exc}") from exc
+
+        db_flow.data = new_data
+        webhook_component = get_webhook_component_in_flow(db_flow.data)
+        db_flow.webhook = webhook_component is not None
+        db_flow.updated_at = datetime.now(timezone.utc)
+
+        await _verify_fs_path(db_flow.fs_path)
+        session.add(db_flow)
+        await session.commit()
+        await session.refresh(db_flow)
+        await _save_flow_to_fs(db_flow)
+    except HTTPException:
+        raise
+    except Exception as e:  # noqa: BLE001
+        raise HTTPException(status_code=500, detail=str(e)) from e
+
+    # best-effort notification
+    try:
+        await broadcast_flow_updated(str(db_flow.id))
+    except Exception:
+        pass
+
+    return db_flow
 
 
 @router.patch("/{flow_id}", response_model=FlowRead, status_code=200)

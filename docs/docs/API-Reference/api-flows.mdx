@@ -225,6 +225,88 @@ curl -X PATCH \
 
 </details>
 
+## Apply flow operations (incremental updates)
+
+Apply a list of small, domain-specific operations to a flow without sending the full flow JSON. This is useful for multi-step planning and fast edits.
+
+Operations supported:
+
+- `add_node`: add a full node object (must include an `id`)
+- `update_node`: deep-merge updates into an existing node by `id`
+- `remove_node`: remove a node (idempotent); also removes connected edges
+- `add_edge`: add an edge object (must include `id`, `source`, `target`)
+- `remove_edge`: remove an edge by `id` (idempotent)
+
+Optimistic concurrency: include `base_version` set to the flow's `updated_at`. The server returns `409` if the flow has changed.
+
+```bash
+curl -X POST \
+  "$LANGFLOW_URL/api/v1/flows/$FLOW_ID/ops" \
+  -H "accept: application/json" \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: $LANGFLOW_API_KEY" \
+  -d '{
+  "base_version": "2025-02-04T21:07:36+00:00",
+  "operations": [
+    {
+      "op": "add_node",
+      "node": {
+        "id": "OpenAIModel-abc",
+        "type": "OpenAIModel",
+        "position": { "x": 100, "y": 200 },
+        "data": {
+          "node": {
+            "template": { "model": { "value": "gpt-4o" } }
+          }
+        }
+      }
+    },
+    {
+      "op": "add_edge",
+      "edge": { "id": "e1", "source": "ChatInput-1", "target": "OpenAIModel-abc" }
+    },
+    {
+      "op": "update_node",
+      "id": "OpenAIModel-abc",
+      "set": { "data": { "node": { "template": { "temperature": { "value": 0.2 } } } } }
+    }
+  ]
+}'
+```
+
+<details>
+<summary>Result</summary>
+
+```json
+{
+  "name": "string2",
+  "description": "string",
+  "icon": "string",
+  "icon_bg_color": "#FF0000",
+  "gradient": "string",
+  "data": {
+    "nodes": [
+      { "id": "ChatInput-1", "type": "ChatInput", "position": { "x": 0, "y": 0 } },
+      { "id": "OpenAIModel-abc", "type": "OpenAIModel", "position": { "x": 100, "y": 200 }, "data": { "node": { "template": { "model": { "value": "gpt-4o" }, "temperature": { "value": 0.2 } } } } }
+    ],
+    "edges": [
+      { "id": "e1", "source": "ChatInput-1", "target": "OpenAIModel-abc" }
+    ]
+  },
+  "is_component": false,
+  "updated_at": "2025-02-04T21:08:10+00:00",
+  "webhook": false,
+  "endpoint_name": "string",
+  "tags": ["string"],
+  "locked": false,
+  "id": "e8d81c37-714b-49ae-ba82-e61141f020ee",
+  "user_id": "f58396d4-a387-4bb8-b749-f40825c3d9f3",
+  "project_id": "1415de42-8f01-4f36-bf34-539f23e47466"
+}
+```
+
+</details>
+
 ## Delete flow
 
 Deletes a specific flow by its ID.

@@ -1,6 +1,7 @@
 import {
   type Connection,
   type Edge,
+  type NodeChange,
   type OnNodeDrag,
   type OnSelectionChangeParams,
   ReactFlow,
@@ -22,6 +23,7 @@ import { useShallow } from "zustand/react/shallow";
 import { DefaultEdge } from "@/CustomEdges";
 import NoteNode from "@/CustomNodes/NoteNode";
 import FlowToolbar from "@/components/core/flowToolbarComponent";
+import { AireliusChat } from "@/components/airelius";
 import {
   COLOR_OPTIONS,
   NOTE_NODE_MIN_HEIGHT,
@@ -724,6 +726,10 @@ export default function Page({
             <MemoizedBackground />
             {helperLineEnabled && <HelperLines helperLines={helperLines} />}
           </ReactFlow>
+          
+          {/* Airelius Chat Interface */}
+          <AireliusChat />
+          
           <div
             id="shadow-box"
             style={{

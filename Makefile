@@ -208,6 +208,41 @@ run_cli: install_frontend install_backend build_frontend ## run the CLI
 		--port $(port) \
 		$(if $(env),--env-file $(env),) \
 		$(if $(filter false,$(open_browser)),--no-open-browser)
+# -------- Fast dev: skip installs/build every run -------
+.PHONY: dev_backend dev_frontend dev run_cli_fast
+
+dev_backend: ## backend with hot reload (no rebuilds)
+	@echo 'Starting backend (hot reload)'
+	@uv run langflow run \
+		--reload \
+		--frontend-path $(path) \
+		--log-level $(log_level) \
+		--host $(host) \
+		--port $(port) \
+		$(if $(env),--env-file $(env),) \
+		$(if $(filter false,$(open_browser)),--no-open-browser)
+
+dev_frontend: ## Vite/dev server (run once, separate terminal)
+	@echo 'Starting frontend dev server'
+	@cd frontend && pnpm install --silent --frozen-lockfile || true
+	@cd frontend && pnpm dev
+
+# Run both: keep frontend in watch mode and backend reloading
+dev: ## start frontend + backend (use two terminals or -j)
+	$(MAKE) -j2 dev_frontend dev_backend
+
+# Start quickly using already-built frontend (no install/build)
+run_cli_fast: ## run CLI without install/build
+	@echo 'Running CLI (fast)'
+	@uv run langflow run \
+		--reload \
+		--frontend-path $(path) \
+		--log-level $(log_level) \
+		--host $(host) \
+		--port $(port) \
+		$(if $(env),--env-file $(env),) \
+		$(if $(filter false,$(open_browser)),--no-open-browser)
+
 
 run_cli_debug:
 	@echo 'Running the CLI in debug mode'
