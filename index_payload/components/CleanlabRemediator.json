@@ -1,0 +1,99 @@
+{
+  "kind": "component",
+  "type": "CleanlabRemediator",
+  "display_name": "Cleanlab Remediator",
+  "description": "Remediates an untrustworthy response based on trust score from the Cleanlab Evaluator, score threshold, and message handling settings.",
+  "documentation": null,
+  "icon": "Cleanlab",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "response",
+      "display_name": "Response",
+      "info": "The response to the user's query.",
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "score",
+      "display_name": "Trust Score",
+      "info": "The trustworthiness score output from the Cleanlab Evaluator.",
+      "input_types": [
+        "number"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "explanation",
+      "display_name": "Explanation",
+      "info": "The explanation from the Cleanlab Evaluator.",
+      "required": false
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "threshold",
+      "display_name": "Threshold",
+      "field_type": "float",
+      "value": 0.7,
+      "range_spec": "RangeSpec(min=0.0, max=1.0, step=0.05)",
+      "info": "Minimum score required to show the response unmodified. Reponses with scores above this threshold are considered trustworthy. Reponses with scores below this threshold are considered untrustworthy and will be remediated based on the settings below.",
+      "required": true,
+      "show": true,
+      "default": 0.7
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "show_untrustworthy_response",
+      "display_name": "Show Untrustworthy Response",
+      "info": "If enabled, and the trust score is below the threshold, the original response is shown with the added warning. If disabled, and the trust score is below the threshold, the fallback answer is returned.",
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "PromptInput",
+      "name": "untrustworthy_warning_text",
+      "display_name": "Warning for Untrustworthy Response",
+      "info": "Warning to append to the response if Show Untrustworthy Response is enabled and trust score is below the threshold.",
+      "value": "⚠️ WARNING: The following response is potentially untrustworthy.",
+      "default": "⚠️ WARNING: The following response is potentially untrustworthy."
+    },
+    {
+      "field_class": "PromptInput",
+      "name": "fallback_text",
+      "display_name": "Fallback Answer",
+      "info": "Response returned if the trust score is below the threshold and 'Show Untrustworthy Response' is disabled.",
+      "value": "Based on the available information, I cannot provide a complete answer to this question.",
+      "default": "Based on the available information, I cannot provide a complete answer to this question."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Remediated Message",
+      "name": "remediated_response",
+      "method": "remediate_response",
+      "types": [
+        "Message"
+      ]
+    }
+  ],
+  "template": [
+    "response",
+    "score",
+    "explanation",
+    "threshold",
+    "show_untrustworthy_response",
+    "untrustworthy_warning_text",
+    "fallback_text"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CleanlabRemediator"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/cleanlab/cleanlab_remediator.py#L7"
+}

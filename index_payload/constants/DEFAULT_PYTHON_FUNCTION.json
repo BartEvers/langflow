@@ -1,0 +1,6 @@
+{
+  "kind": "enum_constants",
+  "name": "DEFAULT_PYTHON_FUNCTION",
+  "value": "\ndef python_function(text: str) -> str:\n    \"\"\"This is a default python function that returns the input text\"\"\"\n    return text\n",
+  "source": "src/backend/base/langflow/utils/constants.py#L58"
+}

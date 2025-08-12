@@ -1,0 +1,52 @@
+{
+  "kind": "component",
+  "type": "EmbeddingSimilarityComponent",
+  "display_name": "Embedding Similarity",
+  "description": "Compute selected form of similarity between two embedding vectors.",
+  "documentation": null,
+  "icon": "equal",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "embedding_vectors",
+      "display_name": "Embedding Vectors",
+      "info": "A list containing exactly two data objects with embedding vectors to compare.",
+      "is_list": true,
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "similarity_metric",
+      "display_name": "Similarity Metric",
+      "info": "Select the similarity metric to use.",
+      "options": [
+        "Cosine Similarity",
+        "Euclidean Distance",
+        "Manhattan Distance"
+      ],
+      "value": "Cosine Similarity",
+      "default": "Cosine Similarity"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Similarity Data",
+      "name": "similarity_data",
+      "method": "compute_similarity"
+    }
+  ],
+  "template": [
+    "embedding_vectors",
+    "similarity_metric"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "EmbeddingSimilarityComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/embeddings/similarity.py#L10"
+}

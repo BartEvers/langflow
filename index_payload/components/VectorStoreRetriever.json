@@ -1,0 +1,32 @@
+{
+  "kind": "component",
+  "type": "VectorStoreRetriever",
+  "display_name": "VectorStore Retriever",
+  "description": "A vector store retriever",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "vectorstore",
+      "display_name": "Vector Store",
+      "input_types": [
+        "VectorStore"
+      ],
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "vectorstore"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "VectorStoreRetriever"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/vector_store.py#L8"
+}

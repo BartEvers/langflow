@@ -1,0 +1,74 @@
+{
+  "kind": "component",
+  "type": "SelectivePassThrough",
+  "display_name": "Selective Pass Through",
+  "description": "Passes the specified value if a specified condition is met.",
+  "documentation": null,
+  "icon": "filter",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "input_value",
+      "display_name": "Input Value",
+      "info": "The primary input value to evaluate."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "comparison_value",
+      "display_name": "Comparison Value",
+      "info": "The value to compare against the input value."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "operator",
+      "display_name": "Operator",
+      "options": [
+        "equals",
+        "not equals",
+        "contains",
+        "starts with",
+        "ends with"
+      ],
+      "info": "Condition to evaluate the input value."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "value_to_pass",
+      "display_name": "Value to Pass",
+      "info": "The value to pass if the condition is met."
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "case_sensitive",
+      "display_name": "Case Sensitive",
+      "info": "If true, the comparison will be case sensitive.",
+      "value": false,
+      "advanced": true,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Passed Output",
+      "name": "passed_output",
+      "method": "pass_through"
+    }
+  ],
+  "template": [
+    "input_value",
+    "comparison_value",
+    "operator",
+    "value_to_pass",
+    "case_sensitive"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SelectivePassThrough"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/selective_passthrough.py#L6"
+}

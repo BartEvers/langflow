@@ -1,0 +1,57 @@
+{
+  "kind": "component",
+  "type": "TypeConverterComponent",
+  "display_name": "Type Convert",
+  "description": "Convert between different types (Message, Data, DataFrame)",
+  "documentation": "https://docs.langflow.org/components-processing#type-convert",
+  "icon": "repeat",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "input_data",
+      "display_name": "Input",
+      "input_types": [
+        "Message",
+        "Data",
+        "DataFrame"
+      ],
+      "info": "Accept Message, Data or DataFrame as input",
+      "required": true
+    },
+    {
+      "field_class": "TabInput",
+      "name": "output_type",
+      "display_name": "Output Type",
+      "options": [
+        "Message",
+        "Data",
+        "DataFrame"
+      ],
+      "info": "Select the desired output data type",
+      "real_time_refresh": true,
+      "value": "Message",
+      "default": "Message"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Message Output",
+      "name": "message_output",
+      "method": "convert_to_message"
+    }
+  ],
+  "template": [
+    "input_data",
+    "output_type"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "TypeConverterComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/converter.py#L50"
+}

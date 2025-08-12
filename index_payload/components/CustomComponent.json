@@ -1,0 +1,39 @@
+{
+  "kind": "component",
+  "type": "CustomComponent",
+  "display_name": "Custom Component",
+  "description": "Use as a template to create your own component.",
+  "documentation": "https://docs.langflow.org/components-custom-components",
+  "icon": "code",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "input_value",
+      "display_name": "Input Value",
+      "info": "This is a custom component Input",
+      "value": "Hello, World!",
+      "tool_mode": true,
+      "default": "Hello, World!"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Output",
+      "name": "output",
+      "method": "build_output"
+    }
+  ],
+  "template": [
+    "input_value"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CustomComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/custom_component/custom_component.py#L7"
+}

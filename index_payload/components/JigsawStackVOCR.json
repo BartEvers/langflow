@@ -1,0 +1,80 @@
+{
+  "kind": "component",
+  "type": "JigsawStackVOCR",
+  "display_name": "VOCR",
+  "description": "Extract data from any document type in a consistent structure with fine-tuned         vLLMs for the highest accuracy",
+  "documentation": "https://jigsawstack.com/docs/api-reference/ai/vocr",
+  "icon": "JigsawStack",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "JigsawStack API Key",
+      "info": "Your JigsawStack API key for authentication",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "prompts",
+      "display_name": "Prompts",
+      "info": "The prompts used to describe the image. Default prompt is Describe the image in detail.                 You can pass a list of comma-separated prompts to extract different information from the image.",
+      "required": false,
+      "tool_mode": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "url",
+      "display_name": "URL",
+      "info": "The image or document url. Not required if file_store_key is specified.",
+      "required": false,
+      "tool_mode": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "file_store_key",
+      "display_name": "File Store Key",
+      "info": "The key used to store the image on Jigsawstack File Storage. Not required if url is specified.",
+      "required": false,
+      "tool_mode": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "page_range_start",
+      "display_name": "Page Range",
+      "info": "Page range start limit for the document. If not specified, all pages will be processed.",
+      "required": false
+    },
+    {
+      "field_class": "IntInput",
+      "name": "page_range_end",
+      "display_name": "Page Range End",
+      "info": "Page range end limit for the document. If not specified, all pages will be processed.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "VOCR results",
+      "name": "vocr_results",
+      "method": "vocr"
+    }
+  ],
+  "template": [
+    "api_key",
+    "prompts",
+    "url",
+    "file_store_key",
+    "page_range_start",
+    "page_range_end"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JigsawStackVOCR"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/jigsawstack/vocr.py#L6"
+}

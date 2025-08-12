@@ -1,0 +1,87 @@
+{
+  "kind": "component",
+  "type": "SequentialTaskComponent",
+  "display_name": "Sequential Task",
+  "description": "Each task must have a description, an expected output and an agent responsible for execution.",
+  "documentation": null,
+  "icon": "CrewAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "task_description",
+      "display_name": "Description",
+      "info": "Descriptive text detailing task's purpose and execution."
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "expected_output",
+      "display_name": "Expected Output",
+      "info": "Clear definition of expected task outcome."
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "tools",
+      "display_name": "Tools",
+      "input_types": [
+        "Tool"
+      ],
+      "is_list": true,
+      "info": "List of tools/resources limited for task execution. Uses the Agent tools by default.",
+      "required": false,
+      "advanced": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "agent",
+      "display_name": "Agent",
+      "input_types": [
+        "Agent"
+      ],
+      "info": "CrewAI Agent that will perform the task",
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "task",
+      "display_name": "Task",
+      "input_types": [
+        "SequentialTask"
+      ],
+      "info": "CrewAI Task that will perform the task"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "async_execution",
+      "display_name": "Async Execution",
+      "value": true,
+      "advanced": true,
+      "info": "Boolean flag indicating asynchronous task execution.",
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Task",
+      "name": "task_output",
+      "method": "build_task"
+    }
+  ],
+  "template": [
+    "task_description",
+    "expected_output",
+    "tools",
+    "agent",
+    "task",
+    "async_execution"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SequentialTaskComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/crewai/sequential_task.py#L6"
+}

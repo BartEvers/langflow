@@ -1,0 +1,65 @@
+{
+  "kind": "component",
+  "type": "needle",
+  "display_name": "Needle Retriever",
+  "description": "A retriever that uses the Needle API to search collections.",
+  "documentation": "https://docs.needle-ai.com",
+  "icon": "Needle",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "needle_api_key",
+      "display_name": "Needle API Key",
+      "info": "Your Needle API key.",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "collection_id",
+      "display_name": "Collection ID",
+      "info": "The ID of the Needle collection.",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "query",
+      "display_name": "User Query",
+      "info": "Enter your question here. In tool mode, you can also specify top_k parameter (min: 20).",
+      "required": true,
+      "tool_mode": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "top_k",
+      "display_name": "Top K Results",
+      "info": "Number of search results to return (min: 20).",
+      "value": 20,
+      "required": true,
+      "default": 20
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Result",
+      "name": "result",
+      "type_": "Message",
+      "method": "run"
+    }
+  ],
+  "template": [
+    "needle_api_key",
+    "collection_id",
+    "query",
+    "top_k"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "needle"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/needle/needle.py#L9"
+}

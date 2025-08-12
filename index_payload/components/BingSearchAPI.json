@@ -1,0 +1,63 @@
+{
+  "kind": "component",
+  "type": "BingSearchAPI",
+  "display_name": "Bing Search API",
+  "description": "Call the Bing Search API.",
+  "documentation": null,
+  "icon": "Bing",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "bing_subscription_key",
+      "display_name": "Bing Subscription Key"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "bing_search_url",
+      "display_name": "Bing Search URL",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "k",
+      "display_name": "Number of results",
+      "value": 4,
+      "required": true,
+      "default": 4
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "fetch_content_dataframe"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Tool",
+      "name": "tool",
+      "method": "build_tool"
+    }
+  ],
+  "template": [
+    "bing_subscription_key",
+    "input_value",
+    "bing_search_url",
+    "k"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "BingSearchAPI"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/bing/bing_search_api.py#L14"
+}

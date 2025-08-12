@@ -1,0 +1,78 @@
+{
+  "kind": "component",
+  "type": "FilterDataValues",
+  "display_name": "Filter Values",
+  "description": "Filter a list of data items based on a specified key, filter value, and comparison operator. Check advanced options to select match comparision.",
+  "documentation": null,
+  "icon": "filter",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "input_data",
+      "display_name": "Input Data",
+      "info": "The list of data items to filter.",
+      "is_list": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "filter_key",
+      "display_name": "Filter Key",
+      "info": "The key to filter on (e.g., 'route').",
+      "value": "route",
+      "input_types": [
+        "Data"
+      ],
+      "default": "route"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "filter_value",
+      "display_name": "Filter Value",
+      "info": "The value to filter by (e.g., 'CMIP').",
+      "value": "CMIP",
+      "input_types": [
+        "Data"
+      ],
+      "default": "CMIP"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "operator",
+      "display_name": "Comparison Operator",
+      "options": [
+        "equals",
+        "not equals",
+        "contains",
+        "starts with",
+        "ends with"
+      ],
+      "info": "The operator to apply for comparing the values.",
+      "value": "equals",
+      "advanced": true,
+      "default": "equals"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Filtered Data",
+      "name": "filtered_data",
+      "method": "filter_data"
+    }
+  ],
+  "template": [
+    "input_data",
+    "filter_key",
+    "filter_value",
+    "operator"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "FilterDataValues"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/filter_data_values.py#L8"
+}

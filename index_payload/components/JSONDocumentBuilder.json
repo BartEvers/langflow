@@ -1,0 +1,36 @@
+{
+  "kind": "component",
+  "type": "JSONDocumentBuilder",
+  "display_name": "JSON Document Builder",
+  "description": "Build a Document containing a JSON object using a key and another Document page content.",
+  "documentation": "https://docs.langflow.org/components/utilities#json-document-builder",
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "key",
+      "display_name": "Key",
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "document",
+      "display_name": "Document",
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "key",
+    "document"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JSONDocumentBuilder"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/json_document_builder.py#L22"
+}

@@ -1,0 +1,99 @@
+{
+  "kind": "component",
+  "type": "mem0_chat_memory",
+  "display_name": "Mem0 Chat Memory",
+  "description": "Retrieves and stores chat messages using Mem0 memory storage.",
+  "documentation": null,
+  "icon": "Mem0",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "NestedDictInput",
+      "name": "mem0_config",
+      "display_name": "Mem0 Configuration",
+      "info": "Configuration dictionary for initializing Mem0 memory instance.\n                    Example:\n                    {\n                        \"graph_store\": {\n                            \"provider\": \"neo4j\",\n                            \"config\": {\n                                \"url\": \"neo4j+s://your-neo4j-url\",\n                                \"username\": \"neo4j\",\n                                \"password\": \"your-password\"\n                            }\n                        },\n                        \"version\": \"v1.1\"\n                    }",
+      "input_types": [
+        "Data"
+      ]
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "ingest_message",
+      "display_name": "Message to Ingest",
+      "info": "The message content to be ingested into Mem0 memory."
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "existing_memory",
+      "display_name": "Existing Memory Instance",
+      "input_types": [
+        "Memory"
+      ],
+      "info": "Optional existing Mem0 memory instance. If not provided, a new instance will be created."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "user_id",
+      "display_name": "User ID",
+      "info": "Identifier for the user associated with the messages."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "search_query",
+      "display_name": "Search Query",
+      "info": "Input text for searching related memories in Mem0."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "mem0_api_key",
+      "display_name": "Mem0 API Key",
+      "info": "API key for Mem0 platform. Leave empty to use the local version."
+    },
+    {
+      "field_class": "DictInput",
+      "name": "metadata",
+      "display_name": "Metadata",
+      "info": "Additional metadata to associate with the ingested message.",
+      "advanced": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "openai_api_key",
+      "display_name": "OpenAI API Key",
+      "required": false,
+      "info": "API key for OpenAI. Required if using OpenAI Embeddings without a provided configuration."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "memory",
+      "display_name": "Mem0 Memory",
+      "method": "ingest_data"
+    },
+    {
+      "output_class": "Output",
+      "name": "search_results",
+      "display_name": "Search Results",
+      "method": "build_search_results"
+    }
+  ],
+  "template": [
+    "mem0_config",
+    "ingest_message",
+    "existing_memory",
+    "user_id",
+    "search_query",
+    "mem0_api_key",
+    "metadata",
+    "openai_api_key"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "mem0_chat_memory"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/mem0/mem0_chat_memory.py#L18"
+}

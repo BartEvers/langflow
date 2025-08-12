@@ -1,0 +1,10 @@
+{
+  "kind": "schema",
+  "name": "ErrorLog",
+  "fields": [
+    "errorMessage",
+    "stackTrace"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/schema.py#L33"
+}

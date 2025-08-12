@@ -1,0 +1,128 @@
+{
+  "kind": "component",
+  "type": "ChatOutput",
+  "display_name": "Chat Output",
+  "description": "Display a chat message in the Playground.",
+  "documentation": "https://docs.langflow.org/components-io#chat-output",
+  "icon": "MessagesSquare",
+  "minimized": true,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "input_value",
+      "display_name": "Inputs",
+      "info": "Message to be passed as output.",
+      "input_types": [
+        "Data",
+        "DataFrame",
+        "Message"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "should_store_message",
+      "display_name": "Store Messages",
+      "info": "Store the message in the history.",
+      "value": true,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "sender",
+      "display_name": "Sender Type",
+      "options": [
+        "MESSAGE_SENDER_AI",
+        "MESSAGE_SENDER_USER"
+      ],
+      "value": "MESSAGE_SENDER_AI",
+      "advanced": true,
+      "info": "Type of sender.",
+      "default": "MESSAGE_SENDER_AI"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "sender_name",
+      "display_name": "Sender Name",
+      "info": "Name of the sender.",
+      "value": "MESSAGE_SENDER_NAME_AI",
+      "advanced": true,
+      "default": "MESSAGE_SENDER_NAME_AI"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "session_id",
+      "display_name": "Session ID",
+      "info": "The session ID of the chat. If empty, the current session ID parameter will be used.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "data_template",
+      "display_name": "Data Template",
+      "value": "{text}",
+      "advanced": true,
+      "info": "Template to convert Data to Text. If left empty, it will be dynamically set to the Data's text key.",
+      "default": "{text}"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "background_color",
+      "display_name": "Background Color",
+      "info": "The background color of the icon.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "chat_icon",
+      "display_name": "Icon",
+      "info": "The icon of the message.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "text_color",
+      "display_name": "Text Color",
+      "info": "The text color of the name",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "clean_data",
+      "display_name": "Basic Clean Data",
+      "value": true,
+      "info": "Whether to clean the data",
+      "advanced": true,
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Output Message",
+      "name": "message",
+      "method": "message_response"
+    }
+  ],
+  "template": [
+    "input_value",
+    "should_store_message",
+    "sender",
+    "sender_name",
+    "session_id",
+    "data_template",
+    "background_color",
+    "chat_icon",
+    "text_color",
+    "clean_data"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ChatOutput"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/input_output/chat_output.py#L22"
+}

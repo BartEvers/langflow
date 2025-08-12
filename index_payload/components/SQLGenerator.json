@@ -1,0 +1,73 @@
+{
+  "kind": "component",
+  "type": "SQLGenerator",
+  "display_name": "Natural Language to SQL",
+  "description": "Generate SQL from natural language.",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "info": "The input value to pass to the chain.",
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "db",
+      "display_name": "SQLDatabase",
+      "input_types": [
+        "SQLDatabase"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "top_k",
+      "display_name": "Top K",
+      "info": "The number of results per select statement to return.",
+      "value": 5,
+      "default": 5
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "prompt",
+      "display_name": "Prompt",
+      "info": "The prompt must contain `{question}`."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Message",
+      "name": "text",
+      "method": "invoke_chain"
+    }
+  ],
+  "template": [
+    "input_value",
+    "llm",
+    "db",
+    "top_k",
+    "prompt"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SQLGenerator"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/sql_generator.py#L15"
+}

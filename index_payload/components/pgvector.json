@@ -1,0 +1,59 @@
+{
+  "kind": "component",
+  "type": "pgvector",
+  "display_name": "PGVector",
+  "description": "PGVector Vector Store with search capabilities",
+  "documentation": null,
+  "icon": "cpu",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "pg_server_url",
+      "display_name": "PostgreSQL Server Connection String",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "collection_name",
+      "display_name": "Table",
+      "required": true
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding",
+      "input_types": [
+        "Embeddings"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "value": 4,
+      "advanced": true,
+      "default": 4
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "pg_server_url",
+    "collection_name",
+    "embedding",
+    "number_of_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "pgvector"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/pgvector.py#L10"
+}

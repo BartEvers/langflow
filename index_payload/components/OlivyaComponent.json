@@ -1,0 +1,91 @@
+{
+  "kind": "component",
+  "type": "OlivyaComponent",
+  "display_name": "Place Call",
+  "description": "A component to create an outbound call request from Olivya's platform.",
+  "documentation": "http://docs.langflow.org/components/olivya",
+  "icon": "Olivya",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "info": "Your API key for authentication",
+      "value": "",
+      "required": true,
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "from_number",
+      "display_name": "From Number",
+      "info": "The Agent's phone number",
+      "value": "",
+      "required": true,
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "to_number",
+      "display_name": "To Number",
+      "info": "The recipient's phone number",
+      "value": "",
+      "required": true,
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "first_message",
+      "display_name": "First Message",
+      "info": "The Agent's introductory message",
+      "value": "",
+      "required": false,
+      "tool_mode": true,
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "system_prompt",
+      "display_name": "System Prompt",
+      "info": "The system prompt to guide the interaction",
+      "value": "",
+      "required": false,
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "conversation_history",
+      "display_name": "Conversation History",
+      "info": "The summary of the conversation",
+      "value": "",
+      "required": false,
+      "tool_mode": true,
+      "default": ""
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Output",
+      "name": "output",
+      "method": "build_output"
+    }
+  ],
+  "template": [
+    "api_key",
+    "from_number",
+    "to_number",
+    "first_message",
+    "system_prompt",
+    "conversation_history"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "OlivyaComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/olivya/olivya.py#L11"
+}

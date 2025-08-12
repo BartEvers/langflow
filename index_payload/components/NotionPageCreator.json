@@ -1,0 +1,44 @@
+{
+  "kind": "component",
+  "type": "NotionPageCreator",
+  "display_name": "Create Page ",
+  "description": "A component for creating Notion pages.",
+  "documentation": "https://docs.langflow.org/integrations/notion/page-create",
+  "icon": "NotionDirectoryLoader",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "database_id",
+      "display_name": "Database ID",
+      "info": "The ID of the Notion database."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "notion_secret",
+      "display_name": "Notion Secret",
+      "info": "The Notion integration token.",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "properties_json",
+      "display_name": "Properties (JSON)",
+      "info": "The properties of the new page as a JSON string."
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "database_id",
+    "notion_secret",
+    "properties_json"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NotionPageCreator"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/Notion/create_page.py#L14"
+}

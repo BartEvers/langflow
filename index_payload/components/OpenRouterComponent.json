@@ -1,0 +1,96 @@
+{
+  "kind": "component",
+  "type": "OpenRouterComponent",
+  "display_name": "OpenRouter",
+  "description": "OpenRouter provides unified access to multiple AI models from different providers through a single API.",
+  "documentation": null,
+  "icon": "OpenRouter",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "OpenRouter API Key",
+      "required": true,
+      "info": "Your OpenRouter API key"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "site_url",
+      "display_name": "Site URL",
+      "info": "Your site URL for OpenRouter rankings",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "app_name",
+      "display_name": "App Name",
+      "info": "Your app name for OpenRouter rankings",
+      "advanced": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "provider",
+      "display_name": "Provider",
+      "info": "The AI model provider",
+      "options": [
+        "Loading providers..."
+      ],
+      "value": "Loading providers...",
+      "real_time_refresh": true,
+      "required": true,
+      "default": "Loading providers..."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model",
+      "info": "The model to use for chat completion",
+      "options": [
+        "Select a provider first"
+      ],
+      "value": "Select a provider first",
+      "real_time_refresh": true,
+      "required": true,
+      "default": "Select a provider first"
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.7,
+      "range_spec": "RangeSpec(min=0, max=2, step=0.01)",
+      "info": "Controls randomness. Lower values are more deterministic, higher values are more creative.",
+      "advanced": true,
+      "default": 0.7
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_tokens",
+      "display_name": "Max Tokens",
+      "info": "Maximum number of tokens to generate",
+      "advanced": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "api_key",
+    "site_url",
+    "app_name",
+    "provider",
+    "model_name",
+    "temperature",
+    "max_tokens"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "OpenRouterComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/openrouter/openrouter.py#L20"
+}

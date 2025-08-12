@@ -1,0 +1,239 @@
+{
+  "kind": "component",
+  "type": "AstraDB",
+  "display_name": "Astra DB",
+  "description": "Ingest and search documents in Astra DB",
+  "documentation": "https://docs.datastax.com/en/langflow/astra-components.html",
+  "icon": "AstraDB",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "token",
+      "display_name": "Astra DB Application Token",
+      "info": "Authentication token for accessing Astra DB.",
+      "value": "ASTRA_DB_APPLICATION_TOKEN",
+      "required": true,
+      "real_time_refresh": true,
+      "input_types": [],
+      "default": "ASTRA_DB_APPLICATION_TOKEN"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "environment",
+      "display_name": "Environment",
+      "info": "The environment for the Astra DB API Endpoint.",
+      "options": [
+        "prod",
+        "test",
+        "dev"
+      ],
+      "value": "prod",
+      "advanced": true,
+      "real_time_refresh": true,
+      "combobox": true,
+      "default": "prod"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "database_name",
+      "display_name": "Database",
+      "info": "The Database name for the Astra DB instance.",
+      "required": true,
+      "refresh_button": true,
+      "real_time_refresh": true,
+      "dialog_inputs": "asdict('NewDatabaseInput()')",
+      "combobox": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "api_endpoint",
+      "display_name": "Astra DB API Endpoint",
+      "info": "The API Endpoint for the Astra DB instance. Supercedes database selection.",
+      "show": false
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "keyspace",
+      "display_name": "Keyspace",
+      "info": "Optional keyspace within Astra DB to use for the collection.",
+      "advanced": true,
+      "options": [],
+      "real_time_refresh": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "collection_name",
+      "display_name": "Collection",
+      "info": "The name of the collection within Astra DB where the vectors will be stored.",
+      "required": true,
+      "refresh_button": true,
+      "real_time_refresh": true,
+      "dialog_inputs": "asdict('NewCollectionInput()')",
+      "combobox": true,
+      "show": false
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding_model",
+      "display_name": "Embedding Model",
+      "input_types": [
+        "Embeddings"
+      ],
+      "info": "Specify the Embedding Model. Not required for Astra Vectorize collections.",
+      "required": false,
+      "show": false
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "search_method",
+      "display_name": "Search Method",
+      "info": "Determine how your content is matched: Vector finds semantic similarity, and Hybrid Search (suggested) combines both approaches with a reranker.",
+      "options": [
+        "Hybrid Search",
+        "Vector Search"
+      ],
+      "options_metadata": [
+        {
+          "icon": "SearchHybrid"
+        },
+        {
+          "icon": "SearchVector"
+        }
+      ],
+      "value": "Vector Search",
+      "advanced": true,
+      "real_time_refresh": true,
+      "default": "Vector Search"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "reranker",
+      "display_name": "Reranker",
+      "info": "Post-retrieval model that re-scores results for optimal relevance ranking.",
+      "show": false,
+      "toggle": true
+    },
+    {
+      "field_class": "QueryInput",
+      "name": "lexical_terms",
+      "display_name": "Lexical Terms",
+      "info": "Add additional terms/keywords to augment search precision.",
+      "placeholder": "Enter terms to search...",
+      "separator": " ",
+      "show": false,
+      "value": "",
+      "advanced": true,
+      "default": ""
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Search Results",
+      "info": "Number of search results to return.",
+      "advanced": true,
+      "value": 4,
+      "default": 4
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "search_type",
+      "display_name": "Search Type",
+      "info": "Search type to use",
+      "options": [
+        "Similarity",
+        "Similarity with score threshold",
+        "MMR (Max Marginal Relevance)"
+      ],
+      "value": "Similarity",
+      "advanced": true,
+      "default": "Similarity"
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "search_score_threshold",
+      "display_name": "Search Score Threshold",
+      "info": "Minimum similarity score threshold for search results. (when using 'Similarity with score threshold')",
+      "value": 0,
+      "advanced": true,
+      "default": 0
+    },
+    {
+      "field_class": "NestedDictInput",
+      "name": "advanced_search_filter",
+      "display_name": "Search Metadata Filter",
+      "info": "Optional dictionary of filters to apply to the search query.",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "autodetect_collection",
+      "display_name": "Autodetect Collection",
+      "info": "Boolean flag to determine whether to autodetect the collection.",
+      "advanced": true,
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "content_field",
+      "display_name": "Content Field",
+      "info": "Field to use as the text content field for the vector store.",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "deletion_field",
+      "display_name": "Deletion Based On Field",
+      "info": "When this parameter is provided, documents in the target collection with metadata field values matching the input metadata field value will be deleted before new data is loaded.",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "ignore_invalid_documents",
+      "display_name": "Ignore Invalid Documents",
+      "info": "Boolean flag to determine whether to ignore invalid documents at runtime.",
+      "advanced": true
+    },
+    {
+      "field_class": "NestedDictInput",
+      "name": "astradb_vectorstore_kwargs",
+      "display_name": "AstraDBVectorStore Parameters",
+      "info": "Optional dictionary of additional parameters for the AstraDBVectorStore.",
+      "advanced": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "token",
+    "environment",
+    "database_name",
+    "api_endpoint",
+    "keyspace",
+    "collection_name",
+    "embedding_model",
+    "search_method",
+    "reranker",
+    "lexical_terms",
+    "number_of_results",
+    "search_type",
+    "search_score_threshold",
+    "advanced_search_filter",
+    "autodetect_collection",
+    "content_field",
+    "deletion_field",
+    "ignore_invalid_documents",
+    "astradb_vectorstore_kwargs"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AstraDB"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/astradb.py#L31"
+}

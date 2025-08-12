@@ -1,0 +1,16 @@
+{
+  "kind": "schema",
+  "name": "MessageEvent",
+  "fields": [
+    "category",
+    "edit",
+    "error",
+    "flow_id",
+    "format_type",
+    "sender",
+    "sender_name",
+    "session_id"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/playground_events.py#L42"
+}

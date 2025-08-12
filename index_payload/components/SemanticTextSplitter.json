@@ -1,0 +1,105 @@
+{
+  "kind": "component",
+  "type": "SemanticTextSplitter",
+  "display_name": "Semantic Text Splitter",
+  "description": "Split text into semantically meaningful chunks using semantic similarity.",
+  "documentation": "https://python.langchain.com/docs/how_to/semantic-chunker/",
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "data_inputs",
+      "display_name": "Data Inputs",
+      "info": "List of Data objects containing text and metadata to split.",
+      "input_types": [
+        "Data"
+      ],
+      "is_list": true,
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embeddings",
+      "display_name": "Embeddings",
+      "info": "Embeddings model to use for semantic similarity. Required.",
+      "input_types": [
+        "Embeddings"
+      ],
+      "is_list": false,
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "breakpoint_threshold_type",
+      "display_name": "Breakpoint Threshold Type",
+      "info": "Method to determine breakpoints. Options: 'percentile', 'standard_deviation', 'interquartile'. Defaults to 'percentile'.",
+      "value": "percentile",
+      "options": [
+        "percentile",
+        "standard_deviation",
+        "interquartile"
+      ],
+      "default": "percentile"
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "breakpoint_threshold_amount",
+      "display_name": "Breakpoint Threshold Amount",
+      "info": "Numerical amount for the breakpoint threshold.",
+      "value": 0.5,
+      "default": 0.5
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_chunks",
+      "display_name": "Number of Chunks",
+      "info": "Number of chunks to split the text into.",
+      "value": 5,
+      "default": 5
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "sentence_split_regex",
+      "display_name": "Sentence Split Regex",
+      "info": "Regular expression to split sentences. Optional.",
+      "value": "",
+      "advanced": true,
+      "default": ""
+    },
+    {
+      "field_class": "IntInput",
+      "name": "buffer_size",
+      "display_name": "Buffer Size",
+      "info": "Size of the buffer.",
+      "value": 0,
+      "advanced": true,
+      "default": 0
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Chunks",
+      "name": "chunks",
+      "method": "split_text"
+    }
+  ],
+  "template": [
+    "data_inputs",
+    "embeddings",
+    "breakpoint_threshold_type",
+    "breakpoint_threshold_amount",
+    "number_of_chunks",
+    "sentence_split_regex",
+    "buffer_size"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SemanticTextSplitter"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/language_semantic.py#L16"
+}

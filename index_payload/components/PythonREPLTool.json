@@ -1,0 +1,58 @@
+{
+  "kind": "component",
+  "type": "PythonREPLTool",
+  "display_name": "Python REPL [DEPRECATED]",
+  "description": "A tool for running Python code in a REPL environment.",
+  "documentation": null,
+  "icon": "Python",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "name",
+      "display_name": "Tool Name",
+      "info": "The name of the tool.",
+      "value": "python_repl",
+      "default": "python_repl"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "description",
+      "display_name": "Tool Description",
+      "info": "A description of the tool.",
+      "value": "A Python shell. Use this to execute python commands. Input should be a valid python command. If you want to see the output of a value, you should print it out with `print(...)`.",
+      "default": "A Python shell. Use this to execute python commands. Input should be a valid python command. If you want to see the output of a value, you should print it out with `print(...)`."
+    },
+    {
+      "field_class": "StrInput",
+      "name": "global_imports",
+      "display_name": "Global Imports",
+      "info": "A comma-separated list of modules to import globally, e.g. 'math,numpy'.",
+      "value": "math",
+      "default": "math"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "code",
+      "display_name": "Python Code",
+      "info": "The Python code to execute.",
+      "value": "print('Hello, World!')",
+      "default": "print('Hello, World!')"
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "name",
+    "description",
+    "global_imports",
+    "code"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "PythonREPLTool"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/tools/python_repl.py#L15"
+}

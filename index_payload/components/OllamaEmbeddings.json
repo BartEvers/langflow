@@ -1,0 +1,51 @@
+{
+  "kind": "component",
+  "type": "OllamaEmbeddings",
+  "display_name": "Ollama Embeddings",
+  "description": "Generate embeddings using Ollama models.",
+  "documentation": "https://python.langchain.com/docs/integrations/text_embedding/ollama",
+  "icon": "Ollama",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Ollama Model",
+      "value": "",
+      "options": [],
+      "real_time_refresh": true,
+      "refresh_button": true,
+      "combobox": true,
+      "required": true,
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "base_url",
+      "display_name": "Ollama Base URL",
+      "value": "",
+      "required": true,
+      "default": ""
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Embeddings",
+      "name": "embeddings",
+      "method": "build_embeddings"
+    }
+  ],
+  "template": [
+    "model_name",
+    "base_url"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "OllamaEmbeddings"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/ollama/ollama_embeddings.py#L15"
+}

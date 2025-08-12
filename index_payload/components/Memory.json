@@ -1,0 +1,152 @@
+{
+  "kind": "component",
+  "type": "Memory",
+  "display_name": "Message History",
+  "description": "Stores or retrieves stored chat messages from Langflow tables or an external memory.",
+  "documentation": "https://docs.langflow.org/components-helpers#message-history",
+  "icon": "message-square-more",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "TabInput",
+      "name": "mode",
+      "display_name": "Mode",
+      "options": [
+        "Retrieve",
+        "Store"
+      ],
+      "value": "Retrieve",
+      "info": "Operation mode: Store messages or Retrieve messages.",
+      "real_time_refresh": true,
+      "default": "Retrieve"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "message",
+      "display_name": "Message",
+      "info": "The chat message to be stored.",
+      "tool_mode": true,
+      "dynamic": true,
+      "show": false
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "memory",
+      "display_name": "External Memory",
+      "input_types": [
+        "Memory"
+      ],
+      "info": "Retrieve messages from an external memory. If empty, it will use the Langflow tables.",
+      "advanced": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "sender_type",
+      "display_name": "Sender Type",
+      "options": [
+        "MESSAGE_SENDER_AI",
+        "MESSAGE_SENDER_USER",
+        "Machine and User"
+      ],
+      "value": "Machine and User",
+      "info": "Filter by sender type.",
+      "advanced": true,
+      "default": "Machine and User"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "sender",
+      "display_name": "Sender",
+      "info": "The sender of the message. Might be Machine or User. If empty, the current sender parameter will be used.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "sender_name",
+      "display_name": "Sender Name",
+      "info": "Filter by sender name.",
+      "advanced": true,
+      "show": false
+    },
+    {
+      "field_class": "IntInput",
+      "name": "n_messages",
+      "display_name": "Number of Messages",
+      "value": 100,
+      "info": "Number of messages to retrieve.",
+      "advanced": true,
+      "show": true,
+      "default": 100
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "session_id",
+      "display_name": "Session ID",
+      "info": "The session ID of the chat. If empty, the current session ID parameter will be used.",
+      "value": "",
+      "advanced": true,
+      "default": ""
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "order",
+      "display_name": "Order",
+      "options": [
+        "Ascending",
+        "Descending"
+      ],
+      "value": "Ascending",
+      "info": "Order of the messages.",
+      "advanced": true,
+      "tool_mode": true,
+      "required": true,
+      "default": "Ascending"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "template",
+      "display_name": "Template",
+      "info": "The template to use for formatting the data. It can contain the keys {text}, {sender} or any other key in the message data.",
+      "value": "{sender_name}: {text}",
+      "advanced": true,
+      "show": false,
+      "default": "{sender_name}: {text}"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Message",
+      "name": "messages_text",
+      "method": "retrieve_messages_as_text",
+      "dynamic": true
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Dataframe",
+      "name": "dataframe",
+      "method": "retrieve_messages_dataframe",
+      "dynamic": true
+    }
+  ],
+  "template": [
+    "mode",
+    "message",
+    "memory",
+    "sender_type",
+    "sender",
+    "sender_name",
+    "n_messages",
+    "session_id",
+    "order",
+    "template"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Memory"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/helpers/memory.py#L16"
+}

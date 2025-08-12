@@ -1,0 +1,47 @@
+{
+  "kind": "component",
+  "type": "OutputParser",
+  "display_name": "Output Parser",
+  "description": "Transforms the output of an LLM into a specified format.",
+  "documentation": null,
+  "icon": "type",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DropdownInput",
+      "name": "parser_type",
+      "display_name": "Parser",
+      "options": [
+        "CSV"
+      ],
+      "value": "CSV",
+      "default": "CSV"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Format Instructions",
+      "name": "format_instructions",
+      "info": "Pass to a prompt template to include formatting instructions for LLM responses.",
+      "method": "format_instructions"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Output Parser",
+      "name": "output_parser",
+      "method": "build_parser"
+    }
+  ],
+  "template": [
+    "parser_type"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "OutputParser"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/helpers/output_parser.py#L9"
+}

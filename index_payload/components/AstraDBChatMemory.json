@@ -1,0 +1,67 @@
+{
+  "kind": "component",
+  "type": "AstraDBChatMemory",
+  "display_name": "Astra DB Chat Memory",
+  "description": "Retrieves and store chat messages from Astra DB.",
+  "documentation": null,
+  "icon": "AstraDB",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "token",
+      "display_name": "Astra DB Application Token",
+      "info": "Authentication token for accessing Astra DB.",
+      "value": "ASTRA_DB_APPLICATION_TOKEN",
+      "required": true,
+      "advanced": "<Compare>",
+      "default": "ASTRA_DB_APPLICATION_TOKEN"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_endpoint",
+      "display_name": "API Endpoint",
+      "info": "API endpoint URL for the Astra DB service.",
+      "value": "ASTRA_DB_API_ENDPOINT",
+      "required": true,
+      "default": "ASTRA_DB_API_ENDPOINT"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "collection_name",
+      "display_name": "Collection Name",
+      "info": "The name of the collection within Astra DB where the vectors will be stored.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "namespace",
+      "display_name": "Namespace",
+      "info": "Optional namespace within Astra DB to use for the collection.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "session_id",
+      "display_name": "Session ID",
+      "info": "The session ID of the chat. If empty, the current session ID parameter will be used.",
+      "advanced": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "token",
+    "api_endpoint",
+    "collection_name",
+    "namespace",
+    "session_id"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AstraDBChatMemory"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/datastax/astra_db.py#L10"
+}

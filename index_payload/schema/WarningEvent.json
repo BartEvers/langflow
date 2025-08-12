@@ -1,0 +1,11 @@
+{
+  "kind": "schema",
+  "name": "WarningEvent",
+  "fields": [
+    "background_color",
+    "format_type",
+    "text_color"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/playground_events.py#L68"
+}

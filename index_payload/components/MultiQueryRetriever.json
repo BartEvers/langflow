@@ -1,0 +1,60 @@
+{
+  "kind": "component",
+  "type": "MultiQueryRetriever",
+  "display_name": "MultiQueryRetriever",
+  "description": "Initialize from llm using default template.",
+  "documentation": "https://python.langchain.com/docs/modules/data_connection/retrievers/how_to/MultiQueryRetriever",
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "LLM",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "retriever",
+      "display_name": "Retriever",
+      "input_types": [
+        "BaseRetriever"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "prompt",
+      "display_name": "Prompt",
+      "value": "You are an AI language model assistant. Your task is \nto generate 3 different versions of the given user \nquestion to retrieve relevant documents from a vector database. \nBy generating multiple perspectives on the user question, \nyour goal is to help the user overcome some of the limitations \nof distance-based similarity search. Provide these alternative \nquestions separated by newlines. Original question: {question}",
+      "required": false,
+      "default": "You are an AI language model assistant. Your task is \nto generate 3 different versions of the given user \nquestion to retrieve relevant documents from a vector database. \nBy generating multiple perspectives on the user question, \nyour goal is to help the user overcome some of the limitations \nof distance-based similarity search. Provide these alternative \nquestions separated by newlines. Original question: {question}"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "parser_key",
+      "display_name": "Parser Key",
+      "value": "lines",
+      "required": false,
+      "default": "lines"
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "llm",
+    "retriever",
+    "prompt",
+    "parser_key"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "MultiQueryRetriever"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/multi_query.py#L9"
+}

@@ -1,0 +1,88 @@
+{
+  "kind": "component",
+  "type": "YouTubeCommentsComponent",
+  "display_name": "YouTube Comments",
+  "description": "Retrieves and analyzes comments from YouTube videos.",
+  "documentation": null,
+  "icon": "YouTube",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "video_url",
+      "display_name": "Video URL",
+      "info": "The URL of the YouTube video to get comments from.",
+      "tool_mode": true,
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "YouTube API Key",
+      "info": "Your YouTube Data API key.",
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "value": 20,
+      "info": "The maximum number of comments to return.",
+      "default": 20
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "sort_by",
+      "display_name": "Sort By",
+      "options": [
+        "time",
+        "relevance"
+      ],
+      "value": "relevance",
+      "info": "Sort comments by time or relevance.",
+      "default": "relevance"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_replies",
+      "display_name": "Include Replies",
+      "value": false,
+      "info": "Whether to include replies to comments.",
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_metrics",
+      "display_name": "Include Metrics",
+      "value": true,
+      "info": "Include metrics like like count and reply count.",
+      "advanced": true,
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "comments",
+      "display_name": "Comments",
+      "method": "get_video_comments"
+    }
+  ],
+  "template": [
+    "video_url",
+    "api_key",
+    "max_results",
+    "sort_by",
+    "include_replies",
+    "include_metrics"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "YouTubeCommentsComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/youtube/comments.py#L13"
+}

@@ -1,0 +1,100 @@
+{
+  "kind": "component",
+  "type": "Directory",
+  "display_name": "Directory",
+  "description": "Recursively load files from a directory.",
+  "documentation": "https://docs.langflow.org/components-data#directory",
+  "icon": "folder",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "path",
+      "display_name": "Path",
+      "info": "Path to the directory to load files from. Defaults to current directory ('.')",
+      "value": ".",
+      "tool_mode": true,
+      "default": "."
+    },
+    {
+      "field_class": "MultiselectInput",
+      "name": "types",
+      "display_name": "File Types",
+      "info": "File types to load. Select one or more types or leave empty to load all supported types.",
+      "options": "TEXT_FILE_TYPES",
+      "value": [],
+      "default": []
+    },
+    {
+      "field_class": "IntInput",
+      "name": "depth",
+      "display_name": "Depth",
+      "info": "Depth to search for files.",
+      "value": 0,
+      "default": 0
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_concurrency",
+      "display_name": "Max Concurrency",
+      "advanced": true,
+      "info": "Maximum concurrency for loading files.",
+      "value": 2,
+      "default": 2
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "load_hidden",
+      "display_name": "Load Hidden",
+      "advanced": true,
+      "info": "If true, hidden files will be loaded."
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "recursive",
+      "display_name": "Recursive",
+      "advanced": true,
+      "info": "If true, the search will be recursive."
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "silent_errors",
+      "display_name": "Silent Errors",
+      "advanced": true,
+      "info": "If true, errors will not raise an exception."
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "use_multithreading",
+      "display_name": "Use Multithreading",
+      "advanced": true,
+      "info": "If true, multithreading will be used."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Loaded Files",
+      "name": "dataframe",
+      "method": "as_dataframe"
+    }
+  ],
+  "template": [
+    "path",
+    "types",
+    "depth",
+    "max_concurrency",
+    "load_hidden",
+    "recursive",
+    "silent_errors",
+    "use_multithreading"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Directory"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/data/directory.py#L9"
+}

@@ -1,0 +1,79 @@
+{
+  "kind": "component",
+  "type": "Smart Function",
+  "display_name": "Smart Function",
+  "description": "Uses an LLM to generate a function for filtering or transforming structured data.",
+  "documentation": "https://docs.langflow.org/components-processing#smart-function",
+  "icon": "square-function",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "data",
+      "display_name": "Data",
+      "info": "The structured data to filter or transform using a lambda function.",
+      "is_list": true,
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "info": "Connect the 'Language Model' output from your LLM component here.",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "filter_instruction",
+      "display_name": "Instructions",
+      "info": "Natural language instructions for how to filter or transform the data using a lambda function. Example: Filter the data to only include items where the 'status' is 'active'.",
+      "value": "Filter the data to...",
+      "required": true,
+      "default": "Filter the data to..."
+    },
+    {
+      "field_class": "IntInput",
+      "name": "sample_size",
+      "display_name": "Sample Size",
+      "info": "For large datasets, number of items to sample from head/tail.",
+      "value": 1000,
+      "advanced": true,
+      "default": 1000
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_size",
+      "display_name": "Max Size",
+      "info": "Number of characters for the data to be considered large.",
+      "value": 30000,
+      "advanced": true,
+      "default": 30000
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Filtered Data",
+      "name": "filtered_data",
+      "method": "filter_data"
+    }
+  ],
+  "template": [
+    "data",
+    "llm",
+    "filter_instruction",
+    "sample_size",
+    "max_size"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Smart Function"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/lambda_filter.py#L16"
+}

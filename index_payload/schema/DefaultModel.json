@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "DefaultModel",
+  "fields": [],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/message.py#L291"
+}

@@ -1,0 +1,53 @@
+{
+  "kind": "component",
+  "type": "GoogleSerperAPICore",
+  "display_name": "Serper Google Search API",
+  "description": "Calls the Serper.dev Google Search API and fetches the results.",
+  "documentation": null,
+  "icon": "Serper",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "serper_api_key",
+      "display_name": "Serper API Key",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "tool_mode": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "k",
+      "display_name": "Number of results",
+      "value": 4,
+      "required": true,
+      "default": 4
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Results",
+      "name": "results",
+      "type_": "DataFrame",
+      "method": "search_serper"
+    }
+  ],
+  "template": [
+    "serper_api_key",
+    "input_value",
+    "k"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GoogleSerperAPICore"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/serper/google_serper_api_core.py#L9"
+}

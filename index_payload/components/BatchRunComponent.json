@@ -1,0 +1,88 @@
+{
+  "kind": "component",
+  "type": "BatchRunComponent",
+  "display_name": "Batch Run",
+  "description": "Runs an LLM on each row of a DataFrame column. If no column is specified, all columns are used.",
+  "documentation": "https://docs.langflow.org/components-processing#batch-run",
+  "icon": "List",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "model",
+      "display_name": "Language Model",
+      "info": "Connect the 'Language Model' output from your LLM component here.",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "system_message",
+      "display_name": "Instructions",
+      "info": "Multi-line system instruction for all rows in the DataFrame.",
+      "required": false
+    },
+    {
+      "field_class": "DataFrameInput",
+      "name": "df",
+      "display_name": "DataFrame",
+      "info": "The DataFrame whose column (specified by 'column_name') we'll treat as text messages.",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "column_name",
+      "display_name": "Column Name",
+      "info": "The name of the DataFrame column to treat as text messages. If empty, all columns will be formatted in TOML.",
+      "required": false,
+      "advanced": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "output_column_name",
+      "display_name": "Output Column Name",
+      "info": "Name of the column where the model's response will be stored.",
+      "value": "model_response",
+      "required": false,
+      "advanced": true,
+      "default": "model_response"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "enable_metadata",
+      "display_name": "Enable Metadata",
+      "info": "If True, add metadata to the output DataFrame.",
+      "value": false,
+      "required": false,
+      "advanced": true,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "LLM Results",
+      "name": "batch_results",
+      "method": "run_batch",
+      "info": "A DataFrame with all original columns plus the model's response column."
+    }
+  ],
+  "template": [
+    "model",
+    "system_message",
+    "df",
+    "column_name",
+    "output_column_name",
+    "enable_metadata"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "BatchRunComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/batch_run.py#L16"
+}

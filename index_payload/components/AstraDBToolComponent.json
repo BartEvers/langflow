@@ -1,0 +1,248 @@
+{
+  "kind": "component",
+  "type": "AstraDBToolComponent",
+  "display_name": "Astra DB Tool",
+  "description": "Tool to run hybrid vector and metadata search on DataStax Astra DB Collection",
+  "documentation": "https://docs.langflow.org/components-bundle-components",
+  "icon": "AstraDB",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "tool_name",
+      "display_name": "Tool Name",
+      "info": "The name of the tool to be passed to the LLM.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "tool_description",
+      "display_name": "Tool Description",
+      "info": "Describe the tool to LLM. Add any information that can help the LLM to use the tool.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "keyspace",
+      "display_name": "Keyspace Name",
+      "info": "The name of the keyspace within Astra where the collection is stored.",
+      "value": "default_keyspace",
+      "advanced": true,
+      "default": "default_keyspace"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "collection_name",
+      "display_name": "Collection Name",
+      "info": "The name of the collection within Astra DB where the vectors will be stored.",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "token",
+      "display_name": "Astra DB Application Token",
+      "info": "Authentication token for accessing Astra DB.",
+      "value": "ASTRA_DB_APPLICATION_TOKEN",
+      "required": true,
+      "default": "ASTRA_DB_APPLICATION_TOKEN"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_endpoint",
+      "display_name": "<IfExp>",
+      "info": "API endpoint URL for the Astra DB service.",
+      "value": "ASTRA_DB_API_ENDPOINT",
+      "required": true,
+      "default": "ASTRA_DB_API_ENDPOINT"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "projection_attributes",
+      "display_name": "Projection Attributes",
+      "info": "Attributes to be returned by the tool separated by comma.",
+      "required": true,
+      "value": "*",
+      "advanced": true,
+      "default": "*"
+    },
+    {
+      "field_class": "TableInput",
+      "name": "tools_params_v2",
+      "display_name": "Tools Parameters",
+      "info": "Define the structure for the tool parameters. Describe the parameters in a way the LLM can understand how to use them.",
+      "required": false,
+      "table_schema": [
+        {
+          "name": "name",
+          "display_name": "Name",
+          "type": "str",
+          "description": "Specify the name of the output field/parameter for the model.",
+          "default": "field",
+          "edit_mode": "EditMode.INLINE"
+        },
+        {
+          "name": "attribute_name",
+          "display_name": "Attribute Name",
+          "type": "str",
+          "description": "Specify the attribute name to be filtered on the collection. Leave empty if the attribute name is the same as the name of the field.",
+          "default": "",
+          "edit_mode": "EditMode.INLINE"
+        },
+        {
+          "name": "description",
+          "display_name": "Description",
+          "type": "str",
+          "description": "Describe the purpose of the output field.",
+          "default": "description of field",
+          "edit_mode": "EditMode.POPOVER"
+        },
+        {
+          "name": "metadata",
+          "display_name": "Is Metadata",
+          "type": "boolean",
+          "edit_mode": "EditMode.INLINE",
+          "description": "Indicate if the field is included in the metadata field.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "default": "False"
+        },
+        {
+          "name": "mandatory",
+          "display_name": "Is Mandatory",
+          "type": "boolean",
+          "edit_mode": "EditMode.INLINE",
+          "description": "Indicate if the field is mandatory.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "default": "False"
+        },
+        {
+          "name": "is_timestamp",
+          "display_name": "Is Timestamp",
+          "type": "boolean",
+          "edit_mode": "EditMode.INLINE",
+          "description": "Indicate if the field is a timestamp.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "default": "False"
+        },
+        {
+          "name": "operator",
+          "display_name": "Operator",
+          "type": "str",
+          "description": "Set the operator for the field. https://docs.datastax.com/en/astra-db-serverless/api-reference/documents.html#operators",
+          "default": "$eq",
+          "options": [
+            "$gt",
+            "$gte",
+            "$lt",
+            "$lte",
+            "$eq",
+            "$ne",
+            "$in",
+            "$nin",
+            "$exists",
+            "$all",
+            "$size"
+          ],
+          "edit_mode": "EditMode.INLINE"
+        }
+      ],
+      "value": [],
+      "default": []
+    },
+    {
+      "field_class": "DictInput",
+      "name": "tool_params",
+      "info": "DEPRECATED: Attributes to filter and description to the model. Add ! for mandatory (e.g: !customerId)",
+      "display_name": "Tool params",
+      "is_list": true,
+      "advanced": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "static_filters",
+      "info": "Attributes to filter and correspoding value",
+      "display_name": "Static filters",
+      "advanced": true,
+      "is_list": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "advanced": true,
+      "value": 5,
+      "default": 5
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "use_search_query",
+      "display_name": "Semantic Search",
+      "info": "When this parameter is activated, the search query parameter will be used to search the collection.",
+      "advanced": false,
+      "value": false,
+      "default": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "use_vectorize",
+      "display_name": "Use Astra DB Vectorize",
+      "info": "When this parameter is activated, Astra DB Vectorize method will be used to generate the embeddings.",
+      "advanced": false,
+      "value": false,
+      "default": false
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding Model",
+      "input_types": [
+        "Embeddings"
+      ]
+    },
+    {
+      "field_class": "StrInput",
+      "name": "semantic_search_instruction",
+      "display_name": "Semantic Search Instruction",
+      "info": "The instruction to use for the semantic search.",
+      "required": true,
+      "value": "Search query to find relevant documents.",
+      "advanced": true,
+      "default": "Search query to find relevant documents."
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "tool_name",
+    "tool_description",
+    "keyspace",
+    "collection_name",
+    "token",
+    "api_endpoint",
+    "projection_attributes",
+    "tools_params_v2",
+    "tool_params",
+    "static_filters",
+    "number_of_results",
+    "use_search_query",
+    "use_vectorize",
+    "embedding",
+    "semantic_search_instruction"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AstraDBToolComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/datastax/astradb_tool.py#L17"
+}

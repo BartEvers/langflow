@@ -1,0 +1,59 @@
+{
+  "kind": "component",
+  "type": "BigQueryExecutor",
+  "display_name": "BigQuery",
+  "description": "Execute SQL queries on Google BigQuery.",
+  "documentation": null,
+  "icon": "Google",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "FileInput",
+      "name": "service_account_json_file",
+      "display_name": "Upload Service Account JSON",
+      "info": "Upload the JSON file containing Google Cloud service account credentials.",
+      "file_types": [
+        "json"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "query",
+      "display_name": "SQL Query",
+      "info": "The SQL query to execute on BigQuery.",
+      "required": true,
+      "tool_mode": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "clean_query",
+      "display_name": "Clean Query",
+      "info": "When enabled, this will automatically clean up your SQL query.",
+      "value": false,
+      "advanced": true,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Query Results",
+      "name": "query_results",
+      "method": "execute_sql"
+    }
+  ],
+  "template": [
+    "service_account_json_file",
+    "query",
+    "clean_query"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "BigQueryExecutor"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/google/google_bq_sql_executor.py#L14"
+}

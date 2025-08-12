@@ -1,0 +1,58 @@
+{
+  "kind": "component",
+  "type": "Webhook",
+  "display_name": "Webhook",
+  "description": "",
+  "documentation": "https://docs.langflow.org/components-data#webhook",
+  "icon": "webhook",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "data",
+      "display_name": "Payload",
+      "info": "Receives a payload from external systems via HTTP POST.",
+      "advanced": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "curl",
+      "display_name": "cURL",
+      "value": "CURL_WEBHOOK",
+      "advanced": true,
+      "input_types": [],
+      "default": "CURL_WEBHOOK"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "endpoint",
+      "display_name": "Endpoint",
+      "value": "BACKEND_URL",
+      "advanced": false,
+      "copy_field": true,
+      "input_types": [],
+      "default": "BACKEND_URL"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "output_data",
+      "method": "build_data"
+    }
+  ],
+  "template": [
+    "data",
+    "curl",
+    "endpoint"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Webhook"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/data/webhook.py#L8"
+}

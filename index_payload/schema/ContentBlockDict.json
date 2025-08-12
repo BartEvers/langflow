@@ -1,0 +1,12 @@
+{
+  "kind": "schema",
+  "name": "ContentBlockDict",
+  "fields": [
+    "allow_markdown",
+    "contents",
+    "media_url",
+    "title"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/content_block.py#L58"
+}

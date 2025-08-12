@@ -1,0 +1,25 @@
+{
+  "kind": "enum_constants",
+  "name": "DIRECT_TYPES",
+  "value": [
+    "str",
+    "bool",
+    "dict",
+    "int",
+    "float",
+    "Any",
+    "prompt",
+    "code",
+    "NestedDict",
+    "table",
+    "slider",
+    "tab",
+    "sortableList",
+    "auth",
+    "connect",
+    "query",
+    "tools",
+    "mcp"
+  ],
+  "source": "src/backend/base/langflow/utils/constants.py#L66"
+}

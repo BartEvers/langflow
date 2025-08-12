@@ -1,0 +1,89 @@
+{
+  "kind": "component",
+  "type": "Agent",
+  "display_name": "Agent",
+  "description": "Define the agent's instructions, then enter a task to complete using tools.",
+  "documentation": "https://docs.langflow.org/agents",
+  "icon": "bot",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DropdownInput",
+      "name": "agent_llm",
+      "display_name": "Model Provider",
+      "info": "The provider of the language model that the agent will use to generate responses.",
+      "options": [
+        "<Starred>",
+        "Custom"
+      ],
+      "value": "OpenAI",
+      "real_time_refresh": true,
+      "input_types": [],
+      "options_metadata": "<BinOp>",
+      "default": "OpenAI"
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "system_prompt",
+      "display_name": "Agent Instructions",
+      "info": "System Prompt: Initial instructions and context provided to guide the agent's behavior.",
+      "value": "You are a helpful assistant that can use tools to answer questions and perform tasks.",
+      "advanced": false,
+      "default": "You are a helpful assistant that can use tools to answer questions and perform tasks."
+    },
+    {
+      "field_class": "IntInput",
+      "name": "n_messages",
+      "display_name": "Number of Chat History Messages",
+      "value": 100,
+      "info": "Number of chat history messages to retrieve.",
+      "advanced": true,
+      "show": true,
+      "default": 100
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "add_current_date_tool",
+      "display_name": "Current Date",
+      "advanced": true,
+      "info": "If true, will add a tool to the agent that returns the current date.",
+      "value": true,
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "response",
+      "display_name": "Response",
+      "method": "message_response"
+    },
+    {
+      "output_class": "Output",
+      "name": "structured_response",
+      "display_name": "Structured Response",
+      "method": "json_response",
+      "tool_mode": false
+    }
+  ],
+  "template": [
+    "agent_llm",
+    "system_prompt",
+    "n_messages",
+    "add_current_date_tool"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Agent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/agents/agent.py#L37"
+}

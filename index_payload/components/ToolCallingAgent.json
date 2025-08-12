@@ -1,0 +1,54 @@
+{
+  "kind": "component",
+  "type": "ToolCallingAgent",
+  "display_name": "Tool Calling Agent",
+  "description": "An agent designed to utilize various tools seamlessly within workflows.",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true,
+      "info": "Language model that the agent utilizes to perform tasks effectively."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "system_prompt",
+      "display_name": "System Prompt",
+      "info": "System prompt to guide the agent's behavior.",
+      "value": "You are a helpful assistant that can use tools to answer questions and perform tasks.",
+      "default": "You are a helpful assistant that can use tools to answer questions and perform tasks."
+    },
+    {
+      "field_class": "DataInput",
+      "name": "chat_history",
+      "display_name": "Chat Memory",
+      "is_list": true,
+      "advanced": true,
+      "info": "This input stores the chat history, allowing the agent to remember previous conversations."
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "llm",
+    "system_prompt",
+    "chat_history"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ToolCallingAgent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/tool_calling.py#L13"
+}

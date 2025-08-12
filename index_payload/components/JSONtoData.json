@@ -1,0 +1,53 @@
+{
+  "kind": "component",
+  "type": "JSONtoData",
+  "display_name": "Load JSON",
+  "description": "Convert a JSON file, JSON from a file path, or a JSON string to a Data object or a list of Data objects",
+  "documentation": null,
+  "icon": "braces",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "FileInput",
+      "name": "json_file",
+      "display_name": "JSON File",
+      "file_types": [
+        "json"
+      ],
+      "info": "Upload a JSON file to convert to a Data object or list of Data objects"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "json_path",
+      "display_name": "JSON File Path",
+      "info": "Provide the path to the JSON file as pure text"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "json_string",
+      "display_name": "JSON String",
+      "info": "Enter a valid JSON string (object or array) to convert to a Data object or list of Data objects"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "data",
+      "display_name": "Data",
+      "method": "convert_json_to_data"
+    }
+  ],
+  "template": [
+    "json_file",
+    "json_path",
+    "json_string"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JSONtoData"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/data/json_to_data.py#L11"
+}

@@ -1,0 +1,44 @@
+{
+  "kind": "component",
+  "type": "Google Generative AI Embeddings",
+  "display_name": "Google Generative AI Embeddings",
+  "description": "Connect to Google's generative AI embeddings service using the GoogleGenerativeAIEmbeddings class, found in the langchain-google-genai package.",
+  "documentation": "https://python.langchain.com/v0.2/docs/integrations/text_embedding/google_generative_ai/",
+  "icon": "GoogleGenerativeAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "value": "models/text-embedding-004",
+      "default": "models/text-embedding-004"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Embeddings",
+      "name": "embeddings",
+      "method": "build_embeddings"
+    }
+  ],
+  "template": [
+    "api_key",
+    "model_name"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Google Generative AI Embeddings"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/google/google_generative_ai_embeddings.py#L20"
+}

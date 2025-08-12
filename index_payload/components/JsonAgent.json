@@ -1,0 +1,47 @@
+{
+  "kind": "component",
+  "type": "JsonAgent",
+  "display_name": "JsonAgent",
+  "description": "Construct a json agent from an LLM and tools.",
+  "documentation": null,
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "FileInput",
+      "name": "path",
+      "display_name": "File Path",
+      "file_types": [
+        "json",
+        "yaml",
+        "yml"
+      ],
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "llm",
+    "path"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JsonAgent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/json_agent.py#L13"
+}

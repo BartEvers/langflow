@@ -1,0 +1,54 @@
+{
+  "kind": "component",
+  "type": "ScrapeGraphSmartScraperApi",
+  "display_name": "ScrapeGraph Smart Scraper API",
+  "description": "Given a URL, it will return the structured data of the website.",
+  "documentation": "https://docs.scrapegraphai.com/services/smartscraper",
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "ScrapeGraph API Key",
+      "required": true,
+      "password": true,
+      "info": "The API key to use ScrapeGraph API."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "url",
+      "display_name": "URL",
+      "tool_mode": true,
+      "info": "The URL to scrape."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "prompt",
+      "display_name": "Prompt",
+      "tool_mode": true,
+      "info": "The prompt to use for the smart scraper."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "data",
+      "method": "scrape"
+    }
+  ],
+  "template": [
+    "api_key",
+    "url",
+    "prompt"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ScrapeGraphSmartScraperApi"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/scrapegraph/scrapegraph_smart_scraper_api.py#L10"
+}

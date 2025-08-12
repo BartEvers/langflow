@@ -1,0 +1,44 @@
+{
+  "kind": "component",
+  "type": "NotionListPages",
+  "display_name": "List Pages ",
+  "description": "Query a Notion database with filtering and sorting. The input should be a JSON string containing the 'filter' and 'sorts' objects. Example input:\n{\"filter\": {\"property\": \"Status\", \"select\": {\"equals\": \"Done\"}}, \"sorts\": [{\"timestamp\": \"created_time\", \"direction\": \"descending\"}]}",
+  "documentation": "https://docs.langflow.org/integrations/notion/list-pages",
+  "icon": "NotionDirectoryLoader",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "notion_secret",
+      "display_name": "Notion Secret",
+      "info": "The Notion integration token.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "database_id",
+      "display_name": "Database ID",
+      "info": "The ID of the Notion database to query."
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "query_json",
+      "display_name": "Database query (JSON)",
+      "info": "A JSON string containing the filters and sorts that will be used for querying the database. Leave empty for no filters or sorts."
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "notion_secret",
+    "database_id",
+    "query_json"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NotionListPages"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/Notion/list_pages.py#L15"
+}

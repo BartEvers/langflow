@@ -1,0 +1,59 @@
+{
+  "kind": "component",
+  "type": "NvidiaRerankComponent",
+  "display_name": "NVIDIA Rerank",
+  "description": "Rerank documents using the NVIDIA API.",
+  "documentation": null,
+  "icon": "NVIDIA",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "NVIDIA API Key"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "base_url",
+      "display_name": "Base URL",
+      "value": "https://integrate.api.nvidia.com/v1",
+      "refresh_button": true,
+      "info": "The base URL of the NVIDIA API. Defaults to https://integrate.api.nvidia.com/v1.",
+      "default": "https://integrate.api.nvidia.com/v1"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model",
+      "display_name": "Model",
+      "options": [
+        "nv-rerank-qa-mistral-4b:1"
+      ],
+      "value": "nv-rerank-qa-mistral-4b:1",
+      "default": "nv-rerank-qa-mistral-4b:1"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Reranked Documents",
+      "name": "reranked_documents",
+      "method": "compress_documents"
+    }
+  ],
+  "template": [
+    "api_key",
+    "base_url",
+    "model"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NvidiaRerankComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/nvidia/nvidia_rerank.py#L11"
+}

@@ -1,0 +1,15 @@
+{
+  "kind": "enum_constants",
+  "name": "PYTHON_BASIC_TYPES",
+  "value": [
+    "str",
+    "bool",
+    "int",
+    "float",
+    "tuple",
+    "list",
+    "dict",
+    "set"
+  ],
+  "source": "src/backend/base/langflow/utils/constants.py#L65"
+}

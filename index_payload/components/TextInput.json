@@ -1,0 +1,36 @@
+{
+  "kind": "component",
+  "type": "TextInput",
+  "display_name": "Text Input",
+  "description": "Get user text inputs.",
+  "documentation": "https://docs.langflow.org/components-io#text-input",
+  "icon": "type",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Text",
+      "info": "Text to be passed as input."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Output Text",
+      "name": "text",
+      "method": "text_response"
+    }
+  ],
+  "template": [
+    "input_value"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "TextInput"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/input_output/text.py#L6"
+}

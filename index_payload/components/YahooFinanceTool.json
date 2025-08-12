@@ -1,0 +1,48 @@
+{
+  "kind": "component",
+  "type": "YahooFinanceTool",
+  "display_name": "Yahoo! Finance [DEPRECATED]",
+  "description": "Uses [yfinance](https://pypi.org/project/yfinance/) (unofficial package) to access financial data and market information from Yahoo! Finance.",
+  "documentation": null,
+  "icon": "trending-up",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "symbol",
+      "display_name": "Stock Symbol",
+      "info": "The stock symbol to retrieve data for (e.g., AAPL, GOOG)."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "method",
+      "display_name": "Data Method",
+      "info": "The type of data to retrieve.",
+      "options": "list('YahooFinanceMethod')",
+      "value": "get_news",
+      "default": "get_news"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "num_news",
+      "display_name": "Number of News",
+      "info": "The number of news articles to retrieve (only applicable for get_news).",
+      "value": 5,
+      "default": 5
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "symbol",
+    "method",
+    "num_news"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "YahooFinanceTool"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/tools/yahoo_finance.py#L51"
+}

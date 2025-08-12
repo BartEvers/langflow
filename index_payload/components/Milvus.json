@@ -1,0 +1,153 @@
+{
+  "kind": "component",
+  "type": "Milvus",
+  "display_name": "Milvus",
+  "description": "Milvus vector store with search capabilities",
+  "documentation": null,
+  "icon": "Milvus",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "collection_name",
+      "display_name": "Collection Name",
+      "value": "langflow",
+      "default": "langflow"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "collection_description",
+      "display_name": "Collection Description",
+      "value": "",
+      "default": ""
+    },
+    {
+      "field_class": "StrInput",
+      "name": "uri",
+      "display_name": "Connection URI",
+      "value": "http://localhost:19530",
+      "default": "http://localhost:19530"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "password",
+      "display_name": "Token",
+      "value": "",
+      "info": "Ignore this field if no token is required to make connection.",
+      "default": ""
+    },
+    {
+      "field_class": "DictInput",
+      "name": "connection_args",
+      "display_name": "Other Connection Arguments",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "primary_field",
+      "display_name": "Primary Field Name",
+      "value": "pk",
+      "default": "pk"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "text_field",
+      "display_name": "Text Field Name",
+      "value": "text",
+      "default": "text"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "vector_field",
+      "display_name": "Vector Field Name",
+      "value": "vector",
+      "default": "vector"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "consistency_level",
+      "display_name": "Consistencey Level",
+      "options": [
+        "Bounded",
+        "Session",
+        "Strong",
+        "Eventual"
+      ],
+      "value": "Session",
+      "advanced": true,
+      "default": "Session"
+    },
+    {
+      "field_class": "DictInput",
+      "name": "index_params",
+      "display_name": "Index Parameters",
+      "advanced": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "search_params",
+      "display_name": "Search Parameters",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "drop_old",
+      "display_name": "Drop Old Collection",
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "timeout",
+      "display_name": "Timeout",
+      "advanced": true
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding",
+      "input_types": [
+        "Embeddings"
+      ]
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "value": 4,
+      "advanced": true,
+      "default": 4
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "collection_name",
+    "collection_description",
+    "uri",
+    "password",
+    "connection_args",
+    "primary_field",
+    "text_field",
+    "vector_field",
+    "consistency_level",
+    "index_params",
+    "search_params",
+    "drop_old",
+    "timeout",
+    "embedding",
+    "number_of_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Milvus"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/milvus.py#L16"
+}

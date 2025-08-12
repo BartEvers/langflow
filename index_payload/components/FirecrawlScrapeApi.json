@@ -1,0 +1,68 @@
+{
+  "kind": "component",
+  "type": "FirecrawlScrapeApi",
+  "display_name": "Firecrawl Scrape API",
+  "description": "Scrapes a URL and returns the results.",
+  "documentation": "https://docs.firecrawl.dev/api-reference/endpoint/scrape",
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "required": true,
+      "password": true,
+      "info": "The API key to use Firecrawl API."
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "url",
+      "display_name": "URL",
+      "required": true,
+      "info": "The URL to scrape.",
+      "tool_mode": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "timeout",
+      "display_name": "Timeout",
+      "info": "Timeout in milliseconds for the request."
+    },
+    {
+      "field_class": "DataInput",
+      "name": "scrapeOptions",
+      "display_name": "Scrape Options",
+      "info": "The page options to send with the request."
+    },
+    {
+      "field_class": "DataInput",
+      "name": "extractorOptions",
+      "display_name": "Extractor Options",
+      "info": "The extractor options to send with the request."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "data",
+      "method": "scrape"
+    }
+  ],
+  "template": [
+    "api_key",
+    "url",
+    "timeout",
+    "scrapeOptions",
+    "extractorOptions"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "FirecrawlScrapeApi"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/firecrawl/firecrawl_scrape_api.py#L12"
+}

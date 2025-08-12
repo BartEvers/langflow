@@ -1,0 +1,38 @@
+{
+  "kind": "component",
+  "type": "WikidataComponent",
+  "display_name": "Wikidata",
+  "description": "Performs a search using the Wikidata API.",
+  "documentation": null,
+  "icon": "Wikipedia",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "query",
+      "display_name": "Query",
+      "info": "The text query for similarity search on Wikidata.",
+      "required": true,
+      "tool_mode": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "fetch_content_dataframe"
+    }
+  ],
+  "template": [
+    "query"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "WikidataComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/wikipedia/wikidata.py#L12"
+}

@@ -1,0 +1,12 @@
+{
+  "kind": "schema",
+  "name": "ContentBlock",
+  "fields": [
+    "allow_markdown",
+    "contents",
+    "media_url",
+    "title"
+  ],
+  "doc": "A block of content that can contain different types of content.",
+  "source": "src/backend/base/langflow/schema/content_block.py#L27"
+}

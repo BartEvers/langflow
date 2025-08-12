@@ -1,0 +1,84 @@
+{
+  "kind": "component",
+  "type": "MistalAIEmbeddings",
+  "display_name": "MistralAI Embeddings",
+  "description": "Generate embeddings using MistralAI models.",
+  "documentation": null,
+  "icon": "MistralAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DropdownInput",
+      "name": "model",
+      "display_name": "Model",
+      "advanced": false,
+      "options": [
+        "mistral-embed"
+      ],
+      "value": "mistral-embed",
+      "default": "mistral-embed"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "mistral_api_key",
+      "display_name": "Mistral API Key",
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_concurrent_requests",
+      "display_name": "Max Concurrent Requests",
+      "advanced": true,
+      "value": 64,
+      "default": 64
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_retries",
+      "display_name": "Max Retries",
+      "advanced": true,
+      "value": 5,
+      "default": 5
+    },
+    {
+      "field_class": "IntInput",
+      "name": "timeout",
+      "display_name": "Request Timeout",
+      "advanced": true,
+      "value": 120,
+      "default": 120
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "endpoint",
+      "display_name": "API Endpoint",
+      "advanced": true,
+      "value": "https://api.mistral.ai/v1/",
+      "default": "https://api.mistral.ai/v1/"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Embeddings",
+      "name": "embeddings",
+      "method": "build_embeddings"
+    }
+  ],
+  "template": [
+    "model",
+    "mistral_api_key",
+    "max_concurrent_requests",
+    "max_retries",
+    "timeout",
+    "endpoint"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "MistalAIEmbeddings"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/mistral/mistral_embeddings.py#L9"
+}

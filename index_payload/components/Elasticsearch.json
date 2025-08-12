@@ -1,0 +1,134 @@
+{
+  "kind": "component",
+  "type": "Elasticsearch",
+  "display_name": "Elasticsearch",
+  "description": "Elasticsearch Vector Store with with advanced, customizable search capabilities.",
+  "documentation": null,
+  "icon": "ElasticsearchStore",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "elasticsearch_url",
+      "display_name": "Elasticsearch URL",
+      "value": "http://localhost:9200",
+      "info": "URL for self-managed Elasticsearch deployments (e.g., http://localhost:9200). Do not use with Elastic Cloud deployments, use Elastic Cloud ID instead.",
+      "default": "http://localhost:9200"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "cloud_id",
+      "display_name": "Elastic Cloud ID",
+      "value": "",
+      "info": "Use this for Elastic Cloud deployments. Do not use together with 'Elasticsearch URL'.",
+      "default": ""
+    },
+    {
+      "field_class": "StrInput",
+      "name": "index_name",
+      "display_name": "Index Name",
+      "value": "langflow",
+      "info": "The index name where the vectors will be stored in Elasticsearch cluster.",
+      "default": "langflow"
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "username",
+      "display_name": "Username",
+      "value": "",
+      "advanced": false,
+      "info": "Elasticsearch username (e.g., 'elastic'). Required for both local and Elastic Cloud setups unless API keys are used.",
+      "default": ""
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "password",
+      "display_name": "Password",
+      "value": "",
+      "advanced": false,
+      "info": "Elasticsearch password for the specified user. Required for both local and Elastic Cloud setups unless API keys are used.",
+      "default": ""
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding",
+      "input_types": [
+        "Embeddings"
+      ]
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "search_type",
+      "display_name": "Search Type",
+      "options": [
+        "similarity",
+        "mmr"
+      ],
+      "value": "similarity",
+      "advanced": true,
+      "default": "similarity"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "advanced": true,
+      "value": 4,
+      "default": 4
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "search_score_threshold",
+      "display_name": "Search Score Threshold",
+      "info": "Minimum similarity score threshold for search results.",
+      "value": 0.0,
+      "advanced": true,
+      "default": 0.0
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Elastic API Key",
+      "value": "",
+      "advanced": true,
+      "info": "API Key for Elastic Cloud authentication. If used, 'username' and 'password' are not required.",
+      "default": ""
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "verify_certs",
+      "display_name": "Verify SSL Certificates",
+      "value": true,
+      "advanced": true,
+      "info": "Whether to verify SSL certificates when connecting to Elasticsearch.",
+      "default": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "elasticsearch_url",
+    "cloud_id",
+    "index_name",
+    "username",
+    "password",
+    "embedding",
+    "search_type",
+    "number_of_results",
+    "search_score_threshold",
+    "api_key",
+    "verify_certs"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Elasticsearch"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/elasticsearch.py#L20"
+}

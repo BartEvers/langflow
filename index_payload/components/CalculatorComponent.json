@@ -1,0 +1,38 @@
+{
+  "kind": "component",
+  "type": "CalculatorComponent",
+  "display_name": "Calculator",
+  "description": "Perform basic arithmetic operations on a given expression.",
+  "documentation": "https://docs.langflow.org/components-helpers#calculator",
+  "icon": "calculator",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "expression",
+      "display_name": "Expression",
+      "info": "The arithmetic expression to evaluate (e.g., '4*4*(33/22)+12-20').",
+      "tool_mode": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "result",
+      "type_": "Data",
+      "method": "evaluate_expression"
+    }
+  ],
+  "template": [
+    "expression"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CalculatorComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/helpers/calculator_core.py#L11"
+}

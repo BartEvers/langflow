@@ -1,0 +1,36 @@
+{
+  "kind": "component",
+  "type": "TextOutput",
+  "display_name": "Text Output",
+  "description": "Sends text output via API.",
+  "documentation": "https://docs.langflow.org/components-io#text-output",
+  "icon": "type",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Inputs",
+      "info": "Text to be passed as output."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Output Text",
+      "name": "text",
+      "method": "text_response"
+    }
+  ],
+  "template": [
+    "input_value"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "TextOutput"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/input_output/text_output.py#L6"
+}

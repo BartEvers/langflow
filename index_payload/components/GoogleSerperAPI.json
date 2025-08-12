@@ -1,0 +1,73 @@
+{
+  "kind": "component",
+  "type": "GoogleSerperAPI",
+  "display_name": "Google Serper API [DEPRECATED]",
+  "description": "Call the Serper.dev Google Search API.",
+  "documentation": null,
+  "icon": "Google",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "serper_api_key",
+      "display_name": "Serper API Key",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "query",
+      "display_name": "Query"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "k",
+      "display_name": "Number of results",
+      "value": 4,
+      "required": true,
+      "default": 4
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "query_type",
+      "display_name": "Query Type",
+      "required": false,
+      "options": [
+        "news",
+        "search"
+      ],
+      "value": "search",
+      "default": "search"
+    },
+    {
+      "field_class": "DictInput",
+      "name": "query_params",
+      "display_name": "Query Params",
+      "required": false,
+      "value": {
+        "gl": "us",
+        "hl": "en"
+      },
+      "list": true,
+      "default": {
+        "gl": "us",
+        "hl": "en"
+      }
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "serper_api_key",
+    "query",
+    "k",
+    "query_type",
+    "query_params"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GoogleSerperAPI"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/tools/google_serper_api.py#L29"
+}

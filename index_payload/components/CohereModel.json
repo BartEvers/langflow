@@ -1,0 +1,47 @@
+{
+  "kind": "component",
+  "type": "CohereModel",
+  "display_name": "Cohere Language Models",
+  "description": "Generate text using Cohere LLMs.",
+  "documentation": "https://python.langchain.com/docs/modules/model_io/models/llms/integrations/cohere",
+  "icon": "Cohere",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "cohere_api_key",
+      "display_name": "Cohere API Key",
+      "info": "The Cohere API Key to use for the Cohere model.",
+      "advanced": false,
+      "value": "COHERE_API_KEY",
+      "required": true,
+      "default": "COHERE_API_KEY"
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.75,
+      "range_spec": "RangeSpec(min=0, max=2, step=0.01)",
+      "info": "Controls randomness. Lower values are more deterministic, higher values are more creative.",
+      "advanced": true,
+      "default": 0.75
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "cohere_api_key",
+    "temperature"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CohereModel"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/cohere/cohere_models.py#L10"
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "component",
+  "type": "GetEnvVar",
+  "display_name": "Get Environment Variable",
+  "description": "Gets the value of an environment variable from the system.",
+  "documentation": null,
+  "icon": "AstraDB",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "env_var_name",
+      "display_name": "Environment Variable Name",
+      "info": "Name of the environment variable to get"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Environment Variable Value",
+      "name": "env_var_value",
+      "method": "process_inputs"
+    }
+  ],
+  "template": [
+    "env_var_name"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GetEnvVar"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/datastax/getenvvar.py#L9"
+}

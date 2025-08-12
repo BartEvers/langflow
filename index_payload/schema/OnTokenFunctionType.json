@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "OnTokenFunctionType",
+  "fields": [],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/log.py#L32"
+}

@@ -1,0 +1,48 @@
+{
+  "kind": "component",
+  "type": "WebSearchNoAPI",
+  "display_name": "Web Search",
+  "description": "Performs a basic DuckDuckGo search (HTML scraping). May be subject to rate limits.",
+  "documentation": "https://docs.langflow.org/components-data#web-search",
+  "icon": "search",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "query",
+      "display_name": "Search Query",
+      "info": "Keywords to search for.",
+      "tool_mode": true,
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "timeout",
+      "display_name": "Timeout",
+      "info": "Timeout for the web search request.",
+      "value": 5,
+      "advanced": true,
+      "default": 5
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "results",
+      "display_name": "Search Results",
+      "method": "perform_search"
+    }
+  ],
+  "template": [
+    "query",
+    "timeout"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "WebSearchNoAPI"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/data/web_search.py#L14"
+}

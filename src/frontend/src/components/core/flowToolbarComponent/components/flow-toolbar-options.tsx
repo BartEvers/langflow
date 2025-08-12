@@ -2,6 +2,7 @@ import { useState } from "react";
 import useFlowStore from "@/stores/flowStore";
 import PublishDropdown from "./deploy-dropdown";
 import PlaygroundButton from "./playground-button";
+import AireliusButton from "./airelius-button";
 
 export default function FlowToolbarOptions() {
   const [open, setOpen] = useState<boolean>(false);
@@ -16,6 +17,7 @@ export default function FlowToolbarOptions() {
           setOpen={setOpen}
           canvasOpen
         />
+        <AireliusButton canvasOpen />
       </div>
       <PublishDropdown />
     </div>

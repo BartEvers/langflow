@@ -1,0 +1,14 @@
+{
+  "kind": "schema",
+  "name": "ErrorContent",
+  "fields": [
+    "component",
+    "field",
+    "reason",
+    "solution",
+    "traceback",
+    "type"
+  ],
+  "doc": "Content type for error messages.",
+  "source": "src/backend/base/langflow/schema/content_types.py#L38"
+}

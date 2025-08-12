@@ -1,0 +1,47 @@
+{
+  "kind": "component",
+  "type": "LLMMathChain",
+  "display_name": "LLMMathChain",
+  "description": "Chain that interprets a prompt and executes python code to do math.",
+  "documentation": "https://python.langchain.com/docs/modules/chains/additional/llm_math",
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "info": "The input value to pass to the chain.",
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Message",
+      "name": "text",
+      "method": "invoke_chain"
+    }
+  ],
+  "template": [
+    "input_value",
+    "llm"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "LLMMathChain"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/llm_math.py#L9"
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "component",
+  "type": "CreateList",
+  "display_name": "Create List",
+  "description": "Creates a list of texts.",
+  "documentation": null,
+  "icon": "list",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "texts",
+      "display_name": "Texts",
+      "info": "Enter one or more texts.",
+      "is_list": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data List",
+      "name": "list",
+      "method": "create_list"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "as_dataframe"
+    }
+  ],
+  "template": [
+    "texts"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CreateList"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/helpers/create_list.py#L8"
+}

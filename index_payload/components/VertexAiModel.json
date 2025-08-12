@@ -1,0 +1,109 @@
+{
+  "kind": "component",
+  "type": "VertexAiModel",
+  "display_name": "Vertex AI",
+  "description": "Generate text using Vertex AI LLMs.",
+  "documentation": null,
+  "icon": "VertexAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "FileInput",
+      "name": "credentials",
+      "display_name": "Credentials",
+      "info": "JSON credentials file. Leave empty to fallback to environment variables",
+      "file_types": [
+        "json"
+      ]
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "value": "gemini-1.5-pro",
+      "default": "gemini-1.5-pro"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "project",
+      "display_name": "Project",
+      "info": "The project ID.",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "location",
+      "display_name": "Location",
+      "value": "us-central1",
+      "advanced": true,
+      "default": "us-central1"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_output_tokens",
+      "display_name": "Max Output Tokens",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_retries",
+      "display_name": "Max Retries",
+      "value": 1,
+      "advanced": true,
+      "default": 1
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "temperature",
+      "value": 0.0,
+      "display_name": "Temperature",
+      "default": 0.0
+    },
+    {
+      "field_class": "IntInput",
+      "name": "top_k",
+      "display_name": "Top K",
+      "advanced": true
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "top_p",
+      "display_name": "Top P",
+      "value": 0.95,
+      "advanced": true,
+      "default": 0.95
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "verbose",
+      "display_name": "Verbose",
+      "value": false,
+      "advanced": true,
+      "default": false
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "credentials",
+    "model_name",
+    "project",
+    "location",
+    "max_output_tokens",
+    "max_retries",
+    "temperature",
+    "top_k",
+    "top_p",
+    "verbose"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "VertexAiModel"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vertexai/vertexai.py#L9"
+}

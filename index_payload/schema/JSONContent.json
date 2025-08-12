@@ -1,0 +1,10 @@
+{
+  "kind": "schema",
+  "name": "JSONContent",
+  "fields": [
+    "data",
+    "type"
+  ],
+  "doc": "Content type for JSON content.",
+  "source": "src/backend/base/langflow/schema/content_types.py#L65"
+}

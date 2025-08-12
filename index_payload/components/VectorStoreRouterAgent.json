@@ -1,0 +1,46 @@
+{
+  "kind": "component",
+  "type": "VectorStoreRouterAgent",
+  "display_name": "VectorStoreRouterAgent",
+  "description": "Construct an agent from a Vector Store Router.",
+  "documentation": null,
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "vectorstores",
+      "display_name": "Vector Stores",
+      "input_types": [
+        "VectorStoreInfo"
+      ],
+      "is_list": true,
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "llm",
+    "vectorstores"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "VectorStoreRouterAgent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/vector_store_router.py#L8"
+}

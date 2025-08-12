@@ -1,0 +1,54 @@
+{
+  "kind": "component",
+  "type": "RegexExtractorComponent",
+  "display_name": "Regex Extractor",
+  "description": "Extract patterns from text using regular expressions.",
+  "documentation": null,
+  "icon": "regex",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "input_text",
+      "display_name": "Input Text",
+      "info": "The text to analyze",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "pattern",
+      "display_name": "Regex Pattern",
+      "info": "The regular expression pattern to match",
+      "value": "",
+      "required": true,
+      "tool_mode": true,
+      "default": ""
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "data",
+      "method": "extract_matches"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Message",
+      "name": "text",
+      "method": "get_matches_text"
+    }
+  ],
+  "template": [
+    "input_text",
+    "pattern"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "RegexExtractorComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/regex.py#L9"
+}

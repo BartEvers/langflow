@@ -1,0 +1,49 @@
+{
+  "kind": "component",
+  "type": "ConvertAstraToTwelveLabs",
+  "display_name": "Convert Astra DB to Pegasus Input",
+  "description": "Converts Astra DB search results to inputs compatible with TwelveLabs Pegasus.",
+  "documentation": "https://github.com/twelvelabs-io/twelvelabs-developer-experience/blob/main/integrations/Langflow/TWELVE_LABS_COMPONENTS_README.md",
+  "icon": "TwelveLabs",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "astra_results",
+      "display_name": "Astra DB Results",
+      "input_types": [
+        "Data"
+      ],
+      "info": "Search results from Astra DB component",
+      "required": true,
+      "is_list": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "index_id",
+      "display_name": "Index ID",
+      "type_": "Message",
+      "method": "get_index_id"
+    },
+    {
+      "output_class": "Output",
+      "name": "video_id",
+      "display_name": "Video ID",
+      "type_": "Message",
+      "method": "get_video_id"
+    }
+  ],
+  "template": [
+    "astra_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ConvertAstraToTwelveLabs"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/twelvelabs/convert_astra_results.py#L9"
+}

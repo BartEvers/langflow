@@ -1,0 +1,61 @@
+{
+  "kind": "component",
+  "type": "Notify",
+  "display_name": "Notify",
+  "description": "A component to generate a notification to Get Notified component.",
+  "documentation": null,
+  "icon": "Notify",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "context_key",
+      "display_name": "Context Key",
+      "info": "The key of the context to store the notification.",
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "input_value",
+      "display_name": "Input Data",
+      "info": "The data to store.",
+      "required": false,
+      "input_types": [
+        "Data",
+        "Message",
+        "DataFrame"
+      ]
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "append",
+      "display_name": "Append",
+      "info": "If True, the record will be appended to the notification.",
+      "value": false,
+      "required": false,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "result",
+      "method": "notify_components",
+      "cache": false
+    }
+  ],
+  "template": [
+    "context_key",
+    "input_value",
+    "append"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Notify"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/logic/notify.py#L8"
+}

@@ -1,0 +1,12 @@
+{
+  "kind": "enum_constants",
+  "name": "OPENAI_MODELS",
+  "value": [
+    "text-davinci-003",
+    "text-davinci-002",
+    "text-curie-001",
+    "text-babbage-001",
+    "text-ada-001"
+  ],
+  "source": "src/backend/base/langflow/utils/constants.py#L3"
+}

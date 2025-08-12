@@ -1,0 +1,94 @@
+{
+  "kind": "component",
+  "type": "GroqModel",
+  "display_name": "Groq",
+  "description": "Generate text using Groq.",
+  "documentation": null,
+  "icon": "Groq",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Groq API Key",
+      "info": "API key for the Groq API.",
+      "real_time_refresh": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "base_url",
+      "display_name": "Groq API Base",
+      "info": "Base URL path for API requests, leave blank if not using a proxy or service emulator.",
+      "advanced": true,
+      "value": "https://api.groq.com",
+      "real_time_refresh": true,
+      "default": "https://api.groq.com"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_tokens",
+      "display_name": "Max Output Tokens",
+      "info": "The maximum number of tokens to generate.",
+      "advanced": true
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.1,
+      "info": "Run inference with this temperature. Must by in the closed interval [0.0, 1.0].",
+      "range_spec": "RangeSpec(min=0, max=1, step=0.01)",
+      "advanced": true,
+      "default": 0.1
+    },
+    {
+      "field_class": "IntInput",
+      "name": "n",
+      "display_name": "N",
+      "info": "Number of chat completions to generate for each prompt. Note that the API may not return the full n completions if duplicates are generated.",
+      "advanced": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model",
+      "info": "The name of the model to use.",
+      "options": "GROQ_MODELS",
+      "value": "<Subscript>",
+      "refresh_button": true,
+      "combobox": true,
+      "default": "<Subscript>"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "tool_model_enabled",
+      "display_name": "Enable Tool Models",
+      "info": "Select if you want to use models that can work with tools. If yes, only those models will be shown.",
+      "advanced": false,
+      "value": false,
+      "real_time_refresh": true,
+      "default": false
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "api_key",
+    "base_url",
+    "max_tokens",
+    "temperature",
+    "n",
+    "model_name",
+    "tool_model_enabled"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GroqModel"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/groq/groq.py#L16"
+}

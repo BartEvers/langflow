@@ -1,0 +1,106 @@
+{
+  "kind": "component",
+  "type": "ExportDoclingDocument",
+  "display_name": "Export DoclingDocument",
+  "description": "Export DoclingDocument to markdown, html or other formats.",
+  "documentation": "https://docling-project.github.io/docling/",
+  "icon": "Docling",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "data_inputs",
+      "display_name": "Data or DataFrame",
+      "info": "The data with documents to export.",
+      "input_types": [
+        "Data",
+        "DataFrame"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "export_format",
+      "display_name": "Export format",
+      "options": [
+        "Markdown",
+        "HTML",
+        "Plaintext",
+        "DocTags"
+      ],
+      "info": "Select the export format to convert the input.",
+      "value": "Markdown",
+      "real_time_refresh": true,
+      "default": "Markdown"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "image_mode",
+      "display_name": "Image export mode",
+      "options": [
+        "placeholder",
+        "embedded"
+      ],
+      "info": "Specify how images are exported in the output. Placeholder will replace the images with a string, whereas Embedded will include them as base64 encoded images.",
+      "value": "placeholder",
+      "default": "placeholder"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "md_image_placeholder",
+      "display_name": "Image placeholder",
+      "info": "Specify the image placeholder for markdown exports.",
+      "value": "<!-- image -->",
+      "advanced": true,
+      "default": "<!-- image -->"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "md_page_break_placeholder",
+      "display_name": "Page break placeholder",
+      "info": "Add this placeholder betweek pages in the markdown output.",
+      "value": "",
+      "advanced": true,
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "doc_key",
+      "display_name": "Doc Key",
+      "info": "The key to use for the DoclingDocument column.",
+      "value": "doc",
+      "advanced": true,
+      "default": "doc"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Exported data",
+      "name": "data",
+      "method": "export_document"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "as_dataframe"
+    }
+  ],
+  "template": [
+    "data_inputs",
+    "export_format",
+    "image_mode",
+    "md_image_placeholder",
+    "md_page_break_placeholder",
+    "doc_key"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ExportDoclingDocument"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/docling/export_docling_document.py#L11"
+}

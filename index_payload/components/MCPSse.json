@@ -1,0 +1,39 @@
+{
+  "kind": "component",
+  "type": "MCPSse",
+  "display_name": "MCP Tools (SSE) [DEPRECATED]",
+  "description": "Connects to an MCP server over SSE and exposes it's tools as langflow tools to be used by an Agent.",
+  "documentation": "https://docs.langflow.org/components-custom-components",
+  "icon": "code",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "url",
+      "display_name": "mcp sse url",
+      "info": "sse url",
+      "value": "http://localhost:7860/api/v1/mcp/sse",
+      "tool_mode": true,
+      "default": "http://localhost:7860/api/v1/mcp/sse"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Tools",
+      "name": "tools",
+      "method": "build_output"
+    }
+  ],
+  "template": [
+    "url"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "MCPSse"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/mcp_sse.py#L17"
+}

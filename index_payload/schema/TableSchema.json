@@ -1,0 +1,9 @@
+{
+  "kind": "schema",
+  "name": "TableSchema",
+  "fields": [
+    "columns"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/table.py#L94"
+}

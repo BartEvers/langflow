@@ -1,0 +1,60 @@
+{
+  "kind": "component",
+  "type": "AmazonKendra",
+  "display_name": "Amazon Kendra Retriever",
+  "description": "Retriever that uses the Amazon Kendra API.",
+  "documentation": null,
+  "icon": "Amazon",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "index_id",
+      "display_name": "Index ID"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "region_name",
+      "display_name": "Region Name"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "credentials_profile_name",
+      "display_name": "Credentials Profile Name"
+    },
+    {
+      "field_class": "DictInput",
+      "name": "attribute_filter",
+      "display_name": "Attribute Filter"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "top_k",
+      "display_name": "Top K",
+      "value": 3,
+      "default": 3
+    },
+    {
+      "field_class": "DictInput",
+      "name": "user_context",
+      "display_name": "User Context"
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "index_id",
+    "region_name",
+    "credentials_profile_name",
+    "attribute_filter",
+    "top_k",
+    "user_context"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AmazonKendra"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/amazon_kendra.py#L9"
+}

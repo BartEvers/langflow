@@ -1,0 +1,159 @@
+{
+  "kind": "component",
+  "type": "AssemblyAITranscriptionJobCreator",
+  "display_name": "AssemblyAI Start Transcript",
+  "description": "Create a transcription job for an audio file using AssemblyAI with advanced options",
+  "documentation": "https://www.assemblyai.com/docs",
+  "icon": "AssemblyAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Assembly API Key",
+      "info": "Your AssemblyAI API key. You can get one from https://www.assemblyai.com/",
+      "required": true
+    },
+    {
+      "field_class": "FileInput",
+      "name": "audio_file",
+      "display_name": "Audio File",
+      "file_types": [
+        "3ga",
+        "8svx",
+        "aac",
+        "ac3",
+        "aif",
+        "aiff",
+        "alac",
+        "amr",
+        "ape",
+        "au",
+        "dss",
+        "flac",
+        "flv",
+        "m4a",
+        "m4b",
+        "m4p",
+        "m4r",
+        "mp3",
+        "mpga",
+        "ogg",
+        "oga",
+        "mogg",
+        "opus",
+        "qcp",
+        "tta",
+        "voc",
+        "wav",
+        "wma",
+        "wv",
+        "webm",
+        "mts",
+        "m2ts",
+        "ts",
+        "mov",
+        "mp2",
+        "mp4",
+        "m4p",
+        "m4v",
+        "mxf"
+      ],
+      "info": "The audio file to transcribe",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "audio_file_url",
+      "display_name": "Audio File URL",
+      "info": "The URL of the audio file to transcribe (Can be used instead of a File)",
+      "advanced": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "speech_model",
+      "display_name": "Speech Model",
+      "options": [
+        "best",
+        "nano"
+      ],
+      "value": "best",
+      "info": "The speech model to use for the transcription",
+      "advanced": true,
+      "default": "best"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "language_detection",
+      "display_name": "Automatic Language Detection",
+      "info": "Enable automatic language detection",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "language_code",
+      "display_name": "Language",
+      "info": "\n            The language of the audio file. Can be set manually if automatic language detection is disabled.\n            See https://www.assemblyai.com/docs/getting-started/supported-languages for a list of supported language codes.",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "speaker_labels",
+      "display_name": "Enable Speaker Labels",
+      "info": "Enable speaker diarization"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "speakers_expected",
+      "display_name": "Expected Number of Speakers",
+      "info": "Set the expected number of speakers (optional, enter a number)",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "punctuate",
+      "display_name": "Punctuate",
+      "info": "Enable automatic punctuation",
+      "advanced": true,
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "format_text",
+      "display_name": "Format Text",
+      "info": "Enable text formatting",
+      "advanced": true,
+      "value": true,
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Transcript ID",
+      "name": "transcript_id",
+      "method": "create_transcription_job"
+    }
+  ],
+  "template": [
+    "api_key",
+    "audio_file",
+    "audio_file_url",
+    "speech_model",
+    "language_detection",
+    "language_code",
+    "speaker_labels",
+    "speakers_expected",
+    "punctuate",
+    "format_text"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AssemblyAITranscriptionJobCreator"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/assemblyai/assemblyai_start_transcript.py#L11"
+}

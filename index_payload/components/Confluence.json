@@ -1,0 +1,99 @@
+{
+  "kind": "component",
+  "type": "Confluence",
+  "display_name": "Confluence",
+  "description": "Confluence wiki collaboration platform",
+  "documentation": "https://python.langchain.com/v0.2/docs/integrations/document_loaders/confluence/",
+  "icon": "Confluence",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "url",
+      "display_name": "Site URL",
+      "required": true,
+      "info": "The base URL of the Confluence Space. Example: https://<company>.atlassian.net/wiki."
+    },
+    {
+      "field_class": "StrInput",
+      "name": "username",
+      "display_name": "Username",
+      "required": true,
+      "info": "Atlassian User E-mail. Example: email@example.com"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "required": true,
+      "info": "Atlassian Key. Create at: https://id.atlassian.com/manage-profile/security/api-tokens"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "space_key",
+      "display_name": "Space Key",
+      "required": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "cloud",
+      "display_name": "Use Cloud?",
+      "required": true,
+      "value": true,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "content_format",
+      "display_name": "Content Format",
+      "options": [
+        "ContentFormat.EDITOR.value",
+        "ContentFormat.EXPORT_VIEW.value",
+        "ContentFormat.ANONYMOUS_EXPORT_VIEW.value",
+        "ContentFormat.STORAGE.value",
+        "ContentFormat.VIEW.value"
+      ],
+      "value": "ContentFormat.STORAGE.value",
+      "required": true,
+      "advanced": true,
+      "info": "Specify content format, defaults to ContentFormat.STORAGE",
+      "default": "ContentFormat.STORAGE.value"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_pages",
+      "display_name": "Max Pages",
+      "required": false,
+      "value": 1000,
+      "advanced": true,
+      "info": "Maximum number of pages to retrieve in total, defaults 1000",
+      "default": 1000
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "data",
+      "display_name": "Data",
+      "method": "load_documents"
+    }
+  ],
+  "template": [
+    "url",
+    "username",
+    "api_key",
+    "space_key",
+    "cloud",
+    "content_format",
+    "max_pages"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Confluence"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/confluence/confluence.py#L9"
+}

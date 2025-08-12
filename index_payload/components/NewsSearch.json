@@ -1,0 +1,106 @@
+{
+  "kind": "component",
+  "type": "NewsSearch",
+  "display_name": "News Search",
+  "description": "Searches Google News via RSS. Returns clean article data.",
+  "documentation": "https://docs.langflow.org/components-data#news-search",
+  "icon": "newspaper",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "query",
+      "display_name": "Search Query",
+      "info": "Search keywords for news articles.",
+      "tool_mode": true,
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "hl",
+      "display_name": "Language (hl)",
+      "info": "Language code, e.g. en-US, fr, de. Default: en-US.",
+      "tool_mode": false,
+      "input_types": [],
+      "required": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "gl",
+      "display_name": "Country (gl)",
+      "info": "Country code, e.g. US, FR, DE. Default: US.",
+      "tool_mode": false,
+      "input_types": [],
+      "required": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "ceid",
+      "display_name": "Country:Language (ceid)",
+      "info": "e.g. US:en, FR:fr. Default: US:en.",
+      "tool_mode": false,
+      "value": "US:en",
+      "input_types": [],
+      "required": false,
+      "advanced": true,
+      "default": "US:en"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "topic",
+      "display_name": "Topic",
+      "info": "One of: WORLD, NATION, BUSINESS, TECHNOLOGY, ENTERTAINMENT, SCIENCE, SPORTS, HEALTH.",
+      "tool_mode": false,
+      "input_types": [],
+      "required": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "location",
+      "display_name": "Location (Geo)",
+      "info": "City, state, or country for location-based news. Leave blank for keyword search.",
+      "tool_mode": false,
+      "input_types": [],
+      "required": false,
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "timeout",
+      "display_name": "Timeout",
+      "info": "Timeout for the request in seconds.",
+      "value": 5,
+      "required": false,
+      "advanced": true,
+      "default": 5
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "articles",
+      "display_name": "News Articles",
+      "method": "search_news"
+    }
+  ],
+  "template": [
+    "query",
+    "hl",
+    "gl",
+    "ceid",
+    "topic",
+    "location",
+    "timeout"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NewsSearch"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/data/news_search.py#L12"
+}

@@ -1,0 +1,77 @@
+{
+  "kind": "component",
+  "type": "SelfQueryRetriever",
+  "display_name": "Self Query Retriever",
+  "description": "Retriever that uses a vector store and an LLM to generate the vector store queries.",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "query",
+      "display_name": "Query",
+      "info": "Query to be passed as input.",
+      "input_types": [
+        "Message"
+      ]
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "vectorstore",
+      "display_name": "Vector Store",
+      "info": "Vector Store to be passed as input.",
+      "input_types": [
+        "VectorStore"
+      ]
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "attribute_infos",
+      "display_name": "Metadata Field Info",
+      "info": "Metadata Field Info to be passed as input.",
+      "input_types": [
+        "Data"
+      ],
+      "is_list": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "document_content_description",
+      "display_name": "Document Content Description",
+      "info": "Document Content Description to be passed as input."
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "LLM",
+      "info": "LLM to be passed as input.",
+      "input_types": [
+        "LanguageModel"
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Retrieved Documents",
+      "name": "documents",
+      "method": "retrieve_documents"
+    }
+  ],
+  "template": [
+    "query",
+    "vectorstore",
+    "attribute_infos",
+    "document_content_description",
+    "llm"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SelfQueryRetriever"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/self_query.py#L11"
+}

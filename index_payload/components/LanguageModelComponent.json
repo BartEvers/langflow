@@ -1,0 +1,105 @@
+{
+  "kind": "component",
+  "type": "LanguageModelComponent",
+  "display_name": "Language Model",
+  "description": "Runs a language model given a specified provider.",
+  "documentation": "https://docs.langflow.org/components-models",
+  "icon": "brain-circuit",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DropdownInput",
+      "name": "provider",
+      "display_name": "Model Provider",
+      "options": [
+        "OpenAI",
+        "Anthropic",
+        "Google"
+      ],
+      "value": "OpenAI",
+      "info": "Select the model provider",
+      "real_time_refresh": true,
+      "options_metadata": [
+        {
+          "icon": "OpenAI"
+        },
+        {
+          "icon": "Anthropic"
+        },
+        {
+          "icon": "GoogleGenerativeAI"
+        }
+      ],
+      "default": "OpenAI"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "options": "<BinOp>",
+      "value": "<Subscript>",
+      "info": "Select the model to use",
+      "real_time_refresh": true,
+      "default": "<Subscript>"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "OpenAI API Key",
+      "info": "Model Provider API key",
+      "required": false,
+      "show": true,
+      "real_time_refresh": true
+    },
+    {
+      "field_class": "MessageInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "info": "The input text to send to the model"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "system_message",
+      "display_name": "System Message",
+      "info": "A system message that helps set the behavior of the assistant",
+      "advanced": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "stream",
+      "display_name": "Stream",
+      "info": "Whether to stream the response",
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.1,
+      "info": "Controls randomness in responses",
+      "range_spec": "RangeSpec(min=0, max=1, step=0.01)",
+      "advanced": true,
+      "default": 0.1
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "provider",
+    "model_name",
+    "api_key",
+    "input_value",
+    "system_message",
+    "stream",
+    "temperature"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "LanguageModelComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/models/language_model.py#L18"
+}

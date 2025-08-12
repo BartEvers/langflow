@@ -1,0 +1,121 @@
+{
+  "kind": "component",
+  "type": "AssemblyAILeMUR",
+  "display_name": "AssemblyAI LeMUR",
+  "description": "Apply Large Language Models to spoken data using the AssemblyAI LeMUR framework",
+  "documentation": "https://www.assemblyai.com/docs/lemur",
+  "icon": "AssemblyAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Assembly API Key",
+      "info": "Your AssemblyAI API key. You can get one from https://www.assemblyai.com/",
+      "advanced": false,
+      "required": true
+    },
+    {
+      "field_class": "DataInput",
+      "name": "transcription_result",
+      "display_name": "Transcription Result",
+      "info": "The transcription result from AssemblyAI",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "prompt",
+      "display_name": "Input Prompt",
+      "info": "The text to prompt the model",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "final_model",
+      "display_name": "Final Model",
+      "options": [
+        "claude3_5_sonnet",
+        "claude3_opus",
+        "claude3_haiku",
+        "claude3_sonnet"
+      ],
+      "value": "claude3_5_sonnet",
+      "info": "The model that is used for the final prompt after compression is performed",
+      "advanced": true,
+      "default": "claude3_5_sonnet"
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "advanced": true,
+      "value": 0.0,
+      "info": "The temperature to use for the model",
+      "default": 0.0
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_output_size",
+      "display_name": " Max Output Size",
+      "advanced": true,
+      "value": 2000,
+      "info": "Max output size in tokens, up to 4000",
+      "default": 2000
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "endpoint",
+      "display_name": "Endpoint",
+      "options": [
+        "task",
+        "summary",
+        "question-answer"
+      ],
+      "value": "task",
+      "info": "The LeMUR endpoint to use. For 'summary' and 'question-answer', no prompt input is needed. See https://www.assemblyai.com/docs/api-reference/lemur/ for more info.",
+      "advanced": true,
+      "default": "task"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "questions",
+      "display_name": "Questions",
+      "info": "Comma-separated list of your questions. Only used if Endpoint is 'question-answer'",
+      "advanced": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "transcript_ids",
+      "display_name": "Transcript IDs",
+      "info": "Comma-separated list of transcript IDs. LeMUR can perform actions over multiple transcripts. If provided, the Transcription Result is ignored.",
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "LeMUR Response",
+      "name": "lemur_response",
+      "method": "run_lemur"
+    }
+  ],
+  "template": [
+    "api_key",
+    "transcription_result",
+    "prompt",
+    "final_model",
+    "temperature",
+    "max_output_size",
+    "endpoint",
+    "questions",
+    "transcript_ids"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AssemblyAILeMUR"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/assemblyai/assemblyai_lemur.py#L9"
+}

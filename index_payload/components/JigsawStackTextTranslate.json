@@ -1,0 +1,56 @@
+{
+  "kind": "component",
+  "type": "JigsawStackTextTranslate",
+  "display_name": "Text Translate",
+  "description": "Translate text from one language to another with support for multiple text formats.",
+  "documentation": "https://jigsawstack.com/docs/api-reference/ai/translate",
+  "icon": "JigsawStack",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "JigsawStack API Key",
+      "info": "Your JigsawStack API key for authentication",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "target_language",
+      "display_name": "Target Language",
+      "info": "The language code of the target language to translate to.                 Language code is identified by a unique ISO 639-1 two-letter code",
+      "required": true,
+      "tool_mode": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "text",
+      "display_name": "Text",
+      "info": "The text to translate. This can be a single string or a list of strings.                 If a list is provided, each string will be translated separately.",
+      "required": true,
+      "is_list": true,
+      "tool_mode": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Translation Results",
+      "name": "translation_results",
+      "method": "translation"
+    }
+  ],
+  "template": [
+    "api_key",
+    "target_language",
+    "text"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JigsawStackTextTranslate"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/jigsawstack/text_translate.py#L6"
+}

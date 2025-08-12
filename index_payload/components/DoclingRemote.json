@@ -1,0 +1,75 @@
+{
+  "kind": "component",
+  "type": "DoclingRemote",
+  "display_name": "Docling Serve",
+  "description": "Uses Docling to process input documents connecting to your instance of Docling Serve.",
+  "documentation": "https://docling-project.github.io/docling/",
+  "icon": "Docling",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "api_url",
+      "display_name": "Server address",
+      "info": "URL of the Docling Serve instance.",
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_concurrency",
+      "display_name": "Concurrency",
+      "info": "Maximum number of concurrent requests for the server.",
+      "advanced": true,
+      "value": 2,
+      "default": 2
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "max_poll_timeout",
+      "display_name": "Maximum poll time",
+      "info": "Maximum waiting time for the document conversion to complete.",
+      "advanced": true,
+      "value": 3600,
+      "default": 3600
+    },
+    {
+      "field_class": "NestedDictInput",
+      "name": "api_headers",
+      "display_name": "HTTP headers",
+      "advanced": true,
+      "required": false,
+      "info": "Optional dictionary of additional headers required for connecting to Docling Serve."
+    },
+    {
+      "field_class": "NestedDictInput",
+      "name": "docling_serve_opts",
+      "display_name": "Docling options",
+      "advanced": true,
+      "required": false,
+      "info": "Optional dictionary of additional options. See https://github.com/docling-project/docling-serve/blob/main/docs/usage.md for more information."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Starred"
+    }
+  ],
+  "template": [
+    "api_url",
+    "max_concurrency",
+    "max_poll_timeout",
+    "api_headers",
+    "docling_serve_opts"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "DoclingRemote"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/docling/docling_remote.py#L17"
+}

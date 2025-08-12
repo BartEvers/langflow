@@ -1,0 +1,79 @@
+{
+  "kind": "component",
+  "type": "TwelveLabsPegasusIndexVideo",
+  "display_name": "TwelveLabs Pegasus Index Video",
+  "description": "Index videos using TwelveLabs and add the video_id to metadata.",
+  "documentation": "https://github.com/twelvelabs-io/twelvelabs-developer-experience/blob/main/integrations/Langflow/TWELVE_LABS_COMPONENTS_README.md",
+  "icon": "TwelveLabs",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "videodata",
+      "display_name": "Video Data",
+      "info": "Video Data objects (from VideoFile or SplitVideo)",
+      "is_list": true,
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "TwelveLabs API Key",
+      "info": "Enter your TwelveLabs API Key.",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model",
+      "info": "Pegasus model to use for indexing",
+      "options": [
+        "pegasus1.2"
+      ],
+      "value": "pegasus1.2",
+      "advanced": false,
+      "default": "pegasus1.2"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "index_name",
+      "display_name": "Index Name",
+      "info": "Name of the index to use. If the index doesn't exist, it will be created.",
+      "required": false
+    },
+    {
+      "field_class": "StrInput",
+      "name": "index_id",
+      "display_name": "Index ID",
+      "info": "ID of an existing index to use. If provided, index_name will be ignored.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Indexed Data",
+      "name": "indexed_data",
+      "method": "index_videos",
+      "output_types": [
+        "Data"
+      ],
+      "is_list": true
+    }
+  ],
+  "template": [
+    "videodata",
+    "api_key",
+    "model_name",
+    "index_name",
+    "index_id"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "TwelveLabsPegasusIndexVideo"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/twelvelabs/pegasus_index.py#L31"
+}

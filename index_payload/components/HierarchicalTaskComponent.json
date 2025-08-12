@@ -1,0 +1,56 @@
+{
+  "kind": "component",
+  "type": "HierarchicalTaskComponent",
+  "display_name": "Hierarchical Task",
+  "description": "Each task must have a description, an expected output and an agent responsible for execution.",
+  "documentation": null,
+  "icon": "CrewAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "task_description",
+      "display_name": "Description",
+      "info": "Descriptive text detailing task's purpose and execution."
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "expected_output",
+      "display_name": "Expected Output",
+      "info": "Clear definition of expected task outcome."
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "tools",
+      "display_name": "Tools",
+      "input_types": [
+        "Tool"
+      ],
+      "is_list": true,
+      "info": "List of tools/resources limited for task execution. Uses the Agent tools by default.",
+      "required": false,
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Task",
+      "name": "task_output",
+      "method": "build_task"
+    }
+  ],
+  "template": [
+    "task_description",
+    "expected_output",
+    "tools"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "HierarchicalTaskComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/crewai/hierarchical_task.py#L6"
+}

@@ -1,0 +1,138 @@
+{
+  "kind": "component",
+  "type": "CleanlabEvaluator",
+  "display_name": "Cleanlab Evaluator",
+  "description": "Evaluates any LLM response using Cleanlab and outputs trust score and explanation.",
+  "documentation": null,
+  "icon": "Cleanlab",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "system_prompt",
+      "display_name": "System Message",
+      "info": "System-level instructions prepended to the user query.",
+      "value": "",
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "prompt",
+      "display_name": "Prompt",
+      "info": "The user's query to the model.",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "response",
+      "display_name": "Response",
+      "info": "The response to the user's query.",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Cleanlab API Key",
+      "info": "Your Cleanlab API key.",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model",
+      "display_name": "Cleanlab Evaluation Model",
+      "options": [
+        "gpt-4.1",
+        "gpt-4.1-mini",
+        "gpt-4.1-nano",
+        "o4-mini",
+        "o3",
+        "gpt-4.5-preview",
+        "gpt-4o-mini",
+        "gpt-4o",
+        "o3-mini",
+        "o1",
+        "o1-mini",
+        "gpt-4",
+        "gpt-3.5-turbo-16k",
+        "claude-3.7-sonnet",
+        "claude-3.5-sonnet-v2",
+        "claude-3.5-sonnet",
+        "claude-3.5-haiku",
+        "claude-3-haiku",
+        "nova-micro",
+        "nova-lite",
+        "nova-pro"
+      ],
+      "info": "The model Cleanlab uses to evaluate the response. This does NOT need to be the same model that generated the response.",
+      "value": "gpt-4o-mini",
+      "required": true,
+      "advanced": true,
+      "default": "gpt-4o-mini"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "quality_preset",
+      "display_name": "Quality Preset",
+      "options": [
+        "base",
+        "low",
+        "medium",
+        "high",
+        "best"
+      ],
+      "value": "medium",
+      "info": "This determines the accuracy, latency, and cost of the evaluation. Higher quality is generally slower but more accurate.",
+      "required": true,
+      "advanced": true,
+      "default": "medium"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Response",
+      "name": "response_passthrough",
+      "method": "pass_response",
+      "types": [
+        "Message"
+      ],
+      "group_outputs": true
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Trust Score",
+      "name": "score",
+      "method": "get_score",
+      "types": [
+        "number"
+      ],
+      "group_outputs": true
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Explanation",
+      "name": "explanation",
+      "method": "get_explanation",
+      "types": [
+        "Message"
+      ],
+      "group_outputs": true
+    }
+  ],
+  "template": [
+    "system_prompt",
+    "prompt",
+    "response",
+    "api_key",
+    "model",
+    "quality_preset"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CleanlabEvaluator"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/cleanlab/cleanlab_evaluator.py#L13"
+}

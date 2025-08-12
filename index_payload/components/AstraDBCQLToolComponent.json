@@ -1,0 +1,208 @@
+{
+  "kind": "component",
+  "type": "AstraDBCQLToolComponent",
+  "display_name": "Astra DB CQL",
+  "description": "Create a tool to get transactional data from DataStax Astra DB CQL Table",
+  "documentation": "https://docs.langflow.org/Components/components-tools#astra-db-cql-tool",
+  "icon": "AstraDB",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "tool_name",
+      "display_name": "Tool Name",
+      "info": "The name of the tool.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "tool_description",
+      "display_name": "Tool Description",
+      "info": "The tool description to be passed to the model.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "keyspace",
+      "display_name": "Keyspace",
+      "value": "default_keyspace",
+      "info": "The keyspace name within Astra DB where the data is stored.",
+      "required": true,
+      "advanced": true,
+      "default": "default_keyspace"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "table_name",
+      "display_name": "Table Name",
+      "info": "The name of the table within Astra DB where the data is stored.",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "token",
+      "display_name": "Astra DB Application Token",
+      "info": "Authentication token for accessing Astra DB.",
+      "value": "ASTRA_DB_APPLICATION_TOKEN",
+      "required": true,
+      "default": "ASTRA_DB_APPLICATION_TOKEN"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "api_endpoint",
+      "display_name": "API Endpoint",
+      "info": "API endpoint URL for the Astra DB service.",
+      "value": "ASTRA_DB_API_ENDPOINT",
+      "required": true,
+      "default": "ASTRA_DB_API_ENDPOINT"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "projection_fields",
+      "display_name": "Projection fields",
+      "info": "Attributes to return separated by comma.",
+      "required": true,
+      "value": "*",
+      "advanced": true,
+      "default": "*"
+    },
+    {
+      "field_class": "TableInput",
+      "name": "tools_params",
+      "display_name": "Tools Parameters",
+      "info": "Define the structure for the tool parameters. Describe the parameters in a way the LLM can understand how to use them. Add the parameters respecting the table schema (Partition Keys, Clustering Keys and Indexed Fields).",
+      "required": false,
+      "table_schema": [
+        {
+          "name": "name",
+          "display_name": "Name",
+          "type": "str",
+          "description": "Name of the field/parameter to be used by the model.",
+          "default": "field",
+          "edit_mode": "EditMode.INLINE"
+        },
+        {
+          "name": "field_name",
+          "display_name": "Field Name",
+          "type": "str",
+          "description": "Specify the column name to be filtered on the table. Leave empty if the attribute name is the same as the name of the field.",
+          "default": "",
+          "edit_mode": "EditMode.INLINE"
+        },
+        {
+          "name": "description",
+          "display_name": "Description",
+          "type": "str",
+          "description": "Describe the purpose of the parameter.",
+          "default": "description of tool parameter",
+          "edit_mode": "EditMode.POPOVER"
+        },
+        {
+          "name": "mandatory",
+          "display_name": "Is Mandatory",
+          "type": "boolean",
+          "edit_mode": "EditMode.INLINE",
+          "description": "Indicate if the field is mandatory.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "default": "False"
+        },
+        {
+          "name": "is_timestamp",
+          "display_name": "Is Timestamp",
+          "type": "boolean",
+          "edit_mode": "EditMode.INLINE",
+          "description": "Indicate if the field is a timestamp.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "default": "False"
+        },
+        {
+          "name": "operator",
+          "display_name": "Operator",
+          "type": "str",
+          "description": "Set the operator for the field. https://docs.datastax.com/en/astra-db-serverless/api-reference/documents.html#operators",
+          "default": "$eq",
+          "options": [
+            "$gt",
+            "$gte",
+            "$lt",
+            "$lte",
+            "$eq",
+            "$ne",
+            "$in",
+            "$nin",
+            "$exists",
+            "$all",
+            "$size"
+          ],
+          "edit_mode": "EditMode.INLINE"
+        }
+      ],
+      "value": [],
+      "default": []
+    },
+    {
+      "field_class": "DictInput",
+      "name": "partition_keys",
+      "display_name": "DEPRECATED: Partition Keys",
+      "is_list": true,
+      "info": "Field name and description to the model",
+      "required": false,
+      "advanced": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "clustering_keys",
+      "display_name": "DEPRECATED: Clustering Keys",
+      "is_list": true,
+      "info": "Field name and description to the model",
+      "required": false,
+      "advanced": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "static_filters",
+      "display_name": "Static Filters",
+      "is_list": true,
+      "advanced": true,
+      "info": "Field name and value. When filled, it will not be generated by the LLM."
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "advanced": true,
+      "value": 5,
+      "default": 5
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "tool_name",
+    "tool_description",
+    "keyspace",
+    "table_name",
+    "token",
+    "api_endpoint",
+    "projection_fields",
+    "tools_params",
+    "partition_keys",
+    "clustering_keys",
+    "static_filters",
+    "number_of_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AstraDBCQLToolComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/datastax/astradb_cql.py#L18"
+}

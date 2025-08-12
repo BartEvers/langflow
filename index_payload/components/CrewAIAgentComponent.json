@@ -1,0 +1,120 @@
+{
+  "kind": "component",
+  "type": "CrewAIAgentComponent",
+  "display_name": "CrewAI Agent",
+  "description": "Represents an agent of CrewAI.",
+  "documentation": "https://docs.crewai.com/how-to/LLM-Connections/",
+  "icon": "CrewAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "role",
+      "display_name": "Role",
+      "info": "The role of the agent."
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "goal",
+      "display_name": "Goal",
+      "info": "The objective of the agent."
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "backstory",
+      "display_name": "Backstory",
+      "info": "The backstory of the agent."
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "tools",
+      "display_name": "Tools",
+      "input_types": [
+        "Tool"
+      ],
+      "is_list": true,
+      "info": "Tools at agents disposal",
+      "value": [],
+      "default": []
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "info": "Language model that will run the agent.",
+      "input_types": [
+        "LanguageModel"
+      ]
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "memory",
+      "display_name": "Memory",
+      "info": "Whether the agent should have memory or not",
+      "advanced": true,
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "verbose",
+      "display_name": "Verbose",
+      "advanced": true,
+      "value": false,
+      "default": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "allow_delegation",
+      "display_name": "Allow Delegation",
+      "info": "Whether the agent is allowed to delegate tasks to other agents.",
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "allow_code_execution",
+      "display_name": "Allow Code Execution",
+      "info": "Whether the agent is allowed to execute code.",
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "DictInput",
+      "name": "kwargs",
+      "display_name": "kwargs",
+      "info": "kwargs of agent.",
+      "is_list": true,
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Agent",
+      "name": "output",
+      "method": "build_output"
+    }
+  ],
+  "template": [
+    "role",
+    "goal",
+    "backstory",
+    "tools",
+    "llm",
+    "memory",
+    "verbose",
+    "allow_delegation",
+    "allow_code_execution",
+    "kwargs"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CrewAIAgentComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/crewai/crewai.py#L6"
+}

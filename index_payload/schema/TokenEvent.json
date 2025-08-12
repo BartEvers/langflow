@@ -1,0 +1,11 @@
+{
+  "kind": "schema",
+  "name": "TokenEvent",
+  "fields": [
+    "chunk",
+    "id",
+    "timestamp"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/playground_events.py#L80"
+}

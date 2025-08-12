@@ -1,0 +1,108 @@
+{
+  "kind": "component",
+  "type": "JigsawStackObjectDetection",
+  "display_name": "Object Detection",
+  "description": "Perform object detection on images using JigsawStack's Object Detection Model,         capable of image grounding, segmentation and computer use.",
+  "documentation": "https://jigsawstack.com/docs/api-reference/ai/object-detection",
+  "icon": "JigsawStack",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "JigsawStack API Key",
+      "info": "Your JigsawStack API key for authentication",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "prompts",
+      "display_name": "Prompts",
+      "info": "The prompts to ground the object detection model.                 You can pass a list of comma-separated prompts to extract different information from the image.",
+      "required": false,
+      "tool_mode": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "url",
+      "display_name": "URL",
+      "info": "The image URL. Not required if file_store_key is specified.",
+      "required": false,
+      "tool_mode": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "file_store_key",
+      "display_name": "File Store Key",
+      "info": "The key used to store the image on Jigsawstack File Storage. Not required if url is specified.",
+      "required": false,
+      "tool_mode": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "annotated_image",
+      "display_name": "Return Annotated Image",
+      "info": "If true, will return an url for annotated image with detected objects.",
+      "required": false,
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "features",
+      "display_name": "Features",
+      "info": "Select the features to enable for object detection",
+      "required": false,
+      "options": [
+        "object_detection",
+        "gui"
+      ],
+      "value": [
+        "object_detection",
+        "gui"
+      ],
+      "default": [
+        "object_detection",
+        "gui"
+      ]
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "return_type",
+      "display_name": "Return Type",
+      "info": "Select the return type for the object detection results such as masks or annotations.",
+      "required": false,
+      "options": [
+        "url",
+        "base64"
+      ],
+      "value": "url",
+      "default": "url"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Object Detection results",
+      "name": "object_detection_results",
+      "method": "detect_objects"
+    }
+  ],
+  "template": [
+    "api_key",
+    "prompts",
+    "url",
+    "file_store_key",
+    "annotated_image",
+    "features",
+    "return_type"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JigsawStackObjectDetection"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/jigsawstack/object_detection.py#L6"
+}

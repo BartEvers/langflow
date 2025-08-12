@@ -1,0 +1,45 @@
+{
+  "kind": "component",
+  "type": "GoogleDriveComponent",
+  "display_name": "Google Drive Loader",
+  "description": "Loads documents from Google Drive using provided credentials.",
+  "documentation": null,
+  "icon": "Google",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "json_string",
+      "display_name": "JSON String of the Service Account Token",
+      "info": "JSON string containing OAuth 2.0 access token information for service account access",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "document_id",
+      "display_name": "Document ID",
+      "info": "Single Google Drive document ID",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Loaded Documents",
+      "name": "docs",
+      "method": "load_documents"
+    }
+  ],
+  "template": [
+    "json_string",
+    "document_id"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GoogleDriveComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/google/google_drive.py#L16"
+}

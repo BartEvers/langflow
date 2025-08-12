@@ -1,0 +1,17 @@
+{
+  "kind": "schema",
+  "name": "Properties",
+  "fields": [
+    "allow_markdown",
+    "background_color",
+    "edited",
+    "icon",
+    "positive_feedback",
+    "source",
+    "state",
+    "targets",
+    "text_color"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/properties.py#L15"
+}

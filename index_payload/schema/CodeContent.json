@@ -1,0 +1,12 @@
+{
+  "kind": "schema",
+  "name": "CodeContent",
+  "fields": [
+    "code",
+    "language",
+    "title",
+    "type"
+  ],
+  "doc": "Content type for code snippets.",
+  "source": "src/backend/base/langflow/schema/content_types.py#L72"
+}

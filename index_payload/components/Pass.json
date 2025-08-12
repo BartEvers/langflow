@@ -1,0 +1,45 @@
+{
+  "kind": "component",
+  "type": "Pass",
+  "display_name": "Pass",
+  "description": "Forwards the input message, unchanged.",
+  "documentation": null,
+  "icon": "arrow-right",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageInput",
+      "name": "input_message",
+      "display_name": "Input Message",
+      "info": "The message to be passed forward.",
+      "required": true
+    },
+    {
+      "field_class": "MessageInput",
+      "name": "ignored_message",
+      "display_name": "Ignored Message",
+      "info": "A second message to be ignored. Used as a workaround for continuity.",
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Output Message",
+      "name": "output_message",
+      "method": "pass_message"
+    }
+  ],
+  "template": [
+    "input_message",
+    "ignored_message"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Pass"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/logic/pass_message.py#L7"
+}

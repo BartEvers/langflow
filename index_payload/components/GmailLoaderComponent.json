@@ -1,0 +1,59 @@
+{
+  "kind": "component",
+  "type": "GmailLoaderComponent",
+  "display_name": "Gmail Loader",
+  "description": "Loads emails from Gmail using provided credentials.",
+  "documentation": null,
+  "icon": "Google",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "json_string",
+      "display_name": "JSON String of the Service Account Token",
+      "info": "JSON string containing OAuth 2.0 access token information for service account access",
+      "required": true,
+      "value": "{\n                \"account\": \"\",\n                \"client_id\": \"\",\n                \"client_secret\": \"\",\n                \"expiry\": \"\",\n                \"refresh_token\": \"\",\n                \"scopes\": [\n                    \"https://www.googleapis.com/auth/gmail.readonly\",\n                ],\n                \"token\": \"\",\n                \"token_uri\": \"https://oauth2.googleapis.com/token\",\n                \"universe_domain\": \"googleapis.com\"\n            }",
+      "default": "{\n                \"account\": \"\",\n                \"client_id\": \"\",\n                \"client_secret\": \"\",\n                \"expiry\": \"\",\n                \"refresh_token\": \"\",\n                \"scopes\": [\n                    \"https://www.googleapis.com/auth/gmail.readonly\",\n                ],\n                \"token\": \"\",\n                \"token_uri\": \"https://oauth2.googleapis.com/token\",\n                \"universe_domain\": \"googleapis.com\"\n            }"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "label_ids",
+      "display_name": "Label IDs",
+      "info": "Comma-separated list of label IDs to filter emails.",
+      "required": true,
+      "value": "INBOX,SENT,UNREAD,IMPORTANT",
+      "default": "INBOX,SENT,UNREAD,IMPORTANT"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "info": "Maximum number of emails to load.",
+      "required": true,
+      "value": "10",
+      "default": "10"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "data",
+      "method": "load_emails"
+    }
+  ],
+  "template": [
+    "json_string",
+    "label_ids",
+    "max_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GmailLoaderComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/google/gmail.py#L23"
+}

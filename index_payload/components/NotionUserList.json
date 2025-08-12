@@ -1,0 +1,30 @@
+{
+  "kind": "component",
+  "type": "NotionUserList",
+  "display_name": "List Users ",
+  "description": "Retrieve users from Notion.",
+  "documentation": "https://docs.langflow.org/integrations/notion/list-users",
+  "icon": "NotionDirectoryLoader",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "notion_secret",
+      "display_name": "Notion Secret",
+      "info": "The Notion integration token.",
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "notion_secret"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NotionUserList"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/Notion/list_users.py#L11"
+}

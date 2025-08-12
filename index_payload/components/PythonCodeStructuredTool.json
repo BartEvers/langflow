@@ -1,0 +1,100 @@
+{
+  "kind": "component",
+  "type": "PythonCodeStructuredTool",
+  "display_name": "Python Code Structured",
+  "description": "structuredtool dataclass code to tool",
+  "documentation": "https://python.langchain.com/docs/modules/tools/custom_tools/#structuredtool-dataclass",
+  "icon": "Python",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "tool_code",
+      "display_name": "Tool Code",
+      "info": "Enter the dataclass code.",
+      "placeholder": "def my_function(args):\n    pass",
+      "required": true,
+      "real_time_refresh": true,
+      "refresh_button": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "tool_name",
+      "display_name": "Tool Name",
+      "info": "Enter the name of the tool.",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "tool_description",
+      "display_name": "Description",
+      "info": "Enter the description of the tool.",
+      "required": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "return_direct",
+      "display_name": "Return Directly",
+      "info": "Should the tool return the function output directly?"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "tool_function",
+      "display_name": "Tool Function",
+      "info": "Select the function for additional expressions.",
+      "options": [],
+      "required": true,
+      "real_time_refresh": true,
+      "refresh_button": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "global_variables",
+      "display_name": "Global Variables",
+      "info": "Enter the global variables or Create Data Component.",
+      "input_types": [
+        "Data"
+      ],
+      "field_type": "FieldTypes.DICT",
+      "is_list": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "_classes",
+      "display_name": "Classes",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "_functions",
+      "display_name": "Functions",
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Tool",
+      "name": "result_tool",
+      "method": "build_tool"
+    }
+  ],
+  "template": [
+    "tool_code",
+    "tool_name",
+    "tool_description",
+    "return_direct",
+    "tool_function",
+    "global_variables",
+    "_classes",
+    "_functions"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "PythonCodeStructuredTool"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/tools/python_code_structured_tool.py#L26"
+}

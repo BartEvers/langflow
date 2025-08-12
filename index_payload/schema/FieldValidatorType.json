@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "FieldValidatorType",
+  "fields": [],
+  "doc": "Enum for field validation types.",
+  "source": "src/backend/base/langflow/schema/table.py#L98"
+}

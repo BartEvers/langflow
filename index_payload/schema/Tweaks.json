@@ -1,0 +1,9 @@
+{
+  "kind": "schema",
+  "name": "Tweaks",
+  "fields": [
+    "root"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/graph.py#L18"
+}

@@ -1,0 +1,228 @@
+{
+  "kind": "component",
+  "type": "HCD",
+  "display_name": "Hyper-Converged Database",
+  "description": "Implementation of Vector Store using Hyper-Converged Database (HCD) with search capabilities",
+  "documentation": null,
+  "icon": "HCD",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "collection_name",
+      "display_name": "Collection Name",
+      "info": "The name of the collection within HCD where the vectors will be stored.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "username",
+      "display_name": "HCD Username",
+      "info": "Authentication username for accessing HCD.",
+      "value": "hcd-superuser",
+      "required": true,
+      "default": "hcd-superuser"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "password",
+      "display_name": "HCD Password",
+      "info": "Authentication password for accessing HCD.",
+      "value": "HCD_PASSWORD",
+      "required": true,
+      "default": "HCD_PASSWORD"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_endpoint",
+      "display_name": "HCD API Endpoint",
+      "info": "API endpoint URL for the HCD service.",
+      "value": "HCD_API_ENDPOINT",
+      "required": true,
+      "default": "HCD_API_ENDPOINT"
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "namespace",
+      "display_name": "Namespace",
+      "info": "Optional namespace within HCD to use for the collection.",
+      "value": "default_namespace",
+      "advanced": true,
+      "default": "default_namespace"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "ca_certificate",
+      "display_name": "CA Certificate",
+      "info": "Optional CA certificate for TLS connections to HCD.",
+      "advanced": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "metric",
+      "display_name": "Metric",
+      "info": "Optional distance metric for vector comparisons in the vector store.",
+      "options": [
+        "cosine",
+        "dot_product",
+        "euclidean"
+      ],
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "batch_size",
+      "display_name": "Batch Size",
+      "info": "Optional number of data to process in a single batch.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "bulk_insert_batch_concurrency",
+      "display_name": "Bulk Insert Batch Concurrency",
+      "info": "Optional concurrency level for bulk insert operations.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "bulk_insert_overwrite_concurrency",
+      "display_name": "Bulk Insert Overwrite Concurrency",
+      "info": "Optional concurrency level for bulk insert operations that overwrite existing data.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "bulk_delete_concurrency",
+      "display_name": "Bulk Delete Concurrency",
+      "info": "Optional concurrency level for bulk delete operations.",
+      "advanced": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "setup_mode",
+      "display_name": "Setup Mode",
+      "info": "Configuration mode for setting up the vector store, with options like 'Sync', 'Async', or 'Off'.",
+      "options": [
+        "Sync",
+        "Async",
+        "Off"
+      ],
+      "advanced": true,
+      "value": "Sync",
+      "default": "Sync"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "pre_delete_collection",
+      "display_name": "Pre Delete Collection",
+      "info": "Boolean flag to determine whether to delete the collection before creating a new one.",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "metadata_indexing_include",
+      "display_name": "Metadata Indexing Include",
+      "info": "Optional list of metadata fields to include in the indexing.",
+      "advanced": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding or Astra Vectorize",
+      "input_types": [
+        "Embeddings",
+        "dict"
+      ],
+      "info": "Allows either an embedding model or an Astra Vectorize configuration."
+    },
+    {
+      "field_class": "StrInput",
+      "name": "metadata_indexing_exclude",
+      "display_name": "Metadata Indexing Exclude",
+      "info": "Optional list of metadata fields to exclude from the indexing.",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "collection_indexing_policy",
+      "display_name": "Collection Indexing Policy",
+      "info": "Optional dictionary defining the indexing policy for the collection.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "advanced": true,
+      "value": 4,
+      "default": 4
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "search_type",
+      "display_name": "Search Type",
+      "info": "Search type to use",
+      "options": [
+        "Similarity",
+        "Similarity with score threshold",
+        "MMR (Max Marginal Relevance)"
+      ],
+      "value": "Similarity",
+      "advanced": true,
+      "default": "Similarity"
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "search_score_threshold",
+      "display_name": "Search Score Threshold",
+      "info": "Minimum similarity score threshold for search results. (when using 'Similarity with score threshold')",
+      "value": 0,
+      "advanced": true,
+      "default": 0
+    },
+    {
+      "field_class": "DictInput",
+      "name": "search_filter",
+      "display_name": "Search Metadata Filter",
+      "info": "Optional dictionary of filters to apply to the search query.",
+      "advanced": true,
+      "is_list": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "collection_name",
+    "username",
+    "password",
+    "api_endpoint",
+    "namespace",
+    "ca_certificate",
+    "metric",
+    "batch_size",
+    "bulk_insert_batch_concurrency",
+    "bulk_insert_overwrite_concurrency",
+    "bulk_delete_concurrency",
+    "setup_mode",
+    "pre_delete_collection",
+    "metadata_indexing_include",
+    "embedding",
+    "metadata_indexing_exclude",
+    "collection_indexing_policy",
+    "number_of_results",
+    "search_type",
+    "search_score_threshold",
+    "search_filter"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "HCD"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/hcd.py#L16"
+}

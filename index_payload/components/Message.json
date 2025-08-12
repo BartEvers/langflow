@@ -1,0 +1,20 @@
+{
+  "kind": "component",
+  "type": "Message",
+  "display_name": "Message",
+  "description": "Creates a Message object given a Session ID.",
+  "documentation": null,
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [],
+  "outputs": [],
+  "template": [],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Message"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/message.py#L6"
+}

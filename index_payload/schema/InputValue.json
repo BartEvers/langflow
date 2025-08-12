@@ -1,0 +1,11 @@
+{
+  "kind": "schema",
+  "name": "InputValue",
+  "fields": [
+    "components",
+    "input_value",
+    "type"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/graph.py#L8"
+}

@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "ErrorMessage",
+  "fields": [],
+  "doc": "A message class specifically for error messages with predefined error-specific attributes.",
+  "source": "src/backend/base/langflow/schema/message.py#L381"
+}

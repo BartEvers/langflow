@@ -1,0 +1,40 @@
+{
+  "kind": "component",
+  "type": "CurrentDate",
+  "display_name": "Current Date",
+  "description": "Returns the current date and time in the selected timezone.",
+  "documentation": "https://docs.langflow.org/components-helpers#current-date",
+  "icon": "clock",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DropdownInput",
+      "name": "timezone",
+      "display_name": "Timezone",
+      "options": "list('available_timezones()')",
+      "value": "UTC",
+      "info": "Select the timezone for the current date and time.",
+      "tool_mode": true,
+      "default": "UTC"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Current Date",
+      "name": "current_date",
+      "method": "get_current_date"
+    }
+  ],
+  "template": [
+    "timezone"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CurrentDate"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/helpers/current_date.py#L11"
+}

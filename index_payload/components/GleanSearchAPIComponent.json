@@ -1,0 +1,66 @@
+{
+  "kind": "component",
+  "type": "GleanSearchAPIComponent",
+  "display_name": "Glean Search API",
+  "description": "Search using Glean's API.",
+  "documentation": "https://docs.langflow.org/Components/components-tools#glean-search-api",
+  "icon": "Glean",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "glean_api_url",
+      "display_name": "Glean API URL",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "glean_access_token",
+      "display_name": "Glean Access Token",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "query",
+      "display_name": "Query",
+      "required": true,
+      "tool_mode": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "page_size",
+      "display_name": "Page Size",
+      "value": 10,
+      "default": 10
+    },
+    {
+      "field_class": "NestedDictInput",
+      "name": "request_options",
+      "display_name": "Request Options",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "fetch_content_dataframe"
+    }
+  ],
+  "template": [
+    "glean_api_url",
+    "glean_access_token",
+    "query",
+    "page_size",
+    "request_options"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GleanSearchAPIComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/glean/glean_search_api.py#L101"
+}

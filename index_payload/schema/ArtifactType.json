@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "ArtifactType",
+  "fields": [],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/artifact.py#L15"
+}

@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, Union
 from uuid import UUID
 
 from pydantic import (
@@ -439,6 +439,61 @@ class CancelFlowResponse(BaseModel):
 
     success: bool
     message: str
+
+
+# ========== Flow Ops (incremental updates) ==========
+
+class AddNodeOp(BaseModel):
+    op: Literal["add_node"]
+    node: dict
+
+    @field_validator("node")
+    @classmethod
+    def validate_node_has_id(cls, v: dict):
+        if not isinstance(v, dict) or not v.get("id"):
+            raise ValueError("node must be an object with an 'id' field")
+        return v
+
+
+class UpdateNodeOp(BaseModel):
+    op: Literal["update_node"]
+    id: str
+    set: dict
+
+
+class RemoveNodeOp(BaseModel):
+    op: Literal["remove_node"]
+    id: str
+
+
+class AddEdgeOp(BaseModel):
+    op: Literal["add_edge"]
+    edge: dict
+
+    @field_validator("edge")
+    @classmethod
+    def validate_edge_has_required_fields(cls, v: dict):
+        if not isinstance(v, dict) or not v.get("id"):
+            raise ValueError("edge must be an object with an 'id' field")
+        if not v.get("source") or not v.get("target"):
+            raise ValueError("edge must include 'source' and 'target'")
+        return v
+
+
+class RemoveEdgeOp(BaseModel):
+    op: Literal["remove_edge"]
+    id: str
+
+
+FlowOperation = Union[AddNodeOp, UpdateNodeOp, RemoveNodeOp, AddEdgeOp, RemoveEdgeOp]
+
+
+class FlowOpsRequest(BaseModel):
+    base_version: datetime | None = Field(
+        default=None,
+        description="Optional optimistic concurrency control based on flow.updated_at",
+    )
+    operations: list[FlowOperation]
 
 
 class AuthSettings(BaseModel):

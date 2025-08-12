@@ -1,0 +1,44 @@
+{
+  "kind": "component",
+  "type": "NotionPageUpdate",
+  "display_name": "Update Page Property ",
+  "description": "Update the properties of a Notion page.",
+  "documentation": "https://docs.langflow.org/integrations/notion/page-update",
+  "icon": "NotionDirectoryLoader",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "page_id",
+      "display_name": "Page ID",
+      "info": "The ID of the Notion page to update."
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "properties",
+      "display_name": "Properties",
+      "info": "The properties to update on the page (as a JSON string or a dictionary)."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "notion_secret",
+      "display_name": "Notion Secret",
+      "info": "The Notion integration token.",
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "page_id",
+    "properties",
+    "notion_secret"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NotionPageUpdate"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/Notion/update_page_property.py#L15"
+}

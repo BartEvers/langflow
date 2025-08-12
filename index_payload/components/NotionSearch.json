@@ -1,0 +1,63 @@
+{
+  "kind": "component",
+  "type": "NotionSearch",
+  "display_name": "Search ",
+  "description": "Searches all pages and databases that have been shared with an integration.",
+  "documentation": "https://docs.langflow.org/integrations/notion/search",
+  "icon": "NotionDirectoryLoader",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "notion_secret",
+      "display_name": "Notion Secret",
+      "info": "The Notion integration token.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "query",
+      "display_name": "Search Query",
+      "info": "The text that the API compares page and database titles against."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "filter_value",
+      "display_name": "Filter Type",
+      "info": "Limits the results to either only pages or only databases.",
+      "options": [
+        "page",
+        "database"
+      ],
+      "value": "page",
+      "default": "page"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "sort_direction",
+      "display_name": "Sort Direction",
+      "info": "The direction to sort the results.",
+      "options": [
+        "ascending",
+        "descending"
+      ],
+      "value": "descending",
+      "default": "descending"
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "notion_secret",
+    "query",
+    "filter_value",
+    "sort_direction"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NotionSearch"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/Notion/search.py#L13"
+}

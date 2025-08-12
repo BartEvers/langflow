@@ -1,0 +1,60 @@
+{
+  "kind": "component",
+  "type": "DoclingInline",
+  "display_name": "Docling",
+  "description": "Uses Docling to process input documents running the Docling models locally.",
+  "documentation": "https://docling-project.github.io/docling/",
+  "icon": "Docling",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "pipeline",
+      "display_name": "Pipeline",
+      "info": "Docling pipeline to use",
+      "options": [
+        "standard",
+        "vlm"
+      ],
+      "real_time_refresh": false,
+      "value": "standard",
+      "default": "standard"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "ocr_engine",
+      "display_name": "Ocr",
+      "info": "OCR engine to use",
+      "options": [
+        "",
+        "easyocr",
+        "tesserocr",
+        "rapidocr",
+        "ocrmac"
+      ],
+      "real_time_refresh": false,
+      "value": "",
+      "default": ""
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Starred"
+    }
+  ],
+  "template": [
+    "pipeline",
+    "ocr_engine"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "DoclingInline"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/docling/docling_inline.py#L6"
+}

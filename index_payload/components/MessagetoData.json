@@ -1,0 +1,36 @@
+{
+  "kind": "component",
+  "type": "MessagetoData",
+  "display_name": "Message to Data",
+  "description": "Convert a Message object to a Data object",
+  "documentation": null,
+  "icon": "message-square-share",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageInput",
+      "name": "message",
+      "display_name": "Message",
+      "info": "The Message object to convert to a Data object"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "data",
+      "method": "convert_message_to_data"
+    }
+  ],
+  "template": [
+    "message"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "MessagetoData"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/message_to_data.py#L9"
+}

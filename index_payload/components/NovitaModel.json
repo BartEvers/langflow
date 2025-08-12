@@ -1,0 +1,102 @@
+{
+  "kind": "component",
+  "type": "NovitaModel",
+  "display_name": "Novita AI",
+  "description": "Generates text using Novita AI LLMs (OpenAI compatible).",
+  "documentation": null,
+  "icon": "Novita",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_tokens",
+      "display_name": "Max Tokens",
+      "advanced": true,
+      "info": "The maximum number of tokens to generate. Set to 0 for unlimited tokens.",
+      "range_spec": "RangeSpec(min=0, max=128000)"
+    },
+    {
+      "field_class": "DictInput",
+      "name": "model_kwargs",
+      "display_name": "Model Kwargs",
+      "advanced": true,
+      "info": "Additional keyword arguments to pass to the model."
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "json_mode",
+      "display_name": "JSON Mode",
+      "advanced": true,
+      "info": "If True, it will output JSON regardless of passing a schema."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "advanced": false,
+      "options": "MODEL_NAMES",
+      "value": "<Subscript>",
+      "refresh_button": true,
+      "default": "<Subscript>"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Novita API Key",
+      "info": "The Novita API Key to use for Novita AI models.",
+      "advanced": false,
+      "value": "NOVITA_API_KEY",
+      "real_time_refresh": true,
+      "default": "NOVITA_API_KEY"
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.1,
+      "range_spec": "RangeSpec(min=0, max=1)",
+      "default": 0.1
+    },
+    {
+      "field_class": "IntInput",
+      "name": "seed",
+      "display_name": "Seed",
+      "info": "The seed controls the reproducibility of the job.",
+      "advanced": true,
+      "value": 1,
+      "default": 1
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "output_parser",
+      "display_name": "Output Parser",
+      "info": "The parser to use to parse the output of the model",
+      "advanced": true,
+      "input_types": [
+        "OutputParser"
+      ]
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "max_tokens",
+    "model_kwargs",
+    "json_mode",
+    "model_name",
+    "api_key",
+    "temperature",
+    "seed",
+    "output_parser"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NovitaModel"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/novita/novita.py#L21"
+}

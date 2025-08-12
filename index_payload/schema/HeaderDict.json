@@ -1,0 +1,10 @@
+{
+  "kind": "schema",
+  "name": "HeaderDict",
+  "fields": [
+    "icon",
+    "title"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/content_types.py#L10"
+}

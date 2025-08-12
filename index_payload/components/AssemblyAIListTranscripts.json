@@ -1,0 +1,79 @@
+{
+  "kind": "component",
+  "type": "AssemblyAIListTranscripts",
+  "display_name": "AssemblyAI List Transcripts",
+  "description": "Retrieve a list of transcripts from AssemblyAI with filtering options",
+  "documentation": "https://www.assemblyai.com/docs",
+  "icon": "AssemblyAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Assembly API Key",
+      "info": "Your AssemblyAI API key. You can get one from https://www.assemblyai.com/",
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "limit",
+      "display_name": "Limit",
+      "info": "Maximum number of transcripts to retrieve (default: 20, use 0 for all)",
+      "value": 20,
+      "default": 20
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "status_filter",
+      "display_name": "Status Filter",
+      "options": [
+        "all",
+        "queued",
+        "processing",
+        "completed",
+        "error"
+      ],
+      "value": "all",
+      "info": "Filter by transcript status",
+      "advanced": true,
+      "default": "all"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "created_on",
+      "display_name": "Created On",
+      "info": "Only get transcripts created on this date (YYYY-MM-DD)",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "throttled_only",
+      "display_name": "Throttled Only",
+      "info": "Only get throttled transcripts, overrides the status filter",
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Transcript List",
+      "name": "transcript_list",
+      "method": "list_transcripts"
+    }
+  ],
+  "template": [
+    "api_key",
+    "limit",
+    "status_filter",
+    "created_on",
+    "throttled_only"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AssemblyAIListTranscripts"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/assemblyai/assemblyai_list_transcripts.py#L9"
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "component",
+  "type": "Dotenv",
+  "display_name": "Dotenv",
+  "description": "Load .env file into env vars",
+  "documentation": null,
+  "icon": "AstraDB",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineSecretInput",
+      "name": "dotenv_file_content",
+      "display_name": "Dotenv file content",
+      "info": "Paste the content of your .env file directly, since contents are sensitive, using a Global variable set as 'password' is recommended"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "env_set",
+      "name": "env_set",
+      "method": "process_inputs"
+    }
+  ],
+  "template": [
+    "dotenv_file_content"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Dotenv"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/datastax/dotenv.py#L11"
+}

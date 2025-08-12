@@ -1,0 +1,65 @@
+{
+  "kind": "component",
+  "type": "Vectara",
+  "display_name": "Vectara",
+  "description": "Vectara Vector Store with search capabilities",
+  "documentation": null,
+  "icon": "Vectara",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "vectara_customer_id",
+      "display_name": "Vectara Customer ID",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "vectara_corpus_id",
+      "display_name": "Vectara Corpus ID",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "vectara_api_key",
+      "display_name": "Vectara API Key",
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding",
+      "input_types": [
+        "Embeddings"
+      ]
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "value": 4,
+      "advanced": true,
+      "default": 4
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "vectara_customer_id",
+    "vectara_corpus_id",
+    "vectara_api_key",
+    "embedding",
+    "number_of_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Vectara"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/vectara.py#L14"
+}

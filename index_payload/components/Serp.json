@@ -1,0 +1,75 @@
+{
+  "kind": "component",
+  "type": "Serp",
+  "display_name": "Serp Search API",
+  "description": "Call Serp Search API with result limiting",
+  "documentation": null,
+  "icon": "SerpSearch",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "serpapi_api_key",
+      "display_name": "SerpAPI API Key",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "tool_mode": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "search_params",
+      "display_name": "Parameters",
+      "advanced": true,
+      "is_list": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "value": 5,
+      "advanced": true,
+      "default": 5
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_snippet_length",
+      "display_name": "Max Snippet Length",
+      "value": 100,
+      "advanced": true,
+      "default": 100
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "data",
+      "method": "fetch_content"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Text",
+      "name": "text",
+      "method": "fetch_content_text"
+    }
+  ],
+  "template": [
+    "serpapi_api_key",
+    "input_value",
+    "search_params",
+    "max_results",
+    "max_snippet_length"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Serp"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/serpapi/serp.py#L32"
+}

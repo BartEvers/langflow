@@ -1,0 +1,13 @@
+{
+  "kind": "schema",
+  "name": "ErrorEvent",
+  "fields": [
+    "allow_markdown",
+    "background_color",
+    "category",
+    "format_type",
+    "text_color"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/playground_events.py#L60"
+}

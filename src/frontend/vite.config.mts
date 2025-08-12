@@ -46,6 +46,9 @@ export default defineConfig(({ mode }) => {
       "process.env.BACKEND_URL": JSON.stringify(
         envLangflow.BACKEND_URL ?? "http://localhost:7860",
       ),
+      "process.env.WEBSOCKET_BACKEND_URL": JSON.stringify(
+        envLangflow.WEBSOCKET_BACKEND_URL ?? "localhost:7860",
+      ),
       "process.env.ACCESS_TOKEN_EXPIRE_SECONDS": JSON.stringify(
         envLangflow.ACCESS_TOKEN_EXPIRE_SECONDS ?? 60,
       ),

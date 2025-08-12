@@ -1,0 +1,87 @@
+{
+  "kind": "component",
+  "type": "JigsawStackAISearch",
+  "display_name": "AI Web Search",
+  "description": "Effortlessly search the Web and get access to high-quality results powered with AI.",
+  "documentation": "https://jigsawstack.com/docs/api-reference/web/ai-search",
+  "icon": "JigsawStack",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "JigsawStack API Key",
+      "info": "Your JigsawStack API key for authentication",
+      "required": true
+    },
+    {
+      "field_class": "QueryInput",
+      "name": "query",
+      "display_name": "Query",
+      "info": "The search value. The maximum query character length is 400",
+      "required": true,
+      "tool_mode": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "ai_overview",
+      "display_name": "AI Overview",
+      "info": "Include AI powered overview in the search results",
+      "required": false,
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "safe_search",
+      "display_name": "Safe Search",
+      "info": "Enable safe search to filter out adult content",
+      "required": false,
+      "options": [
+        "moderate",
+        "strict",
+        "off"
+      ],
+      "value": "off",
+      "default": "off"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "spell_check",
+      "display_name": "Spell Check",
+      "info": "Spell check the search query",
+      "required": false,
+      "value": true,
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "AI Search Results",
+      "name": "search_results",
+      "method": "search"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Content Text",
+      "name": "content_text",
+      "method": "get_content_text"
+    }
+  ],
+  "template": [
+    "api_key",
+    "query",
+    "ai_overview",
+    "safe_search",
+    "spell_check"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JigsawStackAISearch"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/jigsawstack/ai_web_search.py#L7"
+}

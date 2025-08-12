@@ -1,0 +1,145 @@
+{
+  "kind": "component",
+  "type": "QdrantVectorStoreComponent",
+  "display_name": "Qdrant",
+  "description": "Qdrant Vector Store with search capabilities",
+  "documentation": null,
+  "icon": "Qdrant",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "collection_name",
+      "display_name": "Collection Name",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "host",
+      "display_name": "Host",
+      "value": "localhost",
+      "advanced": true,
+      "default": "localhost"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "port",
+      "display_name": "Port",
+      "value": 6333,
+      "advanced": true,
+      "default": 6333
+    },
+    {
+      "field_class": "IntInput",
+      "name": "grpc_port",
+      "display_name": "gRPC Port",
+      "value": 6334,
+      "advanced": true,
+      "default": 6334
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "prefix",
+      "display_name": "Prefix",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "timeout",
+      "display_name": "Timeout",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "path",
+      "display_name": "Path",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "url",
+      "display_name": "URL",
+      "advanced": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "distance_func",
+      "display_name": "Distance Function",
+      "options": [
+        "Cosine",
+        "Euclidean",
+        "Dot Product"
+      ],
+      "value": "Cosine",
+      "advanced": true,
+      "default": "Cosine"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "content_payload_key",
+      "display_name": "Content Payload Key",
+      "value": "page_content",
+      "advanced": true,
+      "default": "page_content"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "metadata_payload_key",
+      "display_name": "Metadata Payload Key",
+      "value": "metadata",
+      "advanced": true,
+      "default": "metadata"
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding",
+      "input_types": [
+        "Embeddings"
+      ]
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "value": 4,
+      "advanced": true,
+      "default": 4
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "collection_name",
+    "host",
+    "port",
+    "grpc_port",
+    "api_key",
+    "prefix",
+    "timeout",
+    "path",
+    "url",
+    "distance_func",
+    "content_payload_key",
+    "metadata_payload_key",
+    "embedding",
+    "number_of_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "QdrantVectorStoreComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/qdrant.py#L16"
+}

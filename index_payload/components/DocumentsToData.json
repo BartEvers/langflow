@@ -1,0 +1,20 @@
+{
+  "kind": "component",
+  "type": "DocumentsToData",
+  "display_name": "Documents ⇢ Data",
+  "description": "Convert LangChain Documents into Data.",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [],
+  "outputs": [],
+  "template": [],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "DocumentsToData"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/documents_to_data.py#L7"
+}

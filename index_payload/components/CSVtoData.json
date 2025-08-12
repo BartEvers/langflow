@@ -1,0 +1,62 @@
+{
+  "kind": "component",
+  "type": "CSVtoData",
+  "display_name": "Load CSV",
+  "description": "Load a CSV file, CSV from a file path, or a valid CSV string and convert it to a list of Data",
+  "documentation": null,
+  "icon": "file-spreadsheet",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "FileInput",
+      "name": "csv_file",
+      "display_name": "CSV File",
+      "file_types": [
+        "csv"
+      ],
+      "info": "Upload a CSV file to convert to a list of Data objects"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "csv_path",
+      "display_name": "CSV File Path",
+      "info": "Provide the path to the CSV file as pure text"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "csv_string",
+      "display_name": "CSV String",
+      "info": "Paste a CSV string directly to convert to a list of Data objects"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "text_key",
+      "display_name": "Text Key",
+      "info": "The key to use for the text column. Defaults to 'text'.",
+      "value": "text",
+      "default": "text"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "data_list",
+      "display_name": "Data List",
+      "method": "load_csv_to_data"
+    }
+  ],
+  "template": [
+    "csv_file",
+    "csv_path",
+    "csv_string",
+    "text_key"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CSVtoData"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/data/csv_to_data.py#L10"
+}

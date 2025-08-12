@@ -1,0 +1,43 @@
+{
+  "kind": "component",
+  "type": "WolframAlphaAPI",
+  "display_name": "WolframAlpha API",
+  "description": "Enables queries to WolframAlpha for computational data, facts, and calculations across various topics, delivering structured responses.",
+  "documentation": null,
+  "icon": "WolframAlphaAPI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input Query",
+      "info": "Example query: 'What is the population of France?'"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "app_id",
+      "display_name": "App ID",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "fetch_content_dataframe"
+    }
+  ],
+  "template": [
+    "input_value",
+    "app_id"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "WolframAlphaAPI"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/wolframalpha/wolfram_alpha_api.py#L11"
+}

@@ -1,0 +1,107 @@
+{
+  "kind": "component",
+  "type": "NVIDIAModelComponent",
+  "display_name": "NVIDIA",
+  "description": "Generates text using NVIDIA LLMs.",
+  "documentation": null,
+  "icon": "NVIDIA",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_tokens",
+      "display_name": "Max Tokens",
+      "advanced": true,
+      "info": "The maximum number of tokens to generate. Set to 0 for unlimited tokens."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "info": "The name of the NVIDIA model to use.",
+      "advanced": false,
+      "value": null,
+      "options": "<ListComp>",
+      "combobox": true,
+      "refresh_button": true,
+      "default": null
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "detailed_thinking",
+      "display_name": "Detailed Thinking",
+      "info": "If true, the model will return a detailed thought process. Only supported by reasoning models.",
+      "value": false,
+      "show": false,
+      "default": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "tool_model_enabled",
+      "display_name": "Enable Tool Models",
+      "info": "If enabled, only show models that support tool-calling.",
+      "advanced": false,
+      "value": false,
+      "real_time_refresh": true,
+      "default": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "base_url",
+      "display_name": "NVIDIA Base URL",
+      "value": "https://integrate.api.nvidia.com/v1",
+      "info": "The base URL of the NVIDIA API. Defaults to https://integrate.api.nvidia.com/v1.",
+      "default": "https://integrate.api.nvidia.com/v1"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "NVIDIA API Key",
+      "info": "The NVIDIA API Key.",
+      "advanced": false,
+      "value": "NVIDIA_API_KEY",
+      "default": "NVIDIA_API_KEY"
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.1,
+      "info": "Run inference with this temperature.",
+      "range_spec": "RangeSpec(min=0, max=1, step=0.01)",
+      "advanced": true,
+      "default": 0.1
+    },
+    {
+      "field_class": "IntInput",
+      "name": "seed",
+      "display_name": "Seed",
+      "info": "The seed controls the reproducibility of the job.",
+      "advanced": true,
+      "value": 1,
+      "default": 1
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "max_tokens",
+    "model_name",
+    "detailed_thinking",
+    "tool_model_enabled",
+    "base_url",
+    "api_key",
+    "temperature",
+    "seed"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NVIDIAModelComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/nvidia/nvidia.py#L14"
+}

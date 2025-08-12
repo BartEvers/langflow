@@ -1,0 +1,116 @@
+{
+  "kind": "component",
+  "type": "ChatInput",
+  "display_name": "Chat Input",
+  "description": "Get chat inputs from the Playground.",
+  "documentation": "https://docs.langflow.org/components-io#chat-input",
+  "icon": "MessagesSquare",
+  "minimized": true,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input Text",
+      "value": "",
+      "info": "Message to be passed as input.",
+      "input_types": [],
+      "default": ""
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "should_store_message",
+      "display_name": "Store Messages",
+      "info": "Store the message in the history.",
+      "value": true,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "sender",
+      "display_name": "Sender Type",
+      "options": [
+        "MESSAGE_SENDER_AI",
+        "MESSAGE_SENDER_USER"
+      ],
+      "value": "MESSAGE_SENDER_USER",
+      "info": "Type of sender.",
+      "advanced": true,
+      "default": "MESSAGE_SENDER_USER"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "sender_name",
+      "display_name": "Sender Name",
+      "info": "Name of the sender.",
+      "value": "MESSAGE_SENDER_NAME_USER",
+      "advanced": true,
+      "default": "MESSAGE_SENDER_NAME_USER"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "session_id",
+      "display_name": "Session ID",
+      "info": "The session ID of the chat. If empty, the current session ID parameter will be used.",
+      "advanced": true
+    },
+    {
+      "field_class": "FileInput",
+      "name": "files",
+      "display_name": "Files",
+      "file_types": "<BinOp>",
+      "info": "Files to be sent with the message.",
+      "advanced": true,
+      "is_list": true,
+      "temp_file": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "background_color",
+      "display_name": "Background Color",
+      "info": "The background color of the icon.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "chat_icon",
+      "display_name": "Icon",
+      "info": "The icon of the message.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "text_color",
+      "display_name": "Text Color",
+      "info": "The text color of the name",
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Chat Message",
+      "name": "message",
+      "method": "message_response"
+    }
+  ],
+  "template": [
+    "input_value",
+    "should_store_message",
+    "sender",
+    "sender_name",
+    "session_id",
+    "files",
+    "background_color",
+    "chat_icon",
+    "text_color"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ChatInput"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/input_output/chat.py#L19"
+}

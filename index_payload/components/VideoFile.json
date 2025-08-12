@@ -1,0 +1,63 @@
+{
+  "kind": "component",
+  "type": "VideoFile",
+  "display_name": "Video File",
+  "description": "Load a video file in common video formats.",
+  "documentation": "https://github.com/twelvelabs-io/twelvelabs-developer-experience/blob/main/integrations/Langflow/TWELVE_LABS_COMPONENTS_README.md",
+  "icon": "TwelveLabs",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "FileInput",
+      "display_name": "Video File",
+      "name": "file_path",
+      "file_types": [
+        "mp4",
+        "avi",
+        "mov",
+        "mkv",
+        "webm",
+        "flv",
+        "wmv",
+        "mpg",
+        "mpeg",
+        "m4v",
+        "3gp",
+        "3g2",
+        "m2v",
+        "mxf",
+        "dv",
+        "vob",
+        "ogv",
+        "rm",
+        "rmvb",
+        "amv",
+        "divx",
+        "m2ts",
+        "mts",
+        "ts",
+        "qt",
+        "yuv",
+        "y4m"
+      ],
+      "required": true,
+      "info": "Upload a video file in any common video format supported by ffmpeg"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Starred"
+    }
+  ],
+  "template": [
+    "file_path"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "VideoFile"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/twelvelabs/video_file.py#L8"
+}

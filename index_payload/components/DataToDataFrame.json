@@ -1,0 +1,38 @@
+{
+  "kind": "component",
+  "type": "DataToDataFrame",
+  "display_name": "Data → DataFrame",
+  "description": "Converts one or multiple Data objects into a DataFrame. Each Data object corresponds to one row. Fields from `.data` become columns, and the `.text` (if present) is placed in a 'text' column.",
+  "documentation": null,
+  "icon": "table",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "data_list",
+      "display_name": "Data or Data List",
+      "info": "One or multiple Data objects to transform into a DataFrame.",
+      "is_list": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "build_dataframe",
+      "info": "A DataFrame built from each Data object's fields plus a 'text' column."
+    }
+  ],
+  "template": [
+    "data_list"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "DataToDataFrame"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/data_to_dataframe.py#L7"
+}

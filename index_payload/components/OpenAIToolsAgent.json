@@ -1,0 +1,62 @@
+{
+  "kind": "component",
+  "type": "OpenAIToolsAgent",
+  "display_name": "OpenAI Tools Agent",
+  "description": "Agent that uses tools via openai-tools.",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "input_types": [
+        "LanguageModel",
+        "ToolEnabledLanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "system_prompt",
+      "display_name": "System Prompt",
+      "info": "System prompt for the agent.",
+      "value": "You are a helpful assistant",
+      "default": "You are a helpful assistant"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "user_prompt",
+      "display_name": "Prompt",
+      "info": "This prompt must contain 'input' key.",
+      "value": "{input}",
+      "default": "{input}"
+    },
+    {
+      "field_class": "DataInput",
+      "name": "chat_history",
+      "display_name": "Chat History",
+      "is_list": true,
+      "advanced": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "llm",
+    "system_prompt",
+    "user_prompt",
+    "chat_history"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "OpenAIToolsAgent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/openai_tools.py#L13"
+}

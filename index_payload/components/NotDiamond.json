@@ -1,0 +1,109 @@
+{
+  "kind": "component",
+  "type": "NotDiamond",
+  "display_name": "Not Diamond Router",
+  "description": "Call the right model at the right time with the world's most powerful AI model router.",
+  "documentation": "https://docs.notdiamond.ai/",
+  "icon": "NotDiamond",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "system_message",
+      "display_name": "System Message",
+      "info": "System message to pass to the model.",
+      "advanced": false
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "models",
+      "display_name": "Language Models",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true,
+      "is_list": true,
+      "info": "Link the models you want to route between."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Not Diamond API Key",
+      "info": "The Not Diamond API Key to use for routing.",
+      "advanced": false,
+      "value": "NOTDIAMOND_API_KEY",
+      "required": true,
+      "default": "NOTDIAMOND_API_KEY"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "preference_id",
+      "display_name": "Preference ID",
+      "info": "The ID of the router preference that was configured via the Dashboard.",
+      "advanced": false
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "tradeoff",
+      "display_name": "Tradeoff",
+      "info": "The tradeoff between cost and latency for the router to determine the best LLM for a given query.",
+      "advanced": false,
+      "options": [
+        "quality",
+        "cost",
+        "latency"
+      ],
+      "value": "quality",
+      "default": "quality"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "hash_content",
+      "display_name": "Hash Content",
+      "info": "Whether to hash the content before being sent to the NotDiamond API.",
+      "advanced": false,
+      "value": false,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Output",
+      "name": "output",
+      "method": "model_select"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Selected Model",
+      "name": "selected_model",
+      "method": "get_selected_model",
+      "required_inputs": [
+        "output"
+      ]
+    }
+  ],
+  "template": [
+    "input_value",
+    "system_message",
+    "models",
+    "api_key",
+    "preference_id",
+    "tradeoff",
+    "hash_content"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NotDiamond"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/notdiamond/notdiamond.py#L45"
+}

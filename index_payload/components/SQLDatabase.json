@@ -1,0 +1,37 @@
+{
+  "kind": "component",
+  "type": "SQLDatabase",
+  "display_name": "SQLDatabase",
+  "description": "SQL Database",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "uri",
+      "display_name": "URI",
+      "info": "URI to the database.",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "SQLDatabase",
+      "name": "SQLDatabase",
+      "method": "build_sqldatabase"
+    }
+  ],
+  "template": [
+    "uri"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SQLDatabase"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/sql_database.py#L12"
+}

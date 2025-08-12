@@ -1,0 +1,68 @@
+{
+  "kind": "component",
+  "type": "AssemblyAIGetSubtitles",
+  "display_name": "AssemblyAI Get Subtitles",
+  "description": "Export your transcript in SRT or VTT format for subtitles and closed captions",
+  "documentation": "https://www.assemblyai.com/docs",
+  "icon": "AssemblyAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Assembly API Key",
+      "info": "Your AssemblyAI API key. You can get one from https://www.assemblyai.com/",
+      "required": true
+    },
+    {
+      "field_class": "DataInput",
+      "name": "transcription_result",
+      "display_name": "Transcription Result",
+      "info": "The transcription result from AssemblyAI",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "subtitle_format",
+      "display_name": "Subtitle Format",
+      "options": [
+        "srt",
+        "vtt"
+      ],
+      "value": "srt",
+      "info": "The format of the captions (SRT or VTT)",
+      "default": "srt"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "chars_per_caption",
+      "display_name": "Characters per Caption",
+      "info": "The maximum number of characters per caption (0 for no limit)",
+      "value": 0,
+      "advanced": true,
+      "default": 0
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Subtitles",
+      "name": "subtitles",
+      "method": "get_subtitles"
+    }
+  ],
+  "template": [
+    "api_key",
+    "transcription_result",
+    "subtitle_format",
+    "chars_per_caption"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AssemblyAIGetSubtitles"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/assemblyai/assemblyai_get_subtitles.py#L9"
+}

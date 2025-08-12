@@ -1,0 +1,43 @@
+{
+  "kind": "component",
+  "type": "ExtractaKey",
+  "display_name": "Extract Key",
+  "description": "Extract a specific key from a Data object or a list of Data objects and return the extracted value(s) as Data object(s).",
+  "documentation": null,
+  "icon": "key",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "data_input",
+      "display_name": "Data Input",
+      "info": "The Data object or list of Data objects to extract the key from."
+    },
+    {
+      "field_class": "StrInput",
+      "name": "key",
+      "display_name": "Key to Extract",
+      "info": "The key in the Data object(s) to extract."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Extracted Data",
+      "name": "extracted_data",
+      "method": "extract_key"
+    }
+  ],
+  "template": [
+    "data_input",
+    "key"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ExtractaKey"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/extract_key.py#L6"
+}

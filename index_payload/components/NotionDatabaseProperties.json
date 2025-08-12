@@ -1,0 +1,37 @@
+{
+  "kind": "component",
+  "type": "NotionDatabaseProperties",
+  "display_name": "List Database Properties ",
+  "description": "Retrieve properties of a Notion database.",
+  "documentation": "https://docs.langflow.org/integrations/notion/list-database-properties",
+  "icon": "NotionDirectoryLoader",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "database_id",
+      "display_name": "Database ID",
+      "info": "The ID of the Notion database."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "notion_secret",
+      "display_name": "Notion Secret",
+      "info": "The Notion integration token.",
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "database_id",
+    "notion_secret"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NotionDatabaseProperties"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/Notion/list_database_properties.py#L12"
+}

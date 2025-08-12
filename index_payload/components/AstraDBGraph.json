@@ -1,0 +1,223 @@
+{
+  "kind": "component",
+  "type": "AstraDBGraph",
+  "display_name": "Astra DB Graph",
+  "description": "Implementation of Graph Vector Store using Astra DB",
+  "documentation": null,
+  "icon": "AstraDB",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "token",
+      "display_name": "Astra DB Application Token",
+      "info": "Authentication token for accessing Astra DB.",
+      "value": "ASTRA_DB_APPLICATION_TOKEN",
+      "required": true,
+      "advanced": "<Compare>",
+      "default": "ASTRA_DB_APPLICATION_TOKEN"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_endpoint",
+      "display_name": "<IfExp>",
+      "info": "API endpoint URL for the Astra DB service.",
+      "value": "ASTRA_DB_API_ENDPOINT",
+      "required": true,
+      "default": "ASTRA_DB_API_ENDPOINT"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "collection_name",
+      "display_name": "Collection Name",
+      "info": "The name of the collection within Astra DB where the vectors will be stored.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "metadata_incoming_links_key",
+      "display_name": "Metadata incoming links key",
+      "info": "Metadata key used for incoming links.",
+      "advanced": true
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "keyspace",
+      "display_name": "Keyspace",
+      "info": "Optional keyspace within Astra DB to use for the collection.",
+      "advanced": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding_model",
+      "display_name": "Embedding Model",
+      "input_types": [
+        "Embeddings"
+      ],
+      "info": "Allows an embedding model configuration."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "metric",
+      "display_name": "Metric",
+      "info": "Optional distance metric for vector comparisons in the vector store.",
+      "options": [
+        "cosine",
+        "dot_product",
+        "euclidean"
+      ],
+      "value": "cosine",
+      "advanced": true,
+      "default": "cosine"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "batch_size",
+      "display_name": "Batch Size",
+      "info": "Optional number of data to process in a single batch.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "bulk_insert_batch_concurrency",
+      "display_name": "Bulk Insert Batch Concurrency",
+      "info": "Optional concurrency level for bulk insert operations.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "bulk_insert_overwrite_concurrency",
+      "display_name": "Bulk Insert Overwrite Concurrency",
+      "info": "Optional concurrency level for bulk insert operations that overwrite existing data.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "bulk_delete_concurrency",
+      "display_name": "Bulk Delete Concurrency",
+      "info": "Optional concurrency level for bulk delete operations.",
+      "advanced": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "setup_mode",
+      "display_name": "Setup Mode",
+      "info": "Configuration mode for setting up the vector store, with options like 'Sync', or 'Off'.",
+      "options": [
+        "Sync",
+        "Off"
+      ],
+      "advanced": true,
+      "value": "Sync",
+      "default": "Sync"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "pre_delete_collection",
+      "display_name": "Pre Delete Collection",
+      "info": "Boolean flag to determine whether to delete the collection before creating a new one.",
+      "advanced": true,
+      "value": false,
+      "default": false
+    },
+    {
+      "field_class": "StrInput",
+      "name": "metadata_indexing_include",
+      "display_name": "Metadata Indexing Include",
+      "info": "Optional list of metadata fields to include in the indexing.",
+      "advanced": true,
+      "list": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "metadata_indexing_exclude",
+      "display_name": "Metadata Indexing Exclude",
+      "info": "Optional list of metadata fields to exclude from the indexing.",
+      "advanced": true,
+      "list": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "collection_indexing_policy",
+      "display_name": "Collection Indexing Policy",
+      "info": "Optional JSON string for the \"indexing\" field of the collection. See https://docs.datastax.com/en/astra-db-serverless/api-reference/collections.html#the-indexing-option",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "advanced": true,
+      "value": 4,
+      "default": 4
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "search_type",
+      "display_name": "Search Type",
+      "info": "Search type to use",
+      "options": [
+        "Similarity",
+        "Similarity with score threshold",
+        "MMR (Max Marginal Relevance)",
+        "Graph Traversal",
+        "MMR (Max Marginal Relevance) Graph Traversal"
+      ],
+      "value": "MMR (Max Marginal Relevance) Graph Traversal",
+      "advanced": true,
+      "default": "MMR (Max Marginal Relevance) Graph Traversal"
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "search_score_threshold",
+      "display_name": "Search Score Threshold",
+      "info": "Minimum similarity score threshold for search results. (when using 'Similarity with score threshold')",
+      "value": 0,
+      "advanced": true,
+      "default": 0
+    },
+    {
+      "field_class": "DictInput",
+      "name": "search_filter",
+      "display_name": "Search Metadata Filter",
+      "info": "Optional dictionary of filters to apply to the search query.",
+      "advanced": true,
+      "is_list": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "token",
+    "api_endpoint",
+    "collection_name",
+    "metadata_incoming_links_key",
+    "keyspace",
+    "embedding_model",
+    "metric",
+    "batch_size",
+    "bulk_insert_batch_concurrency",
+    "bulk_insert_overwrite_concurrency",
+    "bulk_delete_concurrency",
+    "setup_mode",
+    "pre_delete_collection",
+    "metadata_indexing_include",
+    "metadata_indexing_exclude",
+    "collection_indexing_policy",
+    "number_of_results",
+    "search_type",
+    "search_score_threshold",
+    "search_filter"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AstraDBGraph"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/astradb_graph.py#L21"
+}

@@ -1,0 +1,74 @@
+{
+  "kind": "component",
+  "type": "DataConditionalRouter",
+  "display_name": "Condition",
+  "description": "Route Data object(s) based on a condition applied to a specified key, including boolean validation.",
+  "documentation": null,
+  "icon": "split",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "data_input",
+      "display_name": "Data Input",
+      "info": "The Data object or list of Data objects to process",
+      "is_list": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "key_name",
+      "display_name": "Key Name",
+      "info": "The name of the key in the Data object(s) to check"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "operator",
+      "display_name": "Operator",
+      "options": [
+        "equals",
+        "not equals",
+        "contains",
+        "starts with",
+        "ends with",
+        "boolean validator"
+      ],
+      "info": "The operator to apply for comparing the values. 'boolean validator' treats the value as a boolean.",
+      "value": "equals",
+      "default": "equals"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "compare_value",
+      "display_name": "Match Text",
+      "info": "The value to compare against (not used for boolean validator)"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "True Output",
+      "name": "true_output",
+      "method": "process_data"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "False Output",
+      "name": "false_output",
+      "method": "process_data"
+    }
+  ],
+  "template": [
+    "data_input",
+    "key_name",
+    "operator",
+    "compare_value"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "DataConditionalRouter"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/logic/data_conditional_router.py#L9"
+}

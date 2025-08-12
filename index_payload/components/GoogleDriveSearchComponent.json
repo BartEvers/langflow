@@ -1,0 +1,118 @@
+{
+  "kind": "component",
+  "type": "GoogleDriveSearchComponent",
+  "display_name": "Google Drive Search",
+  "description": "Searches Google Drive files using provided credentials and query parameters.",
+  "documentation": null,
+  "icon": "Google",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "token_string",
+      "display_name": "Token String",
+      "info": "JSON string containing OAuth 2.0 access token information for service account access",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "query_item",
+      "display_name": "Query Item",
+      "options": [
+        "name",
+        "fullText",
+        "mimeType",
+        "modifiedTime",
+        "viewedByMeTime",
+        "trashed",
+        "starred",
+        "parents",
+        "owners",
+        "writers",
+        "readers",
+        "sharedWithMe",
+        "createdTime",
+        "properties",
+        "appProperties",
+        "visibility",
+        "shortcutDetails.targetId"
+      ],
+      "info": "The field to query.",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "valid_operator",
+      "display_name": "Valid Operator",
+      "options": [
+        "contains",
+        "=",
+        "!=",
+        "<=",
+        "<",
+        ">",
+        ">=",
+        "in",
+        "has"
+      ],
+      "info": "Operator to use in the query.",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "search_term",
+      "display_name": "Search Term",
+      "info": "The value to search for in the specified query item.",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "query_string",
+      "display_name": "Query String",
+      "info": "The query string used for searching. You can edit this manually.",
+      "value": "",
+      "default": ""
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Document URLs",
+      "name": "doc_urls",
+      "method": "search_doc_urls"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Document IDs",
+      "name": "doc_ids",
+      "method": "search_doc_ids"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Document Titles",
+      "name": "doc_titles",
+      "method": "search_doc_titles"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "Data",
+      "method": "search_data"
+    }
+  ],
+  "template": [
+    "token_string",
+    "query_item",
+    "valid_operator",
+    "search_term",
+    "query_string"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GoogleDriveSearchComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/google/google_drive_search.py#L13"
+}

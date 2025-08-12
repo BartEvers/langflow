@@ -1,0 +1,35 @@
+{
+  "kind": "component",
+  "type": "SequentialCrewComponent",
+  "display_name": "Sequential Crew",
+  "description": "Represents a group of agents with tasks that are executed sequentially.",
+  "documentation": "https://docs.crewai.com/how-to/Sequential/",
+  "icon": "CrewAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "tasks",
+      "display_name": "Tasks",
+      "input_types": [
+        "SequentialTask"
+      ],
+      "is_list": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "tasks"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SequentialCrewComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/crewai/sequential_crew.py#L6"
+}

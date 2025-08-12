@@ -1,0 +1,6 @@
+{
+  "kind": "enum_constants",
+  "name": "MESSAGE_SENDER_NAME_USER",
+  "value": "User",
+  "source": "src/backend/base/langflow/utils/constants.py#L205"
+}

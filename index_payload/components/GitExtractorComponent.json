@@ -1,0 +1,62 @@
+{
+  "kind": "component",
+  "type": "GitExtractorComponent",
+  "display_name": "GitExtractor",
+  "description": "Analyzes a Git repository and returns file contents and complete repository information",
+  "documentation": null,
+  "icon": "GitLoader",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "repository_url",
+      "display_name": "Repository URL",
+      "info": "URL of the Git repository (e.g., https://github.com/username/repo)",
+      "value": "",
+      "default": ""
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Text-Based File Contents",
+      "name": "text_based_file_contents",
+      "method": "get_text_based_file_contents"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Directory Structure",
+      "name": "directory_structure",
+      "method": "get_directory_structure"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Repository Info",
+      "name": "repository_info",
+      "method": "get_repository_info"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Statistics",
+      "name": "statistics",
+      "method": "get_statistics"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Files Content",
+      "name": "files_content",
+      "method": "get_files_content"
+    }
+  ],
+  "template": [
+    "repository_url"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GitExtractorComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/git/gitextractor.py#L16"
+}

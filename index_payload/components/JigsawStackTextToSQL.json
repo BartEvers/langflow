@@ -1,0 +1,64 @@
+{
+  "kind": "component",
+  "type": "JigsawStackTextToSQL",
+  "display_name": "Text to SQL",
+  "description": "Convert natural language to SQL queries using JigsawStack AI",
+  "documentation": "https://jigsawstack.com/docs/api-reference/ai/text-to-sql",
+  "icon": "JigsawStack",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "JigsawStack API Key",
+      "info": "Your JigsawStack API key for authentication",
+      "required": true
+    },
+    {
+      "field_class": "QueryInput",
+      "name": "prompt",
+      "display_name": "Prompt",
+      "info": "Natural language description of the SQL query you want to generate",
+      "required": true,
+      "tool_mode": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "sql_schema",
+      "display_name": "SQL Schema",
+      "info": "The database schema information. Can be a CREATE TABLE statement or schema description. Specifying this parameter improves SQL generation accuracy by applying database-specific syntax and optimizations.",
+      "required": false,
+      "tool_mode": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "file_store_key",
+      "display_name": "File Store Key",
+      "info": "The key used to store the database schema on Jigsawstack file Storage. Not required if sql_schema is specified.",
+      "required": false,
+      "tool_mode": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "SQL Query",
+      "name": "sql_query",
+      "method": "generate_sql"
+    }
+  ],
+  "template": [
+    "api_key",
+    "prompt",
+    "sql_schema",
+    "file_store_key"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JigsawStackTextToSQL"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/jigsawstack/text_to_sql.py#L6"
+}

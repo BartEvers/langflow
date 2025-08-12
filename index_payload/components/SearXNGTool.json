@@ -1,0 +1,64 @@
+{
+  "kind": "component",
+  "type": "SearXNGTool",
+  "display_name": "SearXNG Search",
+  "description": "A component that searches for tools using SearXNG.",
+  "documentation": null,
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "url",
+      "display_name": "URL",
+      "value": "http://localhost",
+      "required": true,
+      "refresh_button": true,
+      "default": "http://localhost"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "value": 10,
+      "required": true,
+      "default": 10
+    },
+    {
+      "field_class": "MultiselectInput",
+      "name": "categories",
+      "display_name": "Categories",
+      "options": [],
+      "value": [],
+      "default": []
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "language",
+      "display_name": "Language",
+      "options": []
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Tool",
+      "name": "result_tool",
+      "method": "build_tool"
+    }
+  ],
+  "template": [
+    "url",
+    "max_results",
+    "categories",
+    "language"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SearXNGTool"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/tools/searxng.py#L17"
+}

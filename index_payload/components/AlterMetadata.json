@@ -1,0 +1,78 @@
+{
+  "kind": "component",
+  "type": "AlterMetadata",
+  "display_name": "Alter Metadata",
+  "description": "Adds/Removes Metadata Dictionary on inputs",
+  "documentation": null,
+  "icon": "merge",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "info": "Object(s) to which Metadata should be added",
+      "required": false,
+      "input_types": [
+        "Message",
+        "Data"
+      ],
+      "is_list": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "text_in",
+      "display_name": "User Text",
+      "info": "Text input; value will be in 'text' attribute of Data object. Empty text entries are ignored.",
+      "required": false
+    },
+    {
+      "field_class": "NestedDictInput",
+      "name": "metadata",
+      "display_name": "Metadata",
+      "info": "Metadata to add to each object",
+      "input_types": [
+        "Data"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "remove_fields",
+      "display_name": "Fields to Remove",
+      "info": "Metadata Fields to Remove",
+      "required": false,
+      "is_list": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "data",
+      "display_name": "Data",
+      "info": "List of Input objects each with added Metadata",
+      "method": "process_output"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "info": "Data objects as a DataFrame, with metadata as columns",
+      "method": "as_dataframe"
+    }
+  ],
+  "template": [
+    "input_value",
+    "text_in",
+    "metadata",
+    "remove_fields"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AlterMetadata"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/alter_metadata.py#L8"
+}

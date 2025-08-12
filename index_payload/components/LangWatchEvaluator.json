@@ -1,0 +1,90 @@
+{
+  "kind": "component",
+  "type": "LangWatchEvaluator",
+  "display_name": "LangWatch Evaluator",
+  "description": "Evaluates various aspects of language models using LangWatch's evaluation endpoints.",
+  "documentation": "https://docs.langwatch.ai/langevals/documentation/introduction",
+  "icon": "Langwatch",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DropdownInput",
+      "name": "evaluator_name",
+      "display_name": "Evaluator Name",
+      "options": [],
+      "required": true,
+      "info": "Select an evaluator.",
+      "refresh_button": true,
+      "real_time_refresh": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "required": true,
+      "info": "Enter your LangWatch API key."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "input",
+      "display_name": "Input",
+      "required": false,
+      "info": "The input text for evaluation."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "output",
+      "display_name": "Output",
+      "required": false,
+      "info": "The output text for evaluation."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "expected_output",
+      "display_name": "Expected Output",
+      "required": false,
+      "info": "The expected output for evaluation."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "contexts",
+      "display_name": "Contexts",
+      "required": false,
+      "info": "The contexts for evaluation (comma-separated)."
+    },
+    {
+      "field_class": "IntInput",
+      "name": "timeout",
+      "display_name": "Timeout",
+      "info": "The maximum time (in seconds) allowed for the server to respond before timing out.",
+      "value": 30,
+      "advanced": true,
+      "default": 30
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "evaluation_result",
+      "display_name": "Evaluation Result",
+      "method": "evaluate"
+    }
+  ],
+  "template": [
+    "evaluator_name",
+    "api_key",
+    "input",
+    "output",
+    "expected_output",
+    "contexts",
+    "timeout"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "LangWatchEvaluator"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langwatch/langwatch.py#L25"
+}

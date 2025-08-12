@@ -1,0 +1,20 @@
+{
+  "kind": "schema",
+  "name": "Column",
+  "fields": [
+    "default",
+    "description",
+    "disable_edit",
+    "display_name",
+    "edit_mode",
+    "filterable",
+    "formatter",
+    "hidden",
+    "name",
+    "options",
+    "sortable",
+    "type"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/table.py#L33"
+}

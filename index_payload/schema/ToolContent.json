@@ -1,0 +1,14 @@
+{
+  "kind": "schema",
+  "name": "ToolContent",
+  "fields": [
+    "duration",
+    "error",
+    "name",
+    "output",
+    "tool_input",
+    "type"
+  ],
+  "doc": "Content type for tool start content.",
+  "source": "src/backend/base/langflow/schema/content_types.py#L81"
+}

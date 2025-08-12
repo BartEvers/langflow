@@ -1,0 +1,52 @@
+{
+  "kind": "component",
+  "type": "CohereRerank",
+  "display_name": "Cohere Rerank",
+  "description": "Rerank documents using the Cohere API.",
+  "documentation": null,
+  "icon": "Cohere",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Cohere API Key"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model",
+      "display_name": "Model",
+      "options": [
+        "rerank-english-v3.0",
+        "rerank-multilingual-v3.0",
+        "rerank-english-v2.0",
+        "rerank-multilingual-v2.0"
+      ],
+      "value": "rerank-english-v3.0",
+      "default": "rerank-english-v3.0"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Reranked Documents",
+      "name": "reranked_documents",
+      "method": "compress_documents"
+    }
+  ],
+  "template": [
+    "api_key",
+    "model"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CohereRerank"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/cohere/cohere_rerank.py#L8"
+}

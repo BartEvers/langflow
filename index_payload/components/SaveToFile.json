@@ -1,0 +1,62 @@
+{
+  "kind": "component",
+  "type": "SaveToFile",
+  "display_name": "Save File",
+  "description": "Save data to a local file in the selected format.",
+  "documentation": "https://docs.langflow.org/components-processing#save-file",
+  "icon": "save",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "input",
+      "display_name": "Input",
+      "info": "The input to save.",
+      "dynamic": true,
+      "input_types": [
+        "Data",
+        "DataFrame",
+        "Message"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "file_name",
+      "display_name": "File Name",
+      "info": "Name file will be saved as (without extension).",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "file_format",
+      "display_name": "File Format",
+      "options": "list(\"dict.fromkeys('<BinOp>')\")",
+      "info": "Select the file format to save the input. If not provided, the default format will be used.",
+      "value": "",
+      "advanced": true,
+      "default": ""
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "File Path",
+      "name": "result",
+      "method": "save_to_file"
+    }
+  ],
+  "template": [
+    "input",
+    "file_name",
+    "file_format"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SaveToFile"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/save_file.py#L20"
+}

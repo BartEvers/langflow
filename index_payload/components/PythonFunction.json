@@ -1,0 +1,48 @@
+{
+  "kind": "component",
+  "type": "PythonFunction",
+  "display_name": "Python Function",
+  "description": "Define and execute a Python function that returns a Data object or a Message.",
+  "documentation": null,
+  "icon": "Python",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "CodeInput",
+      "name": "function_code",
+      "display_name": "Function Code",
+      "info": "The code for the function."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "function_output",
+      "display_name": "Function Callable",
+      "method": "get_function_callable"
+    },
+    {
+      "output_class": "Output",
+      "name": "function_output_data",
+      "display_name": "Function Output (Data)",
+      "method": "execute_function_data"
+    },
+    {
+      "output_class": "Output",
+      "name": "function_output_str",
+      "display_name": "Function Output (Message)",
+      "method": "execute_function_message"
+    }
+  ],
+  "template": [
+    "function_code"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "PythonFunction"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/prototypes/python_function.py#L13"
+}

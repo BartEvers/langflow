@@ -1,0 +1,45 @@
+{
+  "kind": "component",
+  "type": "JigsawStackNSFW",
+  "display_name": "NSFW Detection",
+  "description": "Detect if image/video contains NSFW content",
+  "documentation": "https://jigsawstack.com/docs/api-reference/ai/nsfw",
+  "icon": "JigsawStack",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "JigsawStack API Key",
+      "info": "Your JigsawStack API key for authentication",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "url",
+      "display_name": "URL",
+      "info": "URL of the image or video to analyze",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "NSFW Analysis",
+      "name": "nsfw_result",
+      "method": "detect_nsfw"
+    }
+  ],
+  "template": [
+    "api_key",
+    "url"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JigsawStackNSFW"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/jigsawstack/nsfw.py#L6"
+}

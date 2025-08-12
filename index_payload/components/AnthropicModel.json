@@ -1,0 +1,90 @@
+{
+  "kind": "component",
+  "type": "AnthropicModel",
+  "display_name": "Anthropic",
+  "description": "Generate text using Anthropic's Messages API and models.",
+  "documentation": null,
+  "icon": "Anthropic",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_tokens",
+      "display_name": "Max Tokens",
+      "advanced": true,
+      "value": 4096,
+      "info": "The maximum number of tokens to generate. Set to 0 for unlimited tokens.",
+      "default": 4096
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "options": "ANTHROPIC_MODELS",
+      "refresh_button": true,
+      "value": "<Subscript>",
+      "combobox": true,
+      "default": "<Subscript>"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Anthropic API Key",
+      "info": "Your Anthropic API key.",
+      "value": null,
+      "required": true,
+      "real_time_refresh": true,
+      "default": null
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.1,
+      "info": "Run inference with this temperature. Must by in the closed interval [0.0, 1.0].",
+      "range_spec": "RangeSpec(min=0, max=1, step=0.01)",
+      "advanced": true,
+      "default": 0.1
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "base_url",
+      "display_name": "Anthropic API URL",
+      "info": "Endpoint of the Anthropic API. Defaults to 'https://api.anthropic.com' if not specified.",
+      "value": "DEFAULT_ANTHROPIC_API_URL",
+      "real_time_refresh": true,
+      "advanced": true,
+      "default": "DEFAULT_ANTHROPIC_API_URL"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "tool_model_enabled",
+      "display_name": "Enable Tool Models",
+      "info": "Select if you want to use models that can work with tools. If yes, only those models will be shown.",
+      "advanced": false,
+      "value": false,
+      "real_time_refresh": true,
+      "default": false
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "max_tokens",
+    "model_name",
+    "api_key",
+    "temperature",
+    "base_url",
+    "tool_model_enabled"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AnthropicModel"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/anthropic/anthropic.py#L20"
+}

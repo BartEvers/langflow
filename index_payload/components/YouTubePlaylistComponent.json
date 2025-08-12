@@ -1,0 +1,37 @@
+{
+  "kind": "component",
+  "type": "YouTubePlaylistComponent",
+  "display_name": "YouTube Playlist",
+  "description": "Extracts all video URLs from a YouTube playlist.",
+  "documentation": null,
+  "icon": "YouTube",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "playlist_url",
+      "display_name": "Playlist URL",
+      "info": "URL of the YouTube playlist.",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Video URLs",
+      "name": "video_urls",
+      "method": "extract_video_urls"
+    }
+  ],
+  "template": [
+    "playlist_url"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "YouTubePlaylistComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/youtube/playlist.py#L10"
+}

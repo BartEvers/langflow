@@ -1,0 +1,20 @@
+{
+  "kind": "component",
+  "type": "SubFlow",
+  "display_name": "Sub Flow",
+  "description": "Dynamically Generates a Component from a Flow. The output is a list of data with keys 'result' and 'message'.",
+  "documentation": null,
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [],
+  "outputs": [],
+  "template": [],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SubFlow"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/sub_flow.py#L18"
+}

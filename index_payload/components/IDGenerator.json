@@ -1,0 +1,38 @@
+{
+  "kind": "component",
+  "type": "IDGenerator",
+  "display_name": "ID Generator",
+  "description": "Generates a unique ID.",
+  "documentation": null,
+  "icon": "fingerprint",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "unique_id",
+      "display_name": "Value",
+      "info": "The generated unique ID.",
+      "refresh_button": true,
+      "tool_mode": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "ID",
+      "name": "id",
+      "method": "generate_id"
+    }
+  ],
+  "template": [
+    "unique_id"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "IDGenerator"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/helpers/id_generator.py#L12"
+}

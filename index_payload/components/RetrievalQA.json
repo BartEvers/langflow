@@ -1,0 +1,83 @@
+{
+  "kind": "component",
+  "type": "RetrievalQA",
+  "display_name": "Retrieval QA",
+  "description": "Chain for question-answering querying sources from a retriever.",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "info": "The input value to pass to the chain.",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "chain_type",
+      "display_name": "Chain Type",
+      "info": "Chain type to use.",
+      "options": [
+        "Stuff",
+        "Map Reduce",
+        "Refine",
+        "Map Rerank"
+      ],
+      "value": "Stuff",
+      "advanced": true,
+      "default": "Stuff"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "retriever",
+      "display_name": "Retriever",
+      "input_types": [
+        "Retriever"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "memory",
+      "display_name": "Memory",
+      "input_types": [
+        "BaseChatMemory"
+      ]
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "return_source_documents",
+      "display_name": "Return Source Documents",
+      "value": false,
+      "default": false
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "input_value",
+    "chain_type",
+    "llm",
+    "retriever",
+    "memory",
+    "return_source_documents"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "RetrievalQA"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/retrieval_qa.py#L10"
+}

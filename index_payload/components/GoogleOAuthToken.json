@@ -1,0 +1,48 @@
+{
+  "kind": "component",
+  "type": "GoogleOAuthToken",
+  "display_name": "Google OAuth Token",
+  "description": "Generates a JSON string with your Google OAuth token.",
+  "documentation": "https://developers.google.com/identity/protocols/oauth2/web-server?hl=pt-br#python_1",
+  "icon": "Google",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "scopes",
+      "display_name": "Scopes",
+      "info": "Input scopes for your application.",
+      "required": true
+    },
+    {
+      "field_class": "FileInput",
+      "name": "oauth_credentials",
+      "display_name": "Credentials File",
+      "info": "Input OAuth Credentials file (e.g. credentials.json).",
+      "file_types": [
+        "json"
+      ],
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Output",
+      "name": "output",
+      "method": "build_output"
+    }
+  ],
+  "template": [
+    "scopes",
+    "oauth_credentials"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GoogleOAuthToken"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/google/google_oauth_token.py#L14"
+}

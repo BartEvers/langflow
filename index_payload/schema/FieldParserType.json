@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "FieldParserType",
+  "fields": [],
+  "doc": "Enum for field parser types.",
+  "source": "src/backend/base/langflow/schema/table.py#L115"
+}

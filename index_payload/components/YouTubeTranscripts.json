@@ -1,0 +1,82 @@
+{
+  "kind": "component",
+  "type": "YouTubeTranscripts",
+  "display_name": "YouTube Transcripts",
+  "description": "Extracts spoken content from YouTube videos with multiple output options.",
+  "documentation": null,
+  "icon": "YouTube",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "url",
+      "display_name": "Video URL",
+      "info": "Enter the YouTube video URL to get transcripts from.",
+      "tool_mode": true,
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "chunk_size_seconds",
+      "display_name": "Chunk Size (seconds)",
+      "value": 60,
+      "info": "The size of each transcript chunk in seconds.",
+      "default": 60
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "translation",
+      "display_name": "Translation Language",
+      "advanced": true,
+      "options": [
+        "",
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "pt",
+        "ru",
+        "ja",
+        "ko",
+        "hi",
+        "ar",
+        "id"
+      ],
+      "info": "Translate the transcripts to the specified language. Leave empty for no translation."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "dataframe",
+      "display_name": "Chunks",
+      "method": "get_dataframe_output"
+    },
+    {
+      "output_class": "Output",
+      "name": "message",
+      "display_name": "Transcript",
+      "method": "get_message_output"
+    },
+    {
+      "output_class": "Output",
+      "name": "data_output",
+      "display_name": "Transcript + Source",
+      "method": "get_data_output"
+    }
+  ],
+  "template": [
+    "url",
+    "chunk_size_seconds",
+    "translation"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "YouTubeTranscripts"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/youtube/youtube_transcripts.py#L14"
+}

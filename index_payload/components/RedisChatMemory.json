@@ -1,0 +1,88 @@
+{
+  "kind": "component",
+  "type": "RedisChatMemory",
+  "display_name": "Redis Chat Memory",
+  "description": "Retrieves and store chat messages from Redis.",
+  "documentation": null,
+  "icon": "Redis",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "host",
+      "display_name": "hostname",
+      "required": true,
+      "value": "localhost",
+      "info": "IP address or hostname.",
+      "default": "localhost"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "port",
+      "display_name": "port",
+      "required": true,
+      "value": 6379,
+      "info": "Redis Port Number.",
+      "default": 6379
+    },
+    {
+      "field_class": "StrInput",
+      "name": "database",
+      "display_name": "database",
+      "required": true,
+      "value": "0",
+      "info": "Redis database.",
+      "default": "0"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "username",
+      "display_name": "Username",
+      "value": "",
+      "info": "The Redis user name.",
+      "advanced": true,
+      "default": ""
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "password",
+      "display_name": "Password",
+      "value": "",
+      "info": "The password for username.",
+      "advanced": true,
+      "default": ""
+    },
+    {
+      "field_class": "StrInput",
+      "name": "key_prefix",
+      "display_name": "Key prefix",
+      "info": "Key prefix.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "session_id",
+      "display_name": "Session ID",
+      "info": "Session ID for the message.",
+      "advanced": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "host",
+    "port",
+    "database",
+    "username",
+    "password",
+    "key_prefix",
+    "session_id"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "RedisChatMemory"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/redis/redis.py#L10"
+}

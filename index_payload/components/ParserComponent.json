@@ -1,0 +1,78 @@
+{
+  "kind": "component",
+  "type": "ParserComponent",
+  "display_name": "Parser",
+  "description": "Extracts text using a template.",
+  "documentation": "https://docs.langflow.org/components-processing#parser",
+  "icon": "braces",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "input_data",
+      "display_name": "Data or DataFrame",
+      "input_types": [
+        "DataFrame",
+        "Data"
+      ],
+      "info": "Accepts either a DataFrame or a Data object.",
+      "required": true
+    },
+    {
+      "field_class": "TabInput",
+      "name": "mode",
+      "display_name": "Mode",
+      "options": [
+        "Parser",
+        "Stringify"
+      ],
+      "value": "Parser",
+      "info": "Convert into raw string instead of using a template.",
+      "real_time_refresh": true,
+      "default": "Parser"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "pattern",
+      "display_name": "Template",
+      "info": "Use variables within curly brackets to extract column values for DataFrames or key values for Data.For example: `Name: {Name}, Age: {Age}, Country: {Country}`",
+      "value": "Text: {text}",
+      "dynamic": true,
+      "show": true,
+      "required": true,
+      "default": "Text: {text}"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "sep",
+      "display_name": "Separator",
+      "advanced": true,
+      "value": "\n",
+      "info": "String used to separate rows/items.",
+      "default": "\n"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Parsed Text",
+      "name": "parsed_text",
+      "info": "Formatted text output.",
+      "method": "parse_combined_text"
+    }
+  ],
+  "template": [
+    "input_data",
+    "mode",
+    "pattern",
+    "sep"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ParserComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/parser.py#L10"
+}

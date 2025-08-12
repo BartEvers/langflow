@@ -1,0 +1,37 @@
+{
+  "kind": "component",
+  "type": "MergeDataComponent",
+  "display_name": "Merge Data",
+  "description": "Combines multiple Data objects into a unified list, ensuring all keys are present in each Data object.",
+  "documentation": null,
+  "icon": "merge",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "data_inputs",
+      "display_name": "Data Inputs",
+      "is_list": true,
+      "info": "A list of Data inputs objects to be merged."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Merged Data",
+      "name": "merged_data",
+      "method": "merge_data"
+    }
+  ],
+  "template": [
+    "data_inputs"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "MergeDataComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/merge_data.py#L8"
+}

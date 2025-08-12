@@ -1,0 +1,69 @@
+{
+  "kind": "component",
+  "type": "FAISS",
+  "display_name": "FAISS",
+  "description": "FAISS Vector Store with search capabilities",
+  "documentation": null,
+  "icon": "FAISS",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "index_name",
+      "display_name": "Index Name",
+      "value": "langflow_index",
+      "default": "langflow_index"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "persist_directory",
+      "display_name": "Persist Directory",
+      "info": "Path to save the FAISS index. It will be relative to where Langflow is running."
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "allow_dangerous_deserialization",
+      "display_name": "Allow Dangerous Deserialization",
+      "info": "Set to True to allow loading pickle files from untrusted sources. Only enable this if you trust the source of the data.",
+      "advanced": true,
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding",
+      "input_types": [
+        "Embeddings"
+      ]
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "advanced": true,
+      "value": 4,
+      "default": 4
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "index_name",
+    "persist_directory",
+    "allow_dangerous_deserialization",
+    "embedding",
+    "number_of_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "FAISS"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/faiss.py#L11"
+}

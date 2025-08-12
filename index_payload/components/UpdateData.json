@@ -1,0 +1,65 @@
+{
+  "kind": "component",
+  "type": "UpdateData",
+  "display_name": "Update Data",
+  "description": "Dynamically update or append data with the specified fields.",
+  "documentation": null,
+  "icon": "FolderSync",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "old_data",
+      "display_name": "Data",
+      "info": "The record to update.",
+      "is_list": true,
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_fields",
+      "display_name": "Number of Fields",
+      "info": "Number of fields to be added to the record.",
+      "real_time_refresh": true,
+      "value": 0,
+      "range_spec": "RangeSpec(min=1, max='MAX_FIELDS', step=1, step_type='int')",
+      "default": 0
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "text_key",
+      "display_name": "Text Key",
+      "info": "Key that identifies the field to be used as the text content.",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "text_key_validator",
+      "display_name": "Text Key Validator",
+      "advanced": true,
+      "info": "If enabled, checks if the given 'Text Key' is present in the given 'Data'."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "data",
+      "method": "build_data"
+    }
+  ],
+  "template": [
+    "old_data",
+    "number_of_fields",
+    "text_key",
+    "text_key_validator"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "UpdateData"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/update_data.py#L17"
+}

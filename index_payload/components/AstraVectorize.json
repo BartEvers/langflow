@@ -1,0 +1,89 @@
+{
+  "kind": "component",
+  "type": "AstraVectorize",
+  "display_name": "Astra Vectorize [DEPRECATED]",
+  "description": "Configuration options for Astra Vectorize server-side embeddings. This component is deprecated. Please use the Astra DB Component directly.",
+  "documentation": "https://docs.datastax.com/en/astra-db-serverless/databases/embedding-generation.html",
+  "icon": "AstraDB",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DropdownInput",
+      "name": "provider",
+      "display_name": "Provider",
+      "options": "VECTORIZE_PROVIDERS_MAPPING.keys()",
+      "value": "",
+      "required": true,
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "info": "<JoinedStr>",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "api_key_name",
+      "display_name": "API Key name",
+      "info": "The name of the embeddings provider API key stored on Astra. If set, it will override the 'ProviderKey' in the authentication parameters."
+    },
+    {
+      "field_class": "DictInput",
+      "name": "authentication",
+      "display_name": "Authentication parameters",
+      "is_list": true,
+      "advanced": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "provider_api_key",
+      "display_name": "Provider API Key",
+      "info": "An alternative to the Astra Authentication that passes an API key for the provider with each request to Astra DB. This may be used when Vectorize is configured for the collection, but no corresponding provider secret is stored within Astra's key management system.",
+      "advanced": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "authentication",
+      "display_name": "Authentication Parameters",
+      "is_list": true,
+      "advanced": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "model_parameters",
+      "display_name": "Model Parameters",
+      "advanced": true,
+      "is_list": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Vectorize",
+      "name": "config",
+      "method": "build_options",
+      "types": [
+        "dict"
+      ]
+    }
+  ],
+  "template": [
+    "provider",
+    "model_name",
+    "api_key_name",
+    "authentication",
+    "provider_api_key",
+    "authentication",
+    "model_parameters"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AstraVectorize"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/datastax/astra_vectorize.py#L8"
+}

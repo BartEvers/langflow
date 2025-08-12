@@ -1,0 +1,20 @@
+{
+  "kind": "component",
+  "type": "ListFlows",
+  "display_name": "List Flows",
+  "description": "A component to list all available flows.",
+  "documentation": null,
+  "icon": "ListFlows",
+  "minimized": null,
+  "tags": [],
+  "inputs": [],
+  "outputs": [],
+  "template": [],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ListFlows"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/list_flows.py#L5"
+}

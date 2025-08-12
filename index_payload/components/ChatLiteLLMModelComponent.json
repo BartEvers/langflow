@@ -1,0 +1,169 @@
+{
+  "kind": "component",
+  "type": "ChatLiteLLMModelComponent",
+  "display_name": "LiteLLM",
+  "description": "`LiteLLM` collection of large language models.",
+  "documentation": "https://python.langchain.com/docs/integrations/chat/litellm",
+  "icon": "🚄",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageInput",
+      "name": "input_value",
+      "display_name": "Input"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "model",
+      "display_name": "Model name",
+      "advanced": false,
+      "required": true,
+      "info": "The name of the model to use. For example, `gpt-3.5-turbo`."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "advanced": false,
+      "required": false
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "provider",
+      "display_name": "Provider",
+      "info": "The provider of the API key.",
+      "options": [
+        "OpenAI",
+        "Azure",
+        "Anthropic",
+        "Replicate",
+        "Cohere",
+        "OpenRouter"
+      ]
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "advanced": false,
+      "required": false,
+      "value": 0.7,
+      "default": 0.7
+    },
+    {
+      "field_class": "DictInput",
+      "name": "kwargs",
+      "display_name": "Kwargs",
+      "advanced": true,
+      "required": false,
+      "is_list": true,
+      "value": {},
+      "default": {}
+    },
+    {
+      "field_class": "DictInput",
+      "name": "model_kwargs",
+      "display_name": "Model kwargs",
+      "advanced": true,
+      "required": false,
+      "is_list": true,
+      "value": {},
+      "default": {}
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "top_p",
+      "display_name": "Top p",
+      "advanced": true,
+      "required": false,
+      "value": 0.5,
+      "default": 0.5
+    },
+    {
+      "field_class": "IntInput",
+      "name": "top_k",
+      "display_name": "Top k",
+      "advanced": true,
+      "required": false,
+      "value": 35,
+      "default": 35
+    },
+    {
+      "field_class": "IntInput",
+      "name": "n",
+      "display_name": "N",
+      "advanced": true,
+      "required": false,
+      "info": "Number of chat completions to generate for each prompt. Note that the API may not return the full n completions if duplicates are generated.",
+      "value": 1,
+      "default": 1
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_tokens",
+      "display_name": "Max tokens",
+      "advanced": false,
+      "value": 256,
+      "info": "The maximum number of tokens to generate for each chat completion.",
+      "default": 256
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_retries",
+      "display_name": "Max retries",
+      "advanced": true,
+      "required": false,
+      "value": 6,
+      "default": 6
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "verbose",
+      "display_name": "Verbose",
+      "advanced": true,
+      "required": false,
+      "value": false,
+      "default": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "stream",
+      "display_name": "Stream",
+      "info": "STREAM_INFO_TEXT",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "system_message",
+      "display_name": "System Message",
+      "info": "System message to pass to the model.",
+      "advanced": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "input_value",
+    "model",
+    "api_key",
+    "provider",
+    "temperature",
+    "kwargs",
+    "model_kwargs",
+    "top_p",
+    "top_k",
+    "n",
+    "max_tokens",
+    "max_retries",
+    "verbose",
+    "stream",
+    "system_message"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ChatLiteLLMModelComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/chat_litellm_model.py#L18"
+}

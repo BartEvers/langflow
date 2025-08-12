@@ -1,0 +1,56 @@
+{
+  "kind": "component",
+  "type": "AssemblyAITranscriptionJobPoller",
+  "display_name": "AssemblyAI Poll Transcript",
+  "description": "Poll for the status of a transcription job using AssemblyAI",
+  "documentation": "https://www.assemblyai.com/docs",
+  "icon": "AssemblyAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Assembly API Key",
+      "info": "Your AssemblyAI API key. You can get one from https://www.assemblyai.com/",
+      "required": true
+    },
+    {
+      "field_class": "DataInput",
+      "name": "transcript_id",
+      "display_name": "Transcript ID",
+      "info": "The ID of the transcription job to poll",
+      "required": true
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "polling_interval",
+      "display_name": "Polling Interval",
+      "value": 3.0,
+      "info": "The polling interval in seconds",
+      "advanced": true,
+      "range_spec": "RangeSpec(min=3, max=30)",
+      "default": 3.0
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Transcription Result",
+      "name": "transcription_result",
+      "method": "poll_transcription_job"
+    }
+  ],
+  "template": [
+    "api_key",
+    "transcript_id",
+    "polling_interval"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AssemblyAITranscriptionJobPoller"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/assemblyai/assemblyai_poll_transcript.py#L10"
+}

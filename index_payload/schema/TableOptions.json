@@ -1,0 +1,19 @@
+{
+  "kind": "schema",
+  "name": "TableOptions",
+  "fields": [
+    "block_add",
+    "block_delete",
+    "block_edit",
+    "block_filter",
+    "block_hide",
+    "block_select",
+    "block_sort",
+    "description",
+    "field_parsers",
+    "field_validators",
+    "hide_options"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/table.py#L129"
+}

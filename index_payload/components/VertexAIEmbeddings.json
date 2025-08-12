@@ -1,0 +1,143 @@
+{
+  "kind": "component",
+  "type": "VertexAIEmbeddings",
+  "display_name": "Vertex AI Embeddings",
+  "description": "Generate embeddings using Google Cloud Vertex AI models.",
+  "documentation": null,
+  "icon": "VertexAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "FileInput",
+      "name": "credentials",
+      "display_name": "Credentials",
+      "info": "JSON credentials file. Leave empty to fallback to environment variables",
+      "value": "",
+      "file_types": [
+        "json"
+      ],
+      "required": true,
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "location",
+      "display_name": "Location",
+      "value": "us-central1",
+      "advanced": true,
+      "default": "us-central1"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "project",
+      "display_name": "Project",
+      "info": "The project ID.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_output_tokens",
+      "display_name": "Max Output Tokens",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_retries",
+      "display_name": "Max Retries",
+      "value": 1,
+      "advanced": true,
+      "default": 1
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "value": "textembedding-gecko",
+      "required": true,
+      "default": "textembedding-gecko"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "n",
+      "display_name": "N",
+      "value": 1,
+      "advanced": true,
+      "default": 1
+    },
+    {
+      "field_class": "IntInput",
+      "name": "request_parallelism",
+      "value": 5,
+      "display_name": "Request Parallelism",
+      "advanced": true,
+      "default": 5
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "stop_sequences",
+      "display_name": "Stop",
+      "advanced": true,
+      "is_list": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "streaming",
+      "display_name": "Streaming",
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "temperature",
+      "value": 0.0,
+      "display_name": "Temperature",
+      "default": 0.0
+    },
+    {
+      "field_class": "IntInput",
+      "name": "top_k",
+      "display_name": "Top K",
+      "advanced": true
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "top_p",
+      "display_name": "Top P",
+      "value": 0.95,
+      "advanced": true,
+      "default": 0.95
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Embeddings",
+      "name": "embeddings",
+      "method": "build_embeddings"
+    }
+  ],
+  "template": [
+    "credentials",
+    "location",
+    "project",
+    "max_output_tokens",
+    "max_retries",
+    "model_name",
+    "n",
+    "request_parallelism",
+    "stop_sequences",
+    "streaming",
+    "temperature",
+    "top_k",
+    "top_p"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "VertexAIEmbeddings"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vertexai/vertexai_embeddings.py#L6"
+}

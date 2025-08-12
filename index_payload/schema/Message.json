@@ -1,0 +1,22 @@
+{
+  "kind": "schema",
+  "name": "Message",
+  "fields": [
+    "category",
+    "content_blocks",
+    "duration",
+    "edit",
+    "error",
+    "files",
+    "flow_id",
+    "properties",
+    "sender",
+    "sender_name",
+    "session_id",
+    "text",
+    "text_key",
+    "timestamp"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/message.py#L39"
+}

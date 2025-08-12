@@ -1,0 +1,48 @@
+{
+  "kind": "component",
+  "type": "LoopComponent",
+  "display_name": "Loop",
+  "description": "Iterates over a list of Data objects, outputting one item at a time and aggregating results from loop inputs.",
+  "documentation": "https://docs.langflow.org/components-logic#loop",
+  "icon": "infinity",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "data",
+      "display_name": "Inputs",
+      "info": "The initial list of Data objects or DataFrame to iterate over.",
+      "input_types": [
+        "DataFrame"
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Item",
+      "name": "item",
+      "method": "item_output",
+      "allows_loop": true,
+      "group_outputs": true
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Done",
+      "name": "done",
+      "method": "done_output",
+      "group_outputs": true
+    }
+  ],
+  "template": [
+    "data"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "LoopComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/logic/loop.py#L8"
+}

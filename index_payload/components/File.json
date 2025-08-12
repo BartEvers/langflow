@@ -1,0 +1,52 @@
+{
+  "kind": "component",
+  "type": "File",
+  "display_name": "File",
+  "description": "Loads content from one or more files.",
+  "documentation": "https://docs.langflow.org/components-data#file",
+  "icon": "file-text",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "use_multithreading",
+      "display_name": "[Deprecated] Use Multithreading",
+      "advanced": true,
+      "value": true,
+      "info": "Set 'Processing Concurrency' greater than 1 to enable multithreading.",
+      "default": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "concurrency_multithreading",
+      "display_name": "Processing Concurrency",
+      "advanced": true,
+      "info": "When multiple files are being processed, the number of files to process concurrently.",
+      "value": 1,
+      "default": 1
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Raw Content",
+      "name": "message",
+      "method": "load_files_message"
+    }
+  ],
+  "template": [
+    "use_multithreading",
+    "concurrency_multithreading"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "File"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/data/file.py#L10"
+}

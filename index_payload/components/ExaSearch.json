@@ -1,0 +1,60 @@
+{
+  "kind": "component",
+  "type": "ExaSearch",
+  "display_name": "Exa Search",
+  "description": "Exa Search toolkit for search and content retrieval",
+  "documentation": "https://python.langchain.com/docs/integrations/tools/metaphor_search",
+  "icon": "ExaSearch",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "metaphor_api_key",
+      "display_name": "Exa Search API Key",
+      "password": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "use_autoprompt",
+      "display_name": "Use Autoprompt",
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "search_num_results",
+      "display_name": "Search Number of Results",
+      "value": 5,
+      "default": 5
+    },
+    {
+      "field_class": "IntInput",
+      "name": "similar_num_results",
+      "display_name": "Similar Number of Results",
+      "value": 5,
+      "default": 5
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "tools",
+      "display_name": "Tools",
+      "method": "build_toolkit"
+    }
+  ],
+  "template": [
+    "metaphor_api_key",
+    "use_autoprompt",
+    "search_num_results",
+    "similar_num_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ExaSearch"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/exa/exa_search.py#L9"
+}

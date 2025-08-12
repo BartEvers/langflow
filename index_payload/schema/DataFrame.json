@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "DataFrame",
+  "fields": [],
+  "doc": "A pandas DataFrame subclass specialized for handling collections of Data objects.\n\nThis class extends pandas.DataFrame to provide seamless integration between\nLangflow's Data objects and pandas' powerful data manipulation capabilities.\n\nArgs:\n    data: Input data in various formats:\n        - List[Data]: List of Data objects\n        - List[Dict]: List of dictionaries\n        - Dict: Dictionary of arrays/lists\n        - pandas.DataFrame: Existing DataFrame\n        - Any format supported by pandas.DataFrame\n    **kwargs: Additional arguments passed to pandas.DataFrame constructor\n\nExamples:\n    >>> # From Data objects\n    >>> dataset = DataFrame([Data(data={\"name\": \"John\"}), Data(data={\"name\": \"Jane\"})])\n\n    >>> # From dictionaries\n    >>> dataset = DataFrame([{\"name\": \"John\"}, {\"name\": \"Jane\"}])\n\n    >>> # From dictionary of lists\n    >>> dataset = DataFrame({\"name\": [\"John\", \"Jane\"], \"age\": [30, 25]})",
+  "source": "src/backend/base/langflow/schema/dataframe.py#L11"
+}

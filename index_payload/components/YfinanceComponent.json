@@ -1,0 +1,56 @@
+{
+  "kind": "component",
+  "type": "YfinanceComponent",
+  "display_name": "Yahoo! Finance",
+  "description": "Uses [yfinance](https://pypi.org/project/yfinance/) (unofficial package) to access financial data and market information from Yahoo! Finance.",
+  "documentation": null,
+  "icon": "trending-up",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "symbol",
+      "display_name": "Stock Symbol",
+      "info": "The stock symbol to retrieve data for (e.g., AAPL, GOOG).",
+      "tool_mode": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "method",
+      "display_name": "Data Method",
+      "info": "The type of data to retrieve.",
+      "options": "list('YahooFinanceMethod')",
+      "value": "get_news",
+      "default": "get_news"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "num_news",
+      "display_name": "Number of News",
+      "info": "The number of news articles to retrieve (only applicable for get_news).",
+      "value": 5,
+      "default": 5
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "fetch_content_dataframe"
+    }
+  ],
+  "template": [
+    "symbol",
+    "method",
+    "num_news"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "YfinanceComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/yahoosearch/yahoo.py#L51"
+}

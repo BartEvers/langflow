@@ -1,0 +1,16 @@
+{
+  "kind": "framework_rules",
+  "file": "src/backend/base/langflow/base/io/text.py",
+  "base_component_classes_in_file": [
+    "TextComponent"
+  ],
+  "expected_attributes_hint": [
+    "name",
+    "display_name",
+    "description",
+    "documentation",
+    "icon",
+    "inputs",
+    "outputs"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "kind": "enum_constants",
+  "name": "MESSAGE_SENDER_AI",
+  "value": "Machine",
+  "source": "src/backend/base/langflow/utils/constants.py#L202"
+}

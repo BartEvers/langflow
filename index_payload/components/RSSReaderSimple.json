@@ -1,0 +1,48 @@
+{
+  "kind": "component",
+  "type": "RSSReaderSimple",
+  "display_name": "RSS Reader",
+  "description": "Fetches and parses an RSS feed.",
+  "documentation": "https://docs.langflow.org/components-data#rss-reader",
+  "icon": "rss",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "rss_url",
+      "display_name": "RSS Feed URL",
+      "info": "URL of the RSS feed to parse.",
+      "tool_mode": true,
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "timeout",
+      "display_name": "Timeout",
+      "info": "Timeout for the RSS feed request.",
+      "value": 5,
+      "advanced": true,
+      "default": 5
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "articles",
+      "display_name": "Articles",
+      "method": "read_rss"
+    }
+  ],
+  "template": [
+    "rss_url",
+    "timeout"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "RSSReaderSimple"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/data/rss.py#L11"
+}

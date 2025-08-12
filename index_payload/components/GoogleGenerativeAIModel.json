@@ -1,0 +1,96 @@
+{
+  "kind": "component",
+  "type": "GoogleGenerativeAIModel",
+  "display_name": "Google Generative AI",
+  "description": "Generate text using Google Generative AI.",
+  "documentation": null,
+  "icon": "GoogleGenerativeAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_output_tokens",
+      "display_name": "Max Output Tokens",
+      "info": "The maximum number of tokens to generate."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model",
+      "info": "The name of the model to use.",
+      "options": "GOOGLE_GENERATIVE_AI_MODELS",
+      "value": "gemini-1.5-pro",
+      "refresh_button": true,
+      "combobox": true,
+      "default": "gemini-1.5-pro"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Google API Key",
+      "info": "The Google API Key to use for the Google Generative AI.",
+      "required": true,
+      "real_time_refresh": true
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "top_p",
+      "display_name": "Top P",
+      "info": "The maximum cumulative probability of tokens to consider when sampling.",
+      "advanced": true
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.1,
+      "range_spec": "RangeSpec(min=0, max=1, step=0.01)",
+      "info": "Controls randomness. Lower values are more deterministic, higher values are more creative.",
+      "default": 0.1
+    },
+    {
+      "field_class": "IntInput",
+      "name": "n",
+      "display_name": "N",
+      "info": "Number of chat completions to generate for each prompt. Note that the API may not return the full n completions if duplicates are generated.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "top_k",
+      "display_name": "Top K",
+      "info": "Decode using top-k sampling: consider the set of top_k most probable tokens. Must be positive.",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "tool_model_enabled",
+      "display_name": "Tool Model Enabled",
+      "info": "Whether to use the tool model.",
+      "value": false,
+      "default": false
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "max_output_tokens",
+    "model_name",
+    "api_key",
+    "top_p",
+    "temperature",
+    "n",
+    "top_k",
+    "tool_model_enabled"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GoogleGenerativeAIModel"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/google/google_generative_ai.py#L22"
+}

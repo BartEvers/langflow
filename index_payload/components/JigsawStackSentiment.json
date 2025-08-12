@@ -1,0 +1,52 @@
+{
+  "kind": "component",
+  "type": "JigsawStackSentiment",
+  "display_name": "Sentiment Analysis",
+  "description": "Analyze sentiment of text using JigsawStack AI",
+  "documentation": "https://jigsawstack.com/docs/api-reference/ai/sentiment",
+  "icon": "JigsawStack",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "JigsawStack API Key",
+      "info": "Your JigsawStack API key for authentication",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "text",
+      "display_name": "Text",
+      "info": "Text to analyze for sentiment",
+      "required": true,
+      "tool_mode": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Sentiment Data",
+      "name": "sentiment_data",
+      "method": "analyze_sentiment"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Sentiment Text",
+      "name": "sentiment_text",
+      "method": "get_sentiment_text"
+    }
+  ],
+  "template": [
+    "api_key",
+    "text"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JigsawStackSentiment"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/jigsawstack/sentiment.py#L7"
+}

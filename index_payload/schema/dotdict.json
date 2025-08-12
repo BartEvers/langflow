@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "dotdict",
+  "fields": [],
+  "doc": "dotdict allows accessing dictionary elements using dot notation (e.g., dict.key instead of dict['key']).\n\nIt automatically converts nested dictionaries into dotdict instances, enabling dot notation on them as well.\n\nNote:\n    - Only keys that are valid attribute names (e.g., strings that could be variable names) are accessible via dot\n      notation.\n    - Keys which are not valid Python attribute names or collide with the dict method names (like 'items', 'keys')\n      should be accessed using the traditional dict['key'] notation.",
+  "source": "src/backend/base/langflow/schema/dotdict.py#L1"
+}

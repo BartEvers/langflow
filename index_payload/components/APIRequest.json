@@ -1,0 +1,193 @@
+{
+  "kind": "component",
+  "type": "APIRequest",
+  "display_name": "API Request",
+  "description": "Make HTTP requests using URL or cURL commands.",
+  "documentation": "https://docs.langflow.org/components-data#api-request",
+  "icon": "Globe",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "url_input",
+      "display_name": "URL",
+      "info": "Enter the URL for the request.",
+      "advanced": false,
+      "tool_mode": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "curl_input",
+      "display_name": "cURL",
+      "info": "Paste a curl command to populate the fields. This will fill in the dictionary fields for headers and body.",
+      "real_time_refresh": true,
+      "tool_mode": true,
+      "advanced": true,
+      "show": false
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "method",
+      "display_name": "Method",
+      "options": [
+        "GET",
+        "POST",
+        "PATCH",
+        "PUT",
+        "DELETE"
+      ],
+      "value": "GET",
+      "info": "The HTTP method to use.",
+      "real_time_refresh": true,
+      "default": "GET"
+    },
+    {
+      "field_class": "TabInput",
+      "name": "mode",
+      "display_name": "Mode",
+      "options": [
+        "URL",
+        "cURL"
+      ],
+      "value": "URL",
+      "info": "Enable cURL mode to populate fields from a cURL command.",
+      "real_time_refresh": true,
+      "default": "URL"
+    },
+    {
+      "field_class": "DataInput",
+      "name": "query_params",
+      "display_name": "Query Parameters",
+      "info": "The query parameters to append to the URL.",
+      "advanced": true
+    },
+    {
+      "field_class": "TableInput",
+      "name": "body",
+      "display_name": "Body",
+      "info": "The body to send with the request as a dictionary (for POST, PATCH, PUT).",
+      "table_schema": [
+        {
+          "name": "key",
+          "display_name": "Key",
+          "type": "str",
+          "description": "Parameter name"
+        },
+        {
+          "name": "value",
+          "display_name": "Value",
+          "description": "Parameter value"
+        }
+      ],
+      "value": [],
+      "input_types": [
+        "Data"
+      ],
+      "advanced": true,
+      "real_time_refresh": true,
+      "default": []
+    },
+    {
+      "field_class": "TableInput",
+      "name": "headers",
+      "display_name": "Headers",
+      "info": "The headers to send with the request",
+      "table_schema": [
+        {
+          "name": "key",
+          "display_name": "Header",
+          "type": "str",
+          "description": "Header name"
+        },
+        {
+          "name": "value",
+          "display_name": "Value",
+          "type": "str",
+          "description": "Header value"
+        }
+      ],
+      "value": [
+        {
+          "key": "User-Agent",
+          "value": "get_settings_service().settings.user_agent"
+        }
+      ],
+      "advanced": true,
+      "input_types": [
+        "Data"
+      ],
+      "real_time_refresh": true,
+      "default": [
+        {
+          "key": "User-Agent",
+          "value": "get_settings_service().settings.user_agent"
+        }
+      ]
+    },
+    {
+      "field_class": "IntInput",
+      "name": "timeout",
+      "display_name": "Timeout",
+      "value": 30,
+      "info": "The timeout to use for the request.",
+      "advanced": true,
+      "default": 30
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "follow_redirects",
+      "display_name": "Follow Redirects",
+      "value": true,
+      "info": "Whether to follow http redirects.",
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "save_to_file",
+      "display_name": "Save to File",
+      "value": false,
+      "info": "Save the API response to a temporary file",
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_httpx_metadata",
+      "display_name": "Include HTTPx Metadata",
+      "value": false,
+      "info": "Include properties such as headers, status_code, response_headers, and redirection_history in the output.",
+      "advanced": true,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "API Response",
+      "name": "data",
+      "method": "make_api_request"
+    }
+  ],
+  "template": [
+    "url_input",
+    "curl_input",
+    "method",
+    "mode",
+    "query_params",
+    "body",
+    "headers",
+    "timeout",
+    "follow_redirects",
+    "save_to_file",
+    "include_httpx_metadata"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "APIRequest"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/data/api_request.py#L45"
+}

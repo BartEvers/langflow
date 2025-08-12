@@ -1,0 +1,125 @@
+{
+  "kind": "component",
+  "type": "ConditionalRouter",
+  "display_name": "If-Else",
+  "description": "Routes an input message to a corresponding output based on text comparison.",
+  "documentation": "https://docs.langflow.org/components-logic#conditional-router-if-else-component",
+  "icon": "split",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "input_text",
+      "display_name": "Text Input",
+      "info": "The primary text input for the operation.",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "operator",
+      "display_name": "Operator",
+      "options": [
+        "equals",
+        "not equals",
+        "contains",
+        "starts with",
+        "ends with",
+        "regex",
+        "less than",
+        "less than or equal",
+        "greater than",
+        "greater than or equal"
+      ],
+      "info": "The operator to apply for comparing the texts.",
+      "value": "equals",
+      "real_time_refresh": true,
+      "default": "equals"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "match_text",
+      "display_name": "Match Text",
+      "info": "The text input to compare against.",
+      "required": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "case_sensitive",
+      "display_name": "Case Sensitive",
+      "info": "If true, the comparison will be case sensitive.",
+      "value": true,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "MessageInput",
+      "name": "true_case_message",
+      "display_name": "Case True",
+      "info": "The message to pass if the condition is True.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageInput",
+      "name": "false_case_message",
+      "display_name": "Case False",
+      "info": "The message to pass if the condition is False.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_iterations",
+      "display_name": "Max Iterations",
+      "info": "The maximum number of iterations for the conditional router.",
+      "value": 10,
+      "advanced": true,
+      "default": 10
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "default_route",
+      "display_name": "Default Route",
+      "options": [
+        "true_result",
+        "false_result"
+      ],
+      "info": "The default route to take when max iterations are reached.",
+      "value": "false_result",
+      "advanced": true,
+      "default": "false_result"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "True",
+      "name": "true_result",
+      "method": "true_response",
+      "group_outputs": true
+    },
+    {
+      "output_class": "Output",
+      "display_name": "False",
+      "name": "false_result",
+      "method": "false_response",
+      "group_outputs": true
+    }
+  ],
+  "template": [
+    "input_text",
+    "operator",
+    "match_text",
+    "case_sensitive",
+    "true_case_message",
+    "false_case_message",
+    "max_iterations",
+    "default_route"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ConditionalRouter"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/logic/conditional_router.py#L8"
+}

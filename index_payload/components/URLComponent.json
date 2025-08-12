@@ -1,0 +1,191 @@
+{
+  "kind": "component",
+  "type": "URLComponent",
+  "display_name": "URL",
+  "description": "Fetch content from one or more web pages, following links recursively.",
+  "documentation": "https://docs.langflow.org/components-data#url",
+  "icon": "layout-template",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "urls",
+      "display_name": "URLs",
+      "info": "Enter one or more URLs to crawl recursively, by clicking the '+' button.",
+      "is_list": true,
+      "tool_mode": true,
+      "placeholder": "Enter a URL...",
+      "list_add_label": "Add URL",
+      "input_types": []
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "max_depth",
+      "display_name": "Depth",
+      "info": "Controls how many 'clicks' away from the initial page the crawler will go:\n- depth 1: only the initial page\n- depth 2: initial page + all pages linked directly from it\n- depth 3: initial page + direct links + links found on those direct link pages\nNote: This is about link traversal, not URL path depth.",
+      "value": "DEFAULT_MAX_DEPTH",
+      "range_spec": "RangeSpec(min=1, max=5, step=1)",
+      "required": false,
+      "min_label": " ",
+      "max_label": " ",
+      "min_label_icon": "None",
+      "max_label_icon": "None",
+      "default": "DEFAULT_MAX_DEPTH"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "prevent_outside",
+      "display_name": "Prevent Outside",
+      "info": "If enabled, only crawls URLs within the same domain as the root URL. This helps prevent the crawler from going to external websites.",
+      "value": true,
+      "required": false,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "use_async",
+      "display_name": "Use Async",
+      "info": "If enabled, uses asynchronous loading which can be significantly faster but might use more system resources.",
+      "value": true,
+      "required": false,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "format",
+      "display_name": "Output Format",
+      "info": "Output Format. Use 'Text' to extract the text from the HTML or 'HTML' for the raw HTML content.",
+      "options": [
+        "Text",
+        "HTML"
+      ],
+      "value": "DEFAULT_FORMAT",
+      "advanced": true,
+      "default": "DEFAULT_FORMAT"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "timeout",
+      "display_name": "Timeout",
+      "info": "Timeout for the request in seconds.",
+      "value": "DEFAULT_TIMEOUT",
+      "required": false,
+      "advanced": true,
+      "default": "DEFAULT_TIMEOUT"
+    },
+    {
+      "field_class": "TableInput",
+      "name": "headers",
+      "display_name": "Headers",
+      "info": "The headers to send with the request",
+      "table_schema": [
+        {
+          "name": "key",
+          "display_name": "Header",
+          "type": "str",
+          "description": "Header name"
+        },
+        {
+          "name": "value",
+          "display_name": "Value",
+          "type": "str",
+          "description": "Header value"
+        }
+      ],
+      "value": [
+        {
+          "key": "User-Agent",
+          "value": "get_settings_service().settings.user_agent"
+        }
+      ],
+      "advanced": true,
+      "input_types": [
+        "DataFrame"
+      ],
+      "default": [
+        {
+          "key": "User-Agent",
+          "value": "get_settings_service().settings.user_agent"
+        }
+      ]
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "filter_text_html",
+      "display_name": "Filter Text/HTML",
+      "info": "If enabled, filters out text/css content type from the results.",
+      "value": true,
+      "required": false,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "continue_on_failure",
+      "display_name": "Continue on Failure",
+      "info": "If enabled, continues crawling even if some requests fail.",
+      "value": true,
+      "required": false,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "check_response_status",
+      "display_name": "Check Response Status",
+      "info": "If enabled, checks the response status of the request.",
+      "value": false,
+      "required": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "autoset_encoding",
+      "display_name": "Autoset Encoding",
+      "info": "If enabled, automatically sets the encoding of the request.",
+      "value": true,
+      "required": false,
+      "advanced": true,
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Extracted Pages",
+      "name": "page_results",
+      "method": "fetch_content"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Raw Content",
+      "name": "raw_results",
+      "method": "fetch_content_as_message",
+      "tool_mode": false
+    }
+  ],
+  "template": [
+    "urls",
+    "max_depth",
+    "prevent_outside",
+    "use_async",
+    "format",
+    "timeout",
+    "headers",
+    "filter_text_html",
+    "continue_on_failure",
+    "check_response_status",
+    "autoset_encoding"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "URLComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/data/url.py#L26"
+}

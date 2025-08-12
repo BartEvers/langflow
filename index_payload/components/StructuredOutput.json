@@ -1,0 +1,139 @@
+{
+  "kind": "component",
+  "type": "StructuredOutput",
+  "display_name": "Structured Output",
+  "description": "Uses an LLM to generate structured data. Ideal for extraction and consistency.",
+  "documentation": "https://docs.langflow.org/components-processing#structured-output",
+  "icon": "braces",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "info": "The language model to use to generate the structured output.",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input Message",
+      "info": "The input message to the language model.",
+      "tool_mode": true,
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "system_prompt",
+      "display_name": "Format Instructions",
+      "info": "The instructions to the language model for formatting the output.",
+      "value": "You are an AI that extracts structured JSON objects from unstructured text. Use a predefined schema with expected types (str, int, float, bool, dict). Extract ALL relevant instances that match the schema - if multiple patterns exist, capture them all. Fill missing or ambiguous values with defaults: null for missing values. Remove exact duplicates but keep variations that have different field values. Always return valid JSON in the expected format, never throw errors. If multiple objects can be extracted, return them all in the structured format.",
+      "required": true,
+      "advanced": true,
+      "default": "You are an AI that extracts structured JSON objects from unstructured text. Use a predefined schema with expected types (str, int, float, bool, dict). Extract ALL relevant instances that match the schema - if multiple patterns exist, capture them all. Fill missing or ambiguous values with defaults: null for missing values. Remove exact duplicates but keep variations that have different field values. Always return valid JSON in the expected format, never throw errors. If multiple objects can be extracted, return them all in the structured format."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "schema_name",
+      "display_name": "Schema Name",
+      "info": "Provide a name for the output data schema.",
+      "advanced": true
+    },
+    {
+      "field_class": "TableInput",
+      "name": "output_schema",
+      "display_name": "Output Schema",
+      "info": "Define the structure and data types for the model's output.",
+      "required": true,
+      "table_schema": [
+        {
+          "name": "name",
+          "display_name": "Name",
+          "type": "str",
+          "description": "Specify the name of the output field.",
+          "default": "field",
+          "edit_mode": "EditMode.INLINE"
+        },
+        {
+          "name": "description",
+          "display_name": "Description",
+          "type": "str",
+          "description": "Describe the purpose of the output field.",
+          "default": "description of field",
+          "edit_mode": "EditMode.POPOVER"
+        },
+        {
+          "name": "type",
+          "display_name": "Type",
+          "type": "str",
+          "edit_mode": "EditMode.INLINE",
+          "description": "Indicate the data type of the output field (e.g., str, int, float, bool, dict).",
+          "options": [
+            "str",
+            "int",
+            "float",
+            "bool",
+            "dict"
+          ],
+          "default": "str"
+        },
+        {
+          "name": "multiple",
+          "display_name": "As List",
+          "type": "boolean",
+          "description": "Set to True if this output field should be a list of the specified type.",
+          "default": "False",
+          "edit_mode": "EditMode.INLINE"
+        }
+      ],
+      "value": [
+        {
+          "name": "field",
+          "description": "description of field",
+          "type": "str",
+          "multiple": "False"
+        }
+      ],
+      "default": [
+        {
+          "name": "field",
+          "description": "description of field",
+          "type": "str",
+          "multiple": "False"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "structured_output",
+      "display_name": "Structured Output",
+      "method": "build_structured_output"
+    },
+    {
+      "output_class": "Output",
+      "name": "dataframe_output",
+      "display_name": "Structured Output",
+      "method": "build_structured_dataframe"
+    }
+  ],
+  "template": [
+    "llm",
+    "input_value",
+    "system_prompt",
+    "schema_name",
+    "output_schema"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "StructuredOutput"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/structured_output.py#L19"
+}

@@ -1,0 +1,206 @@
+{
+  "kind": "component",
+  "type": "NvidiaIngestComponent",
+  "display_name": "NVIDIA Retriever Extraction",
+  "description": "Multi-modal data extraction from documents using NVIDIA's NeMo API.",
+  "documentation": "https://docs.nvidia.com/nemo/retriever/extraction/overview/",
+  "icon": "NVIDIA",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "base_url",
+      "display_name": "Base URL",
+      "info": "The URL of the NVIDIA NeMo Retriever Extraction API.",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "NVIDIA API Key"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "extract_text",
+      "display_name": "Extract Text",
+      "info": "Extract text from documents",
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "extract_charts",
+      "display_name": "Extract Charts",
+      "info": "Extract text from charts",
+      "value": false,
+      "default": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "extract_tables",
+      "display_name": "Extract Tables",
+      "info": "Extract text from tables",
+      "value": false,
+      "default": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "extract_images",
+      "display_name": "Extract Images",
+      "info": "Extract images from document",
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "extract_infographics",
+      "display_name": "Extract Infographics",
+      "info": "Extract infographics from document",
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "text_depth",
+      "display_name": "Text Depth",
+      "info": "Level at which text is extracted (applies before splitting). Support for 'block', 'line', 'span' varies by document type.",
+      "options": [
+        "document",
+        "page",
+        "block",
+        "line",
+        "span"
+      ],
+      "value": "page",
+      "advanced": true,
+      "default": "page"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "split_text",
+      "display_name": "Split Text",
+      "info": "Split text into smaller chunks",
+      "value": true,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "chunk_size",
+      "display_name": "Chunk size",
+      "info": "The number of tokens per chunk",
+      "value": 500,
+      "advanced": true,
+      "default": 500
+    },
+    {
+      "field_class": "IntInput",
+      "name": "chunk_overlap",
+      "display_name": "Chunk Overlap",
+      "info": "Number of tokens to overlap from previous chunk",
+      "value": 150,
+      "advanced": true,
+      "default": 150
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "filter_images",
+      "display_name": "Filter Images",
+      "info": "Filter images (see advanced options for filtering criteria).",
+      "advanced": true,
+      "value": false,
+      "default": false
+    },
+    {
+      "field_class": "IntInput",
+      "name": "min_image_size",
+      "display_name": "Minimum Image Size Filter",
+      "info": "Minimum image width/length in pixels",
+      "value": 128,
+      "advanced": true,
+      "default": 128
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "min_aspect_ratio",
+      "display_name": "Minimum Aspect Ratio Filter",
+      "info": "Minimum allowed aspect ratio (width / height). Images narrower than this will be filtered out.",
+      "value": 0.2,
+      "advanced": true,
+      "default": 0.2
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "max_aspect_ratio",
+      "display_name": "Maximum Aspect Ratio Filter",
+      "info": "Maximum allowed aspect ratio (width / height). Images taller than this will be filtered out.",
+      "value": 5.0,
+      "advanced": true,
+      "default": 5.0
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "dedup_images",
+      "display_name": "Deduplicate Images",
+      "info": "Filter duplicated images.",
+      "advanced": true,
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "caption_images",
+      "display_name": "Caption Images",
+      "info": "Generate captions for images using the NVIDIA captioning model.",
+      "advanced": true,
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "high_resolution",
+      "display_name": "High Resolution (PDF only)",
+      "info": "Process pdf in high-resolution mode for better quality extraction from scanned pdf.",
+      "advanced": true,
+      "value": false,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Starred"
+    }
+  ],
+  "template": [
+    "base_url",
+    "api_key",
+    "extract_text",
+    "extract_charts",
+    "extract_tables",
+    "extract_images",
+    "extract_infographics",
+    "text_depth",
+    "split_text",
+    "chunk_size",
+    "chunk_overlap",
+    "filter_images",
+    "min_image_size",
+    "min_aspect_ratio",
+    "max_aspect_ratio",
+    "dedup_images",
+    "caption_images",
+    "high_resolution"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NvidiaIngestComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/nvidia/nvidia_ingest.py#L10"
+}

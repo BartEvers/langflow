@@ -1,0 +1,50 @@
+{
+  "kind": "component",
+  "type": "VectaraSelfQueryRetriver",
+  "display_name": "Vectara Self Query Retriever",
+  "description": "Implementation of Vectara Self Query Retriever",
+  "documentation": null,
+  "icon": "Vectara",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "vectorstore",
+      "display_name": "Vector Store",
+      "info": "Input Vectara Vector Store"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "LLM",
+      "info": "For self query retriever"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "document_content_description",
+      "display_name": "Document Content Description",
+      "info": "For self query retriever"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "metadata_field_info",
+      "display_name": "Metadata Field Info",
+      "info": "Each metadata field info is a string in the form of key value pair dictionary containing additional search metadata.\nExample input: {\"name\":\"speech\",\"description\":\"what name of the speech\",\"type\":\"string or list[string]\"}.\nThe keys should remain constant(name, description, type)"
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "vectorstore",
+    "llm",
+    "document_content_description",
+    "metadata_field_info"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "VectaraSelfQueryRetriver"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/vectara_self_query.py#L12"
+}

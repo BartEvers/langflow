@@ -1,0 +1,65 @@
+{
+  "kind": "component",
+  "type": "HierarchicalCrewComponent",
+  "display_name": "Hierarchical Crew",
+  "description": "Represents a group of agents, defining how they should collaborate and the tasks they should perform.",
+  "documentation": "https://docs.crewai.com/how-to/Hierarchical/",
+  "icon": "CrewAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "agents",
+      "display_name": "Agents",
+      "input_types": [
+        "Agent"
+      ],
+      "is_list": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "tasks",
+      "display_name": "Tasks",
+      "input_types": [
+        "HierarchicalTask"
+      ],
+      "is_list": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "manager_llm",
+      "display_name": "Manager LLM",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": false
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "manager_agent",
+      "display_name": "Manager Agent",
+      "input_types": [
+        "Agent"
+      ],
+      "required": false
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "agents",
+    "tasks",
+    "manager_llm",
+    "manager_agent"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "HierarchicalCrewComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/crewai/hierarchical_crew.py#L5"
+}

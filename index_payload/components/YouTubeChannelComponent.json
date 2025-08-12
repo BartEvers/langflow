@@ -1,0 +1,75 @@
+{
+  "kind": "component",
+  "type": "YouTubeChannelComponent",
+  "display_name": "YouTube Channel",
+  "description": "Retrieves detailed information and statistics about YouTube channels as a DataFrame.",
+  "documentation": null,
+  "icon": "YouTube",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "channel_url",
+      "display_name": "Channel URL or ID",
+      "info": "The URL or ID of the YouTube channel.",
+      "tool_mode": true,
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "YouTube API Key",
+      "info": "Your YouTube Data API key.",
+      "required": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_statistics",
+      "display_name": "Include Statistics",
+      "value": true,
+      "info": "Include channel statistics (views, subscribers, videos).",
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_branding",
+      "display_name": "Include Branding",
+      "value": true,
+      "info": "Include channel branding settings (banner, thumbnails).",
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_playlists",
+      "display_name": "Include Playlists",
+      "value": false,
+      "info": "Include channel's public playlists.",
+      "advanced": true,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "channel_df",
+      "display_name": "Channel Info",
+      "method": "get_channel_info"
+    }
+  ],
+  "template": [
+    "channel_url",
+    "api_key",
+    "include_statistics",
+    "include_branding",
+    "include_playlists"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "YouTubeChannelComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/youtube/channel.py#L14"
+}

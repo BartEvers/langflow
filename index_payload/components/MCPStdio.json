@@ -1,0 +1,39 @@
+{
+  "kind": "component",
+  "type": "MCPStdio",
+  "display_name": "MCP Tools (stdio) [DEPRECATED]",
+  "description": "Connects to an MCP server over stdio and exposes it's tools as langflow tools to be used by an Agent.",
+  "documentation": "https://docs.langflow.org/components-custom-components",
+  "icon": "code",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "command",
+      "display_name": "mcp command",
+      "info": "mcp command",
+      "value": "uvx mcp-sse-shim@latest",
+      "tool_mode": true,
+      "default": "uvx mcp-sse-shim@latest"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Tools",
+      "name": "tools",
+      "method": "build_output"
+    }
+  ],
+  "template": [
+    "command"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "MCPStdio"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/mcp_stdio.py#L17"
+}

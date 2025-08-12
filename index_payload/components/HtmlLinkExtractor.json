@@ -1,0 +1,52 @@
+{
+  "kind": "component",
+  "type": "HtmlLinkExtractor",
+  "display_name": "HTML Link Extractor",
+  "description": "Extract hyperlinks from HTML content.",
+  "documentation": "https://python.langchain.com/v0.2/api_reference/community/graph_vectorstores/langchain_community.graph_vectorstores.extractors.html_link_extractor.HtmlLinkExtractor.html",
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "kind",
+      "display_name": "Kind of edge",
+      "value": "hyperlink",
+      "required": false,
+      "default": "hyperlink"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "drop_fragments",
+      "display_name": "Drop URL fragments",
+      "value": true,
+      "required": false,
+      "default": true
+    },
+    {
+      "field_class": "DataInput",
+      "name": "data_input",
+      "display_name": "Input",
+      "info": "The texts from which to extract links.",
+      "input_types": [
+        "Document",
+        "Data"
+      ],
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "kind",
+    "drop_fragments",
+    "data_input"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "HtmlLinkExtractor"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/html_link_extractor.py#L10"
+}

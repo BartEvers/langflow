@@ -1,0 +1,54 @@
+{
+  "kind": "component",
+  "type": "PythonREPLComponent",
+  "display_name": "Python Interpreter",
+  "description": "Run Python code with optional imports. Use print() to see the output.",
+  "documentation": "https://docs.langflow.org/components-processing#python-interpreter",
+  "icon": "square-terminal",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "global_imports",
+      "display_name": "Global Imports",
+      "info": "A comma-separated list of modules to import globally, e.g. 'math,numpy,pandas'.",
+      "value": "math,pandas",
+      "required": true,
+      "default": "math,pandas"
+    },
+    {
+      "field_class": "CodeInput",
+      "name": "python_code",
+      "display_name": "Python Code",
+      "info": "The Python code to execute. Only modules specified in Global Imports can be used.",
+      "value": "print('Hello, World!')",
+      "input_types": [
+        "Message"
+      ],
+      "tool_mode": true,
+      "required": true,
+      "default": "print('Hello, World!')"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Results",
+      "name": "results",
+      "type_": "Data",
+      "method": "run_python_repl"
+    }
+  ],
+  "template": [
+    "global_imports",
+    "python_code"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "PythonREPLComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/python_repl_core.py#L10"
+}

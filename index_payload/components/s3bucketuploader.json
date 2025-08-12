@@ -1,0 +1,97 @@
+{
+  "kind": "component",
+  "type": "s3bucketuploader",
+  "display_name": "S3 Bucket Uploader",
+  "description": "Uploads files to S3 bucket.",
+  "documentation": null,
+  "icon": "Amazon",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "aws_access_key_id",
+      "display_name": "AWS Access Key ID",
+      "required": true,
+      "password": true,
+      "info": "AWS Access key ID."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "aws_secret_access_key",
+      "display_name": "AWS Secret Key",
+      "required": true,
+      "password": true,
+      "info": "AWS Secret Key."
+    },
+    {
+      "field_class": "StrInput",
+      "name": "bucket_name",
+      "display_name": "Bucket Name",
+      "info": "Enter the name of the bucket.",
+      "advanced": false
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "strategy",
+      "display_name": "Strategy for file upload",
+      "options": [
+        "Store Data",
+        "Store Original File"
+      ],
+      "value": "By Data",
+      "info": "Choose the strategy to upload the file. By Data means that the source file is parsed and stored as LangFlow data. By File Name means that the source file is uploaded as is.",
+      "default": "By Data"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "data_inputs",
+      "display_name": "Data Inputs",
+      "info": "The data to split.",
+      "input_types": [
+        "Data"
+      ],
+      "is_list": true,
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "s3_prefix",
+      "display_name": "S3 Prefix",
+      "info": "Prefix for all files.",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "strip_path",
+      "display_name": "Strip Path",
+      "info": "Removes path from file path.",
+      "required": true,
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Writes to AWS Bucket",
+      "name": "data",
+      "method": "process_files"
+    }
+  ],
+  "template": [
+    "aws_access_key_id",
+    "aws_secret_access_key",
+    "bucket_name",
+    "strategy",
+    "data_inputs",
+    "s3_prefix",
+    "strip_path"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "s3bucketuploader"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/amazon/s3_bucket_uploader.py#L15"
+}

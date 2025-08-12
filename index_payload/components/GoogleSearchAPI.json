@@ -1,0 +1,51 @@
+{
+  "kind": "component",
+  "type": "GoogleSearchAPI",
+  "display_name": "Google Search API [DEPRECATED]",
+  "description": "Call Google Search API.",
+  "documentation": null,
+  "icon": "Google",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "google_api_key",
+      "display_name": "Google API Key",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "google_cse_id",
+      "display_name": "Google CSE ID",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "k",
+      "display_name": "Number of results",
+      "value": 4,
+      "required": true,
+      "default": 4
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "google_api_key",
+    "google_cse_id",
+    "input_value",
+    "k"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "GoogleSearchAPI"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/tools/google_search_api.py#L8"
+}

@@ -1,0 +1,142 @@
+{
+  "kind": "component",
+  "type": "LocalDB",
+  "display_name": "Local DB",
+  "description": "Local Vector Store with search capabilities",
+  "documentation": null,
+  "icon": "database",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "TabInput",
+      "name": "mode",
+      "display_name": "Mode",
+      "options": [
+        "Ingest",
+        "Retrieve"
+      ],
+      "info": "Select the operation mode",
+      "value": "Ingest",
+      "real_time_refresh": true,
+      "show": true,
+      "default": "Ingest"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "collection_name",
+      "display_name": "Collection Name",
+      "value": "langflow",
+      "required": true,
+      "default": "langflow"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "persist_directory",
+      "display_name": "Persist Directory",
+      "info": "Custom base directory to save the vector store. Collections will be stored under '{directory}/vector_stores/{collection_name}'. If not specified, it will use your system's cache folder.",
+      "advanced": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "existing_collections",
+      "display_name": "Existing Collections",
+      "options": [],
+      "info": "Select a previously created collection to search through its stored data.",
+      "show": false,
+      "combobox": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding",
+      "required": true,
+      "input_types": [
+        "Embeddings"
+      ]
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "allow_duplicates",
+      "display_name": "Allow Duplicates",
+      "advanced": true,
+      "info": "If false, will not add documents that are already in the Vector Store."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "search_type",
+      "display_name": "Search Type",
+      "options": [
+        "Similarity",
+        "MMR"
+      ],
+      "value": "Similarity",
+      "advanced": true,
+      "default": "Similarity"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "ingest_data",
+      "display_name": "Ingest Data",
+      "input_types": [
+        "Data",
+        "DataFrame"
+      ],
+      "is_list": true,
+      "info": "Data to store. It will be embedded and indexed for semantic search.",
+      "show": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "search_query",
+      "display_name": "Search Query",
+      "tool_mode": true,
+      "info": "Enter text to search for similar content in the selected collection.",
+      "show": false
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "advanced": true,
+      "value": 10,
+      "default": 10
+    },
+    {
+      "field_class": "IntInput",
+      "name": "limit",
+      "display_name": "Limit",
+      "advanced": true,
+      "info": "Limit the number of records to compare when Allow Duplicates is False."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "perform_search"
+    }
+  ],
+  "template": [
+    "mode",
+    "collection_name",
+    "persist_directory",
+    "existing_collections",
+    "embedding",
+    "allow_duplicates",
+    "search_type",
+    "ingest_data",
+    "search_query",
+    "number_of_results",
+    "limit"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "LocalDB"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/local_db.py#L17"
+}

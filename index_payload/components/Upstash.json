@@ -1,0 +1,85 @@
+{
+  "kind": "component",
+  "type": "Upstash",
+  "display_name": "Upstash",
+  "description": "Upstash Vector Store with search capabilities",
+  "documentation": null,
+  "icon": "Upstash",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "index_url",
+      "display_name": "Index URL",
+      "info": "The URL of the Upstash index.",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "index_token",
+      "display_name": "Index Token",
+      "info": "The token for the Upstash index.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "text_key",
+      "display_name": "Text Key",
+      "info": "The key in the record to use as text.",
+      "value": "text",
+      "advanced": true,
+      "default": "text"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "namespace",
+      "display_name": "Namespace",
+      "info": "Leave empty for default namespace."
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "metadata_filter",
+      "display_name": "Metadata Filter",
+      "info": "Filters documents by metadata. Look at the documentation for more information."
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding",
+      "input_types": [
+        "Embeddings"
+      ],
+      "info": "To use Upstash's embeddings, don't provide an embedding."
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "value": 4,
+      "advanced": true,
+      "default": 4
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "index_url",
+    "index_token",
+    "text_key",
+    "namespace",
+    "metadata_filter",
+    "embedding",
+    "number_of_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Upstash"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/upstash.py#L15"
+}

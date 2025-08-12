@@ -1,0 +1,120 @@
+{
+  "kind": "component",
+  "type": "LLMRouterComponent",
+  "display_name": "LLM Router",
+  "description": "Routes the input to the most appropriate LLM based on OpenRouter model specifications",
+  "documentation": "https://docs.langflow.org/components-processing#llm-router",
+  "icon": "git-branch",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "models",
+      "display_name": "Language Models",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true,
+      "is_list": true,
+      "info": "List of LLMs to route between"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "required": true,
+      "info": "The input message to be routed"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "judge_llm",
+      "display_name": "Judge LLM",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true,
+      "info": "LLM that will evaluate and select the most appropriate model"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "optimization",
+      "display_name": "Optimization",
+      "options": [
+        "quality",
+        "speed",
+        "cost",
+        "balanced"
+      ],
+      "value": "balanced",
+      "info": "Optimization preference for model selection",
+      "default": "balanced"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "use_openrouter_specs",
+      "display_name": "Use OpenRouter Specs",
+      "value": true,
+      "info": "Fetch model specifications from OpenRouter API for enhanced routing decisions. If false, only model names will be used.",
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "timeout",
+      "display_name": "API Timeout",
+      "value": 10,
+      "info": "Timeout for API requests in seconds",
+      "advanced": true,
+      "default": 10
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "fallback_to_first",
+      "display_name": "Fallback to First Model",
+      "value": true,
+      "info": "Use first model as fallback when routing fails",
+      "advanced": true,
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Output",
+      "name": "output",
+      "method": "route_to_model"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Selected Model Info",
+      "name": "selected_model_info",
+      "method": "get_selected_model_info",
+      "types": [
+        "Data"
+      ]
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Routing Decision",
+      "name": "routing_decision",
+      "method": "get_routing_decision"
+    }
+  ],
+  "template": [
+    "models",
+    "input_value",
+    "judge_llm",
+    "optimization",
+    "use_openrouter_specs",
+    "timeout",
+    "fallback_to_first"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "LLMRouterComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/llm_router.py#L17"
+}

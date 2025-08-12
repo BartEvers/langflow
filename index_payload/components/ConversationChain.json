@@ -1,0 +1,49 @@
+{
+  "kind": "component",
+  "type": "ConversationChain",
+  "display_name": "ConversationChain",
+  "description": "Chain to have a conversation and load context from memory.",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "info": "The input value to pass to the chain.",
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "memory",
+      "display_name": "Memory",
+      "input_types": [
+        "BaseChatMemory"
+      ]
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "input_value",
+    "llm",
+    "memory"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ConversationChain"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/conversation.py#L8"
+}

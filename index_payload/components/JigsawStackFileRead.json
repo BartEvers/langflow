@@ -1,0 +1,46 @@
+{
+  "kind": "component",
+  "type": "JigsawStackFileRead",
+  "display_name": "File Read",
+  "description": "Read any previously uploaded file seamlessly from         JigsawStack File Storage and use it in your AI applications.",
+  "documentation": "https://jigsawstack.com/docs/api-reference/store/file/get",
+  "icon": "JigsawStack",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "JigsawStack API Key",
+      "info": "Your JigsawStack API key for authentication",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "key",
+      "display_name": "Key",
+      "info": "The key used to retrieve the file from JigsawStack File Storage.",
+      "required": true,
+      "tool_mode": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "File Path",
+      "name": "file_path",
+      "method": "read_and_save_file"
+    }
+  ],
+  "template": [
+    "api_key",
+    "key"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JigsawStackFileRead"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/jigsawstack/file_read.py#L8"
+}

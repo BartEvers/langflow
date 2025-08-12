@@ -1,0 +1,196 @@
+{
+  "kind": "component",
+  "type": "DataFrameOperations",
+  "display_name": "DataFrame Operations",
+  "description": "Perform various operations on a DataFrame.",
+  "documentation": "https://docs.langflow.org/components-processing#dataframe-operations",
+  "icon": "table",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataFrameInput",
+      "name": "df",
+      "display_name": "DataFrame",
+      "info": "The input DataFrame to operate on.",
+      "required": true
+    },
+    {
+      "field_class": "SortableListInput",
+      "name": "operation",
+      "display_name": "Operation",
+      "placeholder": "Select Operation",
+      "info": "Select the DataFrame operation to perform.",
+      "options": [
+        {
+          "name": "Add Column",
+          "icon": "plus"
+        },
+        {
+          "name": "Drop Column",
+          "icon": "minus"
+        },
+        {
+          "name": "Filter",
+          "icon": "filter"
+        },
+        {
+          "name": "Head",
+          "icon": "arrow-up"
+        },
+        {
+          "name": "Rename Column",
+          "icon": "pencil"
+        },
+        {
+          "name": "Replace Value",
+          "icon": "replace"
+        },
+        {
+          "name": "Select Columns",
+          "icon": "columns"
+        },
+        {
+          "name": "Sort",
+          "icon": "arrow-up-down"
+        },
+        {
+          "name": "Tail",
+          "icon": "arrow-down"
+        },
+        {
+          "name": "Drop Duplicates",
+          "icon": "copy-x"
+        }
+      ],
+      "real_time_refresh": true,
+      "limit": 1
+    },
+    {
+      "field_class": "StrInput",
+      "name": "column_name",
+      "display_name": "Column Name",
+      "info": "The column name to use for the operation.",
+      "dynamic": true,
+      "show": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "filter_value",
+      "display_name": "Filter Value",
+      "info": "The value to filter rows by.",
+      "dynamic": true,
+      "show": false
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "filter_operator",
+      "display_name": "Filter Operator",
+      "options": [
+        "equals",
+        "not equals",
+        "contains",
+        "starts with",
+        "ends with",
+        "greater than",
+        "less than"
+      ],
+      "value": "equals",
+      "info": "The operator to apply for filtering rows.",
+      "advanced": false,
+      "dynamic": true,
+      "show": false,
+      "default": "equals"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "ascending",
+      "display_name": "Sort Ascending",
+      "info": "Whether to sort in ascending order.",
+      "dynamic": true,
+      "show": false,
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "new_column_name",
+      "display_name": "New Column Name",
+      "info": "The new column name when renaming or adding a column.",
+      "dynamic": true,
+      "show": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "new_column_value",
+      "display_name": "New Column Value",
+      "info": "The value to populate the new column with.",
+      "dynamic": true,
+      "show": false
+    },
+    {
+      "field_class": "StrInput",
+      "name": "columns_to_select",
+      "display_name": "Columns to Select",
+      "dynamic": true,
+      "is_list": true,
+      "show": false
+    },
+    {
+      "field_class": "IntInput",
+      "name": "num_rows",
+      "display_name": "Number of Rows",
+      "info": "Number of rows to return (for head/tail).",
+      "dynamic": true,
+      "show": false,
+      "value": 5,
+      "default": 5
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "replace_value",
+      "display_name": "Value to Replace",
+      "info": "The value to replace in the column.",
+      "dynamic": true,
+      "show": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "replacement_value",
+      "display_name": "Replacement Value",
+      "info": "The value to replace with.",
+      "dynamic": true,
+      "show": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "output",
+      "method": "perform_operation",
+      "info": "The resulting DataFrame after the operation."
+    }
+  ],
+  "template": [
+    "df",
+    "operation",
+    "column_name",
+    "filter_value",
+    "filter_operator",
+    "ascending",
+    "new_column_name",
+    "new_column_value",
+    "columns_to_select",
+    "num_rows",
+    "replace_value",
+    "replacement_value"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "DataFrameOperations"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/dataframe_operations.py#L18"
+}

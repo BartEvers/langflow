@@ -1,0 +1,10 @@
+{
+  "kind": "schema",
+  "name": "Image",
+  "fields": [
+    "path",
+    "url"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/image.py#L50"
+}

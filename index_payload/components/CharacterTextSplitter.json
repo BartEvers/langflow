@@ -1,0 +1,59 @@
+{
+  "kind": "component",
+  "type": "CharacterTextSplitter",
+  "display_name": "Character Text Splitter",
+  "description": "Split text by number of characters.",
+  "documentation": "https://docs.langflow.org/components/text-splitters#charactertextsplitter",
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "IntInput",
+      "name": "chunk_size",
+      "display_name": "Chunk Size",
+      "info": "The maximum length of each chunk.",
+      "value": 1000,
+      "default": 1000
+    },
+    {
+      "field_class": "IntInput",
+      "name": "chunk_overlap",
+      "display_name": "Chunk Overlap",
+      "info": "The amount of overlap between chunks.",
+      "value": 200,
+      "default": 200
+    },
+    {
+      "field_class": "DataInput",
+      "name": "data_input",
+      "display_name": "Input",
+      "info": "The texts to split.",
+      "input_types": [
+        "Document",
+        "Data"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "separator",
+      "display_name": "Separator",
+      "info": "The characters to split on.\nIf left empty defaults to \"\\n\\n\"."
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "chunk_size",
+    "chunk_overlap",
+    "data_input",
+    "separator"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CharacterTextSplitter"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/character.py#L10"
+}

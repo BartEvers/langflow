@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "LogType",
+  "fields": [],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/schema.py#L19"
+}

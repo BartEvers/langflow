@@ -1,0 +1,6 @@
+{
+  "kind": "input_field",
+  "input_class": "BoolInput",
+  "supported_kwargs": [],
+  "source": "src/backend/base/langflow/inputs/inputs.py#L413"
+}

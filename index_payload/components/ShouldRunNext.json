@@ -1,0 +1,20 @@
+{
+  "kind": "component",
+  "type": "ShouldRunNext",
+  "display_name": "Should Run Next",
+  "description": "Determines if a vertex is runnable.",
+  "documentation": null,
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [],
+  "outputs": [],
+  "template": [],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ShouldRunNext"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/should_run_next.py#L8"
+}

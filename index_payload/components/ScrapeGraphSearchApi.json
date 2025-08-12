@@ -1,0 +1,46 @@
+{
+  "kind": "component",
+  "type": "ScrapeGraphSearchApi",
+  "display_name": "ScrapeGraph Search API",
+  "description": "Given a search prompt, it will return search results using ScrapeGraph's search functionality.",
+  "documentation": "https://docs.scrapegraphai.com/services/searchscraper",
+  "icon": "ScrapeGraph",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "ScrapeGraph API Key",
+      "required": true,
+      "password": true,
+      "info": "The API key to use ScrapeGraph API."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "user_prompt",
+      "display_name": "Search Prompt",
+      "tool_mode": true,
+      "info": "The search prompt to use."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "data",
+      "method": "search"
+    }
+  ],
+  "template": [
+    "api_key",
+    "user_prompt"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ScrapeGraphSearchApi"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/scrapegraph/scrapegraph_search_api.py#L10"
+}

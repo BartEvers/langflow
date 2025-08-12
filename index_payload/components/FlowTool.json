@@ -1,0 +1,59 @@
+{
+  "kind": "component",
+  "type": "FlowTool",
+  "display_name": "Flow as Tool [Deprecated]",
+  "description": "Construct a Tool from a function that runs the loaded Flow.",
+  "documentation": null,
+  "icon": "hammer",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DropdownInput",
+      "name": "flow_name",
+      "display_name": "Flow Name",
+      "info": "The name of the flow to run.",
+      "refresh_button": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "tool_name",
+      "display_name": "Name",
+      "info": "The name of the tool."
+    },
+    {
+      "field_class": "StrInput",
+      "name": "tool_description",
+      "display_name": "Description",
+      "info": "The description of the tool; defaults to the Flow's description."
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "return_direct",
+      "display_name": "Return Direct",
+      "info": "Return the result directly from the Tool.",
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "api_build_tool",
+      "display_name": "Tool",
+      "method": "build_tool"
+    }
+  ],
+  "template": [
+    "flow_name",
+    "tool_name",
+    "tool_description",
+    "return_direct"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "FlowTool"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/logic/flow_tool.py#L16"
+}

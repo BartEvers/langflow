@@ -1,0 +1,63 @@
+{
+  "kind": "component",
+  "type": "WikipediaAPI",
+  "display_name": "Wikipedia API [Deprecated]",
+  "description": "Call Wikipedia API.",
+  "documentation": null,
+  "icon": "Wikipedia",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "lang",
+      "display_name": "Language",
+      "value": "en",
+      "default": "en"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "k",
+      "display_name": "Number of results",
+      "value": 4,
+      "required": true,
+      "default": 4
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "load_all_available_meta",
+      "display_name": "Load all available meta",
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "IntInput",
+      "name": "doc_content_chars_max",
+      "display_name": "Document content characters max",
+      "value": 4000,
+      "advanced": true,
+      "default": 4000
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "input_value",
+    "lang",
+    "k",
+    "load_all_available_meta",
+    "doc_content_chars_max"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "WikipediaAPI"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/tools/wikipedia_api.py#L12"
+}

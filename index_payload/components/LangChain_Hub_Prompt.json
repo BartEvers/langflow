@@ -1,0 +1,46 @@
+{
+  "kind": "component",
+  "type": "LangChain Hub Prompt",
+  "display_name": "Prompt Hub",
+  "description": "Prompt Component that uses LangChain Hub prompts",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "langchain_api_key",
+      "display_name": "Your LangChain API Key",
+      "info": "The LangChain API Key to use.",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "langchain_hub_prompt",
+      "display_name": "LangChain Hub Prompt",
+      "info": "The LangChain Hub prompt to use, i.e., 'efriis/my-first-prompt'",
+      "refresh_button": true,
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Build Prompt",
+      "name": "prompt",
+      "method": "build_prompt"
+    }
+  ],
+  "template": [
+    "langchain_api_key",
+    "langchain_hub_prompt"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "LangChain Hub Prompt"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/langchain_hub.py#L11"
+}

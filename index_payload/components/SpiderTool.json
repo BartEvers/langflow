@@ -1,0 +1,120 @@
+{
+  "kind": "component",
+  "type": "SpiderTool",
+  "display_name": "Spider Web Crawler & Scraper",
+  "description": "Spider API for web crawling and scraping.",
+  "documentation": "https://spider.cloud/docs/api",
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "spider_api_key",
+      "display_name": "Spider API Key",
+      "required": true,
+      "password": true,
+      "info": "The Spider API Key, get it from https://spider.cloud"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "url",
+      "display_name": "URL",
+      "required": true,
+      "info": "The URL to scrape or crawl"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "mode",
+      "display_name": "Mode",
+      "required": true,
+      "options": "MODES",
+      "value": "<Subscript>",
+      "info": "The mode of operation: scrape or crawl",
+      "default": "<Subscript>"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "limit",
+      "display_name": "Limit",
+      "info": "The maximum amount of pages allowed to crawl per website. Set to 0 to crawl all pages.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "depth",
+      "display_name": "Depth",
+      "info": "The crawl limit for maximum depth. If 0, no limit will be applied.",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "blacklist",
+      "display_name": "Blacklist",
+      "info": "Blacklist paths that you do not want to crawl. Use Regex patterns.",
+      "advanced": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "whitelist",
+      "display_name": "Whitelist",
+      "info": "Whitelist paths that you want to crawl, ignoring all other routes. Use Regex patterns.",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "readability",
+      "display_name": "Use Readability",
+      "info": "Use readability to pre-process the content for reading.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "request_timeout",
+      "display_name": "Request Timeout",
+      "info": "Timeout for the request in seconds.",
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "metadata",
+      "display_name": "Metadata",
+      "info": "Include metadata in the response.",
+      "advanced": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "params",
+      "display_name": "Additional Parameters",
+      "info": "Additional parameters to pass to the API. If provided, other inputs will be ignored."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Markdown",
+      "name": "content",
+      "method": "crawl"
+    }
+  ],
+  "template": [
+    "spider_api_key",
+    "url",
+    "mode",
+    "limit",
+    "depth",
+    "blacklist",
+    "whitelist",
+    "readability",
+    "request_timeout",
+    "metadata",
+    "params"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SpiderTool"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/spider.py#L17"
+}

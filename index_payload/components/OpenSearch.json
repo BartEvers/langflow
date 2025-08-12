@@ -1,0 +1,132 @@
+{
+  "kind": "component",
+  "type": "OpenSearch",
+  "display_name": "OpenSearch",
+  "description": "OpenSearch Vector Store with advanced, customizable search capabilities.",
+  "documentation": null,
+  "icon": "OpenSearch",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "opensearch_url",
+      "display_name": "OpenSearch URL",
+      "value": "http://localhost:9200",
+      "info": "URL for OpenSearch cluster (e.g. https://192.168.1.1:9200).",
+      "default": "http://localhost:9200"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "index_name",
+      "display_name": "Index Name",
+      "value": "langflow",
+      "info": "The index name where the vectors will be stored in OpenSearch cluster.",
+      "default": "langflow"
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding",
+      "input_types": [
+        "Embeddings"
+      ]
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "search_type",
+      "display_name": "Search Type",
+      "options": [
+        "similarity",
+        "similarity_score_threshold",
+        "mmr"
+      ],
+      "value": "similarity",
+      "advanced": true,
+      "default": "similarity"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "advanced": true,
+      "value": 4,
+      "default": 4
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "search_score_threshold",
+      "display_name": "Search Score Threshold",
+      "info": "Minimum similarity score threshold for search results.",
+      "value": 0.0,
+      "advanced": true,
+      "default": 0.0
+    },
+    {
+      "field_class": "StrInput",
+      "name": "username",
+      "display_name": "Username",
+      "value": "admin",
+      "advanced": true,
+      "default": "admin"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "password",
+      "display_name": "Password",
+      "value": "admin",
+      "advanced": true,
+      "default": "admin"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "use_ssl",
+      "display_name": "Use SSL",
+      "value": true,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "verify_certs",
+      "display_name": "Verify Certificates",
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "hybrid_search_query",
+      "display_name": "Hybrid Search Query",
+      "value": "",
+      "advanced": true,
+      "info": "Provide a custom hybrid search query in JSON format. This allows you to combine vector similarity and keyword matching.",
+      "default": ""
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "opensearch_url",
+    "index_name",
+    "embedding",
+    "search_type",
+    "number_of_results",
+    "search_score_threshold",
+    "username",
+    "password",
+    "use_ssl",
+    "verify_certs",
+    "hybrid_search_query"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "OpenSearch"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/opensearch.py#L22"
+}

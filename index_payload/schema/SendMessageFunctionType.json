@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "SendMessageFunctionType",
+  "fields": [],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/log.py#L16"
+}

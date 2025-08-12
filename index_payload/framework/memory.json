@@ -1,0 +1,16 @@
+{
+  "kind": "framework_rules",
+  "file": "src/backend/base/langflow/base/memory/memory.py",
+  "base_component_classes_in_file": [
+    "BaseMemoryComponent"
+  ],
+  "expected_attributes_hint": [
+    "name",
+    "display_name",
+    "description",
+    "documentation",
+    "icon",
+    "inputs",
+    "outputs"
+  ]
+}

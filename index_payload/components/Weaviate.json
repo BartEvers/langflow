@@ -1,0 +1,84 @@
+{
+  "kind": "component",
+  "type": "Weaviate",
+  "display_name": "Weaviate",
+  "description": "Weaviate Vector Store with search capabilities",
+  "documentation": null,
+  "icon": "Weaviate",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "url",
+      "display_name": "Weaviate URL",
+      "value": "http://localhost:8080",
+      "required": true,
+      "default": "http://localhost:8080"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "required": false
+    },
+    {
+      "field_class": "StrInput",
+      "name": "index_name",
+      "display_name": "Index Name",
+      "required": true,
+      "info": "Requires capitalized index name."
+    },
+    {
+      "field_class": "StrInput",
+      "name": "text_key",
+      "display_name": "Text Key",
+      "value": "text",
+      "advanced": true,
+      "default": "text"
+    },
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "embedding",
+      "display_name": "Embedding",
+      "input_types": [
+        "Embeddings"
+      ]
+    },
+    {
+      "field_class": "IntInput",
+      "name": "number_of_results",
+      "display_name": "Number of Results",
+      "info": "Number of results to return.",
+      "value": 4,
+      "advanced": true,
+      "default": 4
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "search_by_text",
+      "display_name": "Search By Text",
+      "advanced": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "url",
+    "api_key",
+    "index_name",
+    "text_key",
+    "embedding",
+    "number_of_results",
+    "search_by_text"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Weaviate"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/weaviate.py#L10"
+}

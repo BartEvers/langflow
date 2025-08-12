@@ -1,0 +1,174 @@
+{
+  "kind": "component",
+  "type": "IBMwatsonxModel",
+  "display_name": "IBM watsonx.ai",
+  "description": "Generate text using IBM watsonx.ai foundation models.",
+  "documentation": null,
+  "icon": "WatsonxAI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "url",
+      "display_name": "watsonx API Endpoint",
+      "info": "The base URL of the API.",
+      "value": null,
+      "options": [
+        "https://us-south.ml.cloud.ibm.com",
+        "https://eu-de.ml.cloud.ibm.com",
+        "https://eu-gb.ml.cloud.ibm.com",
+        "https://au-syd.ml.cloud.ibm.com",
+        "https://jp-tok.ml.cloud.ibm.com",
+        "https://ca-tor.ml.cloud.ibm.com"
+      ],
+      "real_time_refresh": true,
+      "default": null
+    },
+    {
+      "field_class": "StrInput",
+      "name": "project_id",
+      "display_name": "watsonx Project ID",
+      "required": true,
+      "info": "The project ID or deployment space ID that is associated with the foundation model."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "info": "The API Key to use for the model.",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "options": [],
+      "value": null,
+      "dynamic": true,
+      "required": true,
+      "default": null
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_tokens",
+      "display_name": "Max Tokens",
+      "advanced": true,
+      "info": "The maximum number of tokens to generate.",
+      "range_spec": "RangeSpec(min=1, max=4096)",
+      "value": 1000,
+      "default": 1000
+    },
+    {
+      "field_class": "StrInput",
+      "name": "stop_sequence",
+      "display_name": "Stop Sequence",
+      "advanced": true,
+      "info": "Sequence where generation should stop.",
+      "field_type": "str"
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "info": "Controls randomness, higher values increase diversity.",
+      "value": 0.1,
+      "range_spec": "RangeSpec(min=0, max=2, step=0.01)",
+      "advanced": true,
+      "default": 0.1
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "top_p",
+      "display_name": "Top P",
+      "info": "The cumulative probability cutoff for token selection. Lower values mean sampling from a smaller, more top-weighted nucleus.",
+      "value": 0.9,
+      "range_spec": "RangeSpec(min=0, max=1, step=0.01)",
+      "advanced": true,
+      "default": 0.9
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "frequency_penalty",
+      "display_name": "Frequency Penalty",
+      "info": "Penalty for frequency of token usage.",
+      "value": 0.5,
+      "range_spec": "RangeSpec(min=-2.0, max=2.0, step=0.01)",
+      "advanced": true,
+      "default": 0.5
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "presence_penalty",
+      "display_name": "Presence Penalty",
+      "info": "Penalty for token presence in prior text.",
+      "value": 0.3,
+      "range_spec": "RangeSpec(min=-2.0, max=2.0, step=0.01)",
+      "advanced": true,
+      "default": 0.3
+    },
+    {
+      "field_class": "IntInput",
+      "name": "seed",
+      "display_name": "Random Seed",
+      "advanced": true,
+      "info": "The random seed for the model.",
+      "value": 8,
+      "default": 8
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "logprobs",
+      "display_name": "Log Probabilities",
+      "advanced": true,
+      "info": "Whether to return log probabilities of the output tokens.",
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "top_logprobs",
+      "display_name": "Top Log Probabilities",
+      "advanced": true,
+      "info": "Number of most likely tokens to return at each position.",
+      "value": 3,
+      "range_spec": "RangeSpec(min=1, max=20)",
+      "default": 3
+    },
+    {
+      "field_class": "StrInput",
+      "name": "logit_bias",
+      "display_name": "Logit Bias",
+      "advanced": true,
+      "info": "JSON string of token IDs to bias or suppress (e.g., {\"1003\": -100, \"1004\": 100}).",
+      "field_type": "str"
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "url",
+    "project_id",
+    "api_key",
+    "model_name",
+    "max_tokens",
+    "stop_sequence",
+    "temperature",
+    "top_p",
+    "frequency_penalty",
+    "presence_penalty",
+    "seed",
+    "logprobs",
+    "top_logprobs",
+    "logit_bias"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "IBMwatsonxModel"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/ibm/watsonx.py#L16"
+}

@@ -1,0 +1,61 @@
+{
+  "kind": "component",
+  "type": "SerpAPI",
+  "display_name": "Serp Search API [DEPRECATED]",
+  "description": "Call Serp Search API with result limiting",
+  "documentation": null,
+  "icon": "SerpSearch",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "serpapi_api_key",
+      "display_name": "SerpAPI API Key",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input"
+    },
+    {
+      "field_class": "DictInput",
+      "name": "search_params",
+      "display_name": "Parameters",
+      "advanced": true,
+      "is_list": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "value": 5,
+      "advanced": true,
+      "default": 5
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_snippet_length",
+      "display_name": "Max Snippet Length",
+      "value": 100,
+      "advanced": true,
+      "default": 100
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "serpapi_api_key",
+    "input_value",
+    "search_params",
+    "max_results",
+    "max_snippet_length"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SerpAPI"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/tools/serp_api.py#L32"
+}

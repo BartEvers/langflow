@@ -1,0 +1,20 @@
+{
+  "kind": "component",
+  "type": "ExtractKeyFromData",
+  "display_name": "Extract Key From Data",
+  "description": "Extracts a key from a data.",
+  "documentation": null,
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [],
+  "outputs": [],
+  "template": [],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ExtractKeyFromData"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/extract_key_from_data.py#L5"
+}

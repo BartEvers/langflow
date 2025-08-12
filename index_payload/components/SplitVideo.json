@@ -1,0 +1,77 @@
+{
+  "kind": "component",
+  "type": "SplitVideo",
+  "display_name": "Split Video",
+  "description": "Split a video into multiple clips of specified duration.",
+  "documentation": "https://github.com/twelvelabs-io/twelvelabs-developer-experience/blob/main/integrations/Langflow/TWELVE_LABS_COMPONENTS_README.md",
+  "icon": "TwelveLabs",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "videodata",
+      "display_name": "Video Data",
+      "info": "Input video data from VideoFile component",
+      "required": true,
+      "input_types": [
+        "Data"
+      ]
+    },
+    {
+      "field_class": "IntInput",
+      "name": "clip_duration",
+      "display_name": "Clip Duration (seconds)",
+      "info": "Duration of each clip in seconds",
+      "required": true,
+      "value": 30,
+      "default": 30
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "last_clip_handling",
+      "display_name": "Last Clip Handling",
+      "info": "How to handle the final clip when it would be shorter than the specified duration:\n- Truncate: Skip the final clip entirely if it's shorter than the specified duration\n- Overlap Previous: Start the final clip earlier to maintain full duration, overlapping with previous clip\n- Keep Short: Keep the final clip at its natural length, even if shorter than specified duration",
+      "options": [
+        "Truncate",
+        "Overlap Previous",
+        "Keep Short"
+      ],
+      "value": "Overlap Previous",
+      "required": true,
+      "default": "Overlap Previous"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_original",
+      "display_name": "Include Original Video",
+      "info": "Whether to include the original video in the output",
+      "value": false,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "clips",
+      "display_name": "Video Clips",
+      "method": "process",
+      "output_types": [
+        "Data"
+      ]
+    }
+  ],
+  "template": [
+    "videodata",
+    "clip_duration",
+    "last_clip_handling",
+    "include_original"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SplitVideo"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/twelvelabs/split_video.py#L14"
+}

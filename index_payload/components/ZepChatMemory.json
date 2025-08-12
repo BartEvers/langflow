@@ -1,0 +1,57 @@
+{
+  "kind": "component",
+  "type": "ZepChatMemory",
+  "display_name": "Zep Chat Memory",
+  "description": "Retrieves and store chat messages from Zep.",
+  "documentation": null,
+  "icon": "ZepMemory",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "url",
+      "display_name": "Zep URL",
+      "info": "URL of the Zep instance."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "info": "API Key for the Zep instance."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "api_base_path",
+      "display_name": "API Base Path",
+      "options": [
+        "api/v1",
+        "api/v2"
+      ],
+      "value": "api/v1",
+      "advanced": true,
+      "default": "api/v1"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "session_id",
+      "display_name": "Session ID",
+      "info": "Session ID for the message.",
+      "advanced": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "url",
+    "api_key",
+    "api_base_path",
+    "session_id"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ZepChatMemory"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/zep/zep.py#L6"
+}

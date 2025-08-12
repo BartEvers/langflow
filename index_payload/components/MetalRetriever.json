@@ -1,0 +1,50 @@
+{
+  "kind": "component",
+  "type": "MetalRetriever",
+  "display_name": "Metal Retriever",
+  "description": "Retriever that uses the Metal API.",
+  "documentation": null,
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "API Key",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "client_id",
+      "display_name": "Client ID",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "index_id",
+      "display_name": "Index ID",
+      "required": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "params",
+      "display_name": "Parameters",
+      "required": false
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "api_key",
+    "client_id",
+    "index_id",
+    "params"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "MetalRetriever"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/metal.py#L9"
+}

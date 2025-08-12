@@ -1,0 +1,11 @@
+{
+  "kind": "schema",
+  "name": "Source",
+  "fields": [
+    "display_name",
+    "id",
+    "source"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/properties.py#L6"
+}

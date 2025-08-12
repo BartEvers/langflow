@@ -1,0 +1,162 @@
+{
+  "kind": "component",
+  "type": "DataOperations",
+  "display_name": "Data Operations",
+  "description": "Perform various operations on a Data object.",
+  "documentation": "https://docs.langflow.org/components-processing#data-operations",
+  "icon": "file-json",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "data",
+      "display_name": "Data",
+      "info": "Data object to filter.",
+      "required": true,
+      "is_list": true
+    },
+    {
+      "field_class": "SortableListInput",
+      "name": "operations",
+      "display_name": "Operations",
+      "placeholder": "Select Operation",
+      "info": "List of operations to perform on the data.",
+      "options": [
+        {
+          "name": "Select Keys",
+          "icon": "lasso-select"
+        },
+        {
+          "name": "Literal Eval",
+          "icon": "braces"
+        },
+        {
+          "name": "Combine",
+          "icon": "merge"
+        },
+        {
+          "name": "Filter Values",
+          "icon": "filter"
+        },
+        {
+          "name": "Append or Update",
+          "icon": "circle-plus"
+        },
+        {
+          "name": "Remove Keys",
+          "icon": "eraser"
+        },
+        {
+          "name": "Rename Keys",
+          "icon": "pencil-line"
+        }
+      ],
+      "real_time_refresh": true,
+      "limit": 1
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "select_keys_input",
+      "display_name": "Select Keys",
+      "info": "List of keys to select from the data.",
+      "show": false,
+      "is_list": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "filter_key",
+      "display_name": "Filter Key",
+      "info": "Key to filter by.",
+      "is_list": true,
+      "show": false
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "operator",
+      "display_name": "Comparison Operator",
+      "options": [
+        "equals",
+        "not equals",
+        "contains",
+        "starts with",
+        "ends with"
+      ],
+      "info": "The operator to apply for comparing the values.",
+      "value": "equals",
+      "advanced": false,
+      "show": false,
+      "default": "equals"
+    },
+    {
+      "field_class": "DictInput",
+      "name": "filter_values",
+      "display_name": "Filter Values",
+      "info": "List of values to filter by.",
+      "show": false,
+      "is_list": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "append_update_data",
+      "display_name": "Append or Update",
+      "info": "Data to Append or Updatethe existing data with.",
+      "show": false,
+      "value": {
+        "key": "value"
+      },
+      "is_list": true,
+      "default": {
+        "key": "value"
+      }
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "remove_keys_input",
+      "display_name": "Remove Keys",
+      "info": "List of keys to remove from the data.",
+      "show": false,
+      "is_list": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "rename_keys_input",
+      "display_name": "Rename Keys",
+      "info": "List of keys to rename in the data.",
+      "show": false,
+      "is_list": true,
+      "value": {
+        "old_key": "new_key"
+      },
+      "default": {
+        "old_key": "new_key"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Data",
+      "name": "data_output",
+      "method": "as_data"
+    }
+  ],
+  "template": [
+    "data",
+    "operations",
+    "select_keys_input",
+    "filter_key",
+    "operator",
+    "filter_values",
+    "append_update_data",
+    "remove_keys_input",
+    "rename_keys_input"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "DataOperations"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/data_operations.py#L33"
+}

@@ -1,0 +1,44 @@
+{
+  "kind": "component",
+  "type": "AddContentToPage",
+  "display_name": "Add Content to Page ",
+  "description": "Convert markdown text to Notion blocks and append them to a Notion page.",
+  "documentation": "https://developers.notion.com/reference/patch-block-children",
+  "icon": "NotionDirectoryLoader",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "markdown_text",
+      "display_name": "Markdown Text",
+      "info": "The markdown text to convert to Notion blocks."
+    },
+    {
+      "field_class": "StrInput",
+      "name": "block_id",
+      "display_name": "Page/Block ID",
+      "info": "The ID of the page/block to add the content."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "notion_secret",
+      "display_name": "Notion Secret",
+      "info": "The Notion integration token.",
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "markdown_text",
+    "block_id",
+    "notion_secret"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "AddContentToPage"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/Notion/add_content_to_page.py#L19"
+}

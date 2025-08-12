@@ -1,0 +1,20 @@
+{
+  "kind": "component",
+  "type": "RunFlow",
+  "display_name": "Run Flow",
+  "description": "Creates a tool component from a Flow that takes all its inputs and runs it.  \n **Select a Flow to use the tool mode**",
+  "documentation": "https://docs.langflow.org/components-logic#run-flow",
+  "icon": "Workflow",
+  "minimized": null,
+  "tags": [],
+  "inputs": [],
+  "outputs": [],
+  "template": [],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "RunFlow"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/logic/run_flow.py#L10"
+}

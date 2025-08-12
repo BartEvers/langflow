@@ -1,0 +1,6 @@
+{
+  "kind": "input_field",
+  "input_class": "SliderInput",
+  "supported_kwargs": [],
+  "source": "src/backend/base/langflow/inputs/inputs.py#L643"
+}

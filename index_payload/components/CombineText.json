@@ -1,0 +1,52 @@
+{
+  "kind": "component",
+  "type": "CombineText",
+  "display_name": "Combine Text",
+  "description": "Concatenate two text sources into a single text chunk using a specified delimiter.",
+  "documentation": null,
+  "icon": "merge",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "text1",
+      "display_name": "First Text",
+      "info": "The first text input to concatenate."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "text2",
+      "display_name": "Second Text",
+      "info": "The second text input to concatenate."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "delimiter",
+      "display_name": "Delimiter",
+      "info": "A string used to separate the two text inputs. Defaults to a whitespace.",
+      "value": " ",
+      "default": " "
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Combined Text",
+      "name": "combined_text",
+      "method": "combine_texts"
+    }
+  ],
+  "template": [
+    "text1",
+    "text2",
+    "delimiter"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CombineText"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/combine_text.py#L6"
+}

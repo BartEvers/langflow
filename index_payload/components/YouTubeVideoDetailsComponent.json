@@ -1,0 +1,85 @@
+{
+  "kind": "component",
+  "type": "YouTubeVideoDetailsComponent",
+  "display_name": "YouTube Video Details",
+  "description": "Retrieves detailed information and statistics about YouTube videos.",
+  "documentation": null,
+  "icon": "YouTube",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "video_url",
+      "display_name": "Video URL",
+      "info": "The URL of the YouTube video.",
+      "tool_mode": true,
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "YouTube API Key",
+      "info": "Your YouTube Data API key.",
+      "required": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_statistics",
+      "display_name": "Include Statistics",
+      "value": true,
+      "info": "Include video statistics (views, likes, comments).",
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_content_details",
+      "display_name": "Include Content Details",
+      "value": true,
+      "info": "Include video duration, quality, and age restriction info.",
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_tags",
+      "display_name": "Include Tags",
+      "value": true,
+      "info": "Include video tags and keywords.",
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_thumbnails",
+      "display_name": "Include Thumbnails",
+      "value": true,
+      "info": "Include video thumbnail URLs in different resolutions.",
+      "advanced": true,
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "video_data",
+      "display_name": "Video Data",
+      "method": "get_video_details"
+    }
+  ],
+  "template": [
+    "video_url",
+    "api_key",
+    "include_statistics",
+    "include_content_details",
+    "include_tags",
+    "include_thumbnails"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "YouTubeVideoDetailsComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/youtube/video_details.py#L14"
+}

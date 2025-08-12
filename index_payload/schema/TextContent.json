@@ -1,0 +1,11 @@
+{
+  "kind": "schema",
+  "name": "TextContent",
+  "fields": [
+    "duration",
+    "text",
+    "type"
+  ],
+  "doc": "Content type for simple text content.",
+  "source": "src/backend/base/langflow/schema/content_types.py#L49"
+}

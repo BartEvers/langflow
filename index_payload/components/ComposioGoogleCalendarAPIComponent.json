@@ -1,0 +1,753 @@
+{
+  "kind": "component",
+  "type": "ComposioGoogleCalendarAPIComponent",
+  "display_name": "Google Calendar",
+  "description": "Google Calendar API",
+  "documentation": "https://docs.composio.dev",
+  "icon": "Googlecalendar",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "GOOGLECALENDAR_LIST_CALENDARS_max_results",
+      "display_name": "Max Results",
+      "info": "Maximum number of entries returned on one result page. The page size can never be larger than 250 entries.",
+      "show": false,
+      "value": 10,
+      "default": 10
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_LIST_CALENDARS_min_access_role",
+      "display_name": "Min Access Role",
+      "info": "The minimum access role for the user in the returned entries. Accepted values are 'owner' & 'reader'",
+      "show": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_LIST_CALENDARS_page_token",
+      "display_name": "Page Token",
+      "info": "Token specifying which result page to return.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_LIST_CALENDARS_show_deleted",
+      "display_name": "Show Deleted",
+      "info": "Whether to include deleted calendar list entries in the result.",
+      "show": false,
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_LIST_CALENDARS_show_hidden",
+      "display_name": "Show Hidden",
+      "info": "Whether to show hidden entries.",
+      "show": false,
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_LIST_CALENDARS_sync_token",
+      "display_name": "Sync Token",
+      "info": "Token obtained from the nextSyncToken field returned on the last page of results from the previous list request.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_calendar_id",
+      "display_name": "Calendar Id",
+      "info": "Identifier of the Google Calendar. Use 'primary' for the currently logged in user's primary calendar.",
+      "show": false,
+      "value": "primary",
+      "default": "primary"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_query",
+      "display_name": "Query",
+      "info": "Search term to find events that match these terms in the event's summary, description, location, attendee's displayName, attendee's email, organizer's displayName, organizer's email, etc if needed.",
+      "show": false
+    },
+    {
+      "field_class": "IntInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_max_results",
+      "display_name": "Max Results",
+      "info": "Maximum number of events returned on one result page. The page size can never be larger than 2500 events. The default value is 10.",
+      "show": false,
+      "value": 10,
+      "default": 10
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_order_by",
+      "display_name": "Order By",
+      "info": "The order of the events returned in the result. Acceptable values are 'startTime' and 'updated'.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_show_deleted",
+      "display_name": "Show Deleted",
+      "info": "Whether to include deleted events (with status equals 'cancelled') in the result.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_single_events",
+      "display_name": "Single Events",
+      "info": "Whether to expand recurring events into instances and only return single one-off events and instances of recurring events, but not the underlying recurring events themselves.",
+      "show": false,
+      "value": true,
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_timeMax",
+      "display_name": "Timemax",
+      "info": "Upper bound (exclusive) for an event's start time to filter by. Accepts multiple formats:, 1. ISO format with timezone (e.g., 2024-12-06T13:00:00Z), 2. Comma-separated format (e.g., 2024,12,06,13,00,00), 3. Simple datetime format (e.g., 2024-12-06 13:00:00)",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_timeMin",
+      "display_name": "Timemin",
+      "info": "Lower bound (exclusive) for an event's end time to filter by. Accepts multiple formats:, 1. ISO format with timezone (e.g., 2024-12-06T13:00:00Z), 2. Comma-separated format (e.g., 2024,12,06,13,00,00), 3. Simple datetime format (e.g., 2024-12-06 13:00:00)",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_updated_min",
+      "display_name": "Updated Min",
+      "info": "Lower bound for an event's last modification time to filter by. Accepts multiple formats:, 1. ISO format with timezone (e.g., 2024-12-06T13:00:00Z), 2. Comma-separated format (e.g., 2024,12,06,13,00,00), 3. Simple datetime format (e.g., 2024-12-06 13:00:00)",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_event_types",
+      "display_name": "Event Types",
+      "info": "List of event types to return. Possible values are: default, outOfOffice, focusTime, workingLocation.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_EVENT_page_token",
+      "display_name": "Page Token",
+      "info": "Token specifying which result page to return. Optional.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_DUPLICATE_CALENDAR_summary",
+      "display_name": "Summary/Title",
+      "info": "Title of the calendar to be duplicated.",
+      "show": false,
+      "value": "",
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_REMOVE_ATTENDEE_calendar_id",
+      "display_name": "Calendar Id",
+      "info": "ID of the Google Calendar",
+      "show": false,
+      "value": "primary",
+      "default": "primary"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_REMOVE_ATTENDEE_event_id",
+      "display_name": "Event Id",
+      "info": "ID of the event",
+      "show": false,
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_REMOVE_ATTENDEE_attendee_email",
+      "display_name": "Attendee Email",
+      "info": "Email address of the attendee to be removed",
+      "show": false,
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_GET_CALENDAR_calendar_id",
+      "display_name": "Calendar Id",
+      "info": "The ID of the Google Calendar that needs to be fetched. Default is 'primary'.",
+      "show": false,
+      "value": "primary",
+      "default": "primary"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_description",
+      "display_name": "Description",
+      "info": "Description of the event. Can contain HTML. Optional.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_eventType",
+      "display_name": "Event Type",
+      "info": "Type of the event, immutable post-creation. Currently, only 'default'",
+      "show": false,
+      "value": "default",
+      "advanced": true,
+      "default": "default"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_create_meeting_room",
+      "display_name": "Create Meeting Room",
+      "info": "If true, a Google Meet link is created and added to the event.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_guestsCanSeeOtherGuests",
+      "display_name": "Guests Can See Other Guests",
+      "info": "Whether attendees other than the organizer can see who the event's attendees are.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_guestsCanInviteOthers",
+      "display_name": "Guests Can Invite Others",
+      "info": "Whether attendees other than the organizer can invite others to the event.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_location",
+      "display_name": "Location",
+      "info": "Geographic location of the event as free-form text.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_summary",
+      "display_name": "Summary/Title",
+      "info": "Summary (title) of the event.",
+      "show": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_transparency",
+      "display_name": "Event Transparency",
+      "info": "'opaque' (busy) or 'transparent' (available).",
+      "show": false,
+      "value": "opaque",
+      "advanced": true,
+      "default": "opaque"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_visibility",
+      "display_name": "Event Visibility",
+      "info": "Event visibility: 'default', 'public', 'private', or 'confidential'.",
+      "show": false,
+      "value": "default",
+      "advanced": true,
+      "default": "default"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_timezone",
+      "display_name": "Timezone",
+      "info": "IANA timezone name (e.g., 'America/New_York'). Required if datetime is naive. If datetime includes timezone info (Z or offset), this field is optional and defaults to UTC.",
+      "show": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_recurrence",
+      "display_name": "Recurrence",
+      "info": "List of RRULE, EXRULE, RDATE, EXDATE lines for recurring events.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_guests_can_modify",
+      "display_name": "Guests Can Modify",
+      "info": "If True, guests can modify the event.",
+      "show": false,
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_attendees",
+      "display_name": "Attendees",
+      "info": "List of attendee emails (strings).",
+      "show": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_send_updates",
+      "display_name": "Send Updates",
+      "info": "Defaults to True. Whether to send updates to the attendees.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_start_datetime",
+      "display_name": "Start Datetime",
+      "info": "Naive date/time (YYYY-MM-DDTHH:MM:SS) with NO offsets or Z. e.g. '2025-01-16T13:00:00'",
+      "show": false,
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_event_duration_hour",
+      "display_name": "Event Duration Hour",
+      "info": "Number of hours (0-24).",
+      "show": false,
+      "value": 0,
+      "advanced": true,
+      "default": 0
+    },
+    {
+      "field_class": "IntInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_event_duration_minutes",
+      "display_name": "Event Duration Minutes",
+      "info": "Number of minutes (0-59).",
+      "show": false,
+      "value": 30,
+      "advanced": true,
+      "default": 30
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_CREATE_EVENT_calendar_id",
+      "display_name": "Calendar Id",
+      "info": "The ID of the Google Calendar. `primary` for interacting with the primary calendar.",
+      "show": false,
+      "value": "primary",
+      "advanced": true,
+      "default": "primary"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_DELETE_EVENT_calendar_id",
+      "display_name": "Calendar Id",
+      "info": "ID of the Google Calendar",
+      "show": false,
+      "value": "primary",
+      "default": "primary"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_DELETE_EVENT_event_id",
+      "display_name": "Event Id",
+      "info": "ID of the event to be deleted",
+      "show": false,
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_FREE_SLOTS_time_min",
+      "display_name": "Time Min",
+      "info": "The start datetime of the interval for the query. Supports multiple formats:, 1. ISO format with timezone (e.g., 2024-12-06T13:00:00Z), 2. Comma-separated format (e.g., 2024,12,06,13,00,00), 3. Simple datetime format (e.g., 2024-12-06 13:00:00)",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_FREE_SLOTS_time_max",
+      "display_name": "Time Max",
+      "info": "The end datetime of the interval for the query. Supports multiple formats:, 1. ISO format with timezone (e.g., 2024-12-06T13:00:00Z), 2. Comma-separated format (e.g., 2024,12,06,13,00,00), 3. Simple datetime format (e.g., 2024-12-06 13:00:00)",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_FREE_SLOTS_timezone",
+      "display_name": "Timezone",
+      "info": "Time zone used in the response. Optional. The default is UTC.",
+      "show": false,
+      "value": "UTC",
+      "advanced": true,
+      "default": "UTC"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "GOOGLECALENDAR_FIND_FREE_SLOTS_group_expansion_max",
+      "display_name": "Group Expansion Max",
+      "info": "Maximal number of calendar identifiers to be provided for a single group. Optional. An error is returned for a group with more members than this value. Maximum value is 100.",
+      "show": false,
+      "value": 100,
+      "advanced": true,
+      "default": 100
+    },
+    {
+      "field_class": "IntInput",
+      "name": "GOOGLECALENDAR_FIND_FREE_SLOTS_calendar_expansion_max",
+      "display_name": "Calendar Expansion Max",
+      "info": "Maximal number of calendars for which FreeBusy information is to be provided. Optional. Maximum value is 50.",
+      "show": false,
+      "value": 50,
+      "advanced": true,
+      "default": 50
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_FIND_FREE_SLOTS_items",
+      "display_name": "Items",
+      "info": "List of calendars ids for which to fetch",
+      "show": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_QUICK_ADD_calendar_id",
+      "display_name": "Calendar Id",
+      "info": "Calendar identifier. To list calendars to retrieve calendar IDs use relevant tools. To access the primary calendar of the currently logged in user, use the 'primary' keyword.",
+      "show": false,
+      "value": "primary",
+      "default": "primary"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_QUICK_ADD_text",
+      "display_name": "Text",
+      "info": "The text describing the event to be created.",
+      "show": false,
+      "value": "",
+      "default": ""
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_QUICK_ADD_send_updates",
+      "display_name": "Send Updates",
+      "info": "Guests who should receive notifications about the creation of the new event. Accepted fields include 'all', 'none', 'externalOnly'",
+      "show": false,
+      "value": "none",
+      "advanced": true,
+      "default": "none"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_PATCH_CALENDAR_calendar_id",
+      "display_name": "Calendar Id",
+      "info": "The ID of the Google Calendar that needs to be updated.",
+      "show": false,
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_PATCH_CALENDAR_description",
+      "display_name": "Description",
+      "info": "Description of the calendar. Optional.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_PATCH_CALENDAR_location",
+      "display_name": "Location",
+      "info": "Geographic location of the calendar as free-form text.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_PATCH_CALENDAR_summary",
+      "display_name": "Title/Summary",
+      "info": "Title of the calendar. This field is required and cannot be left blank as per the Google Calendar API requirements.",
+      "show": false,
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_PATCH_CALENDAR_timezone",
+      "display_name": "Timezone",
+      "info": "The time zone of the calendar. (Formatted as an IANA Time Zone Database name, e.g. 'Europe/Zurich').",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "GOOGLECALENDAR_GET_CURRENT_DATE_TIME_timezone",
+      "display_name": "Timezone",
+      "info": "The timezone offset from UTC to retrieve current date and time, like for location of UTC+6, you give 6, for UTC -9, your give -9.",
+      "show": false,
+      "value": 0,
+      "advanced": true,
+      "default": 0
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_description",
+      "display_name": "Description",
+      "info": "Description of the event. Can contain HTML. Optional.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_eventType",
+      "display_name": "EventType",
+      "info": "Type of the event, immutable post-creation. Currently, only 'default' and 'workingLocation' can be created.",
+      "show": false,
+      "value": "default",
+      "advanced": true,
+      "default": "default"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_create_meeting_room",
+      "display_name": "Create Meeting Room",
+      "info": "If true, a Google Meet link is created and added to the event.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_guestsCanSeeOtherGuests",
+      "display_name": "Guests Can See Other Guests",
+      "info": "Whether attendees other than the organizer can see who the event's attendees are.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_guestsCanInviteOthers",
+      "display_name": "Guests Can Invite Others",
+      "info": "Whether attendees other than the organizer can invite others to the event.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_location",
+      "display_name": "Location",
+      "info": "Geographic location of the event as free-form text.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_summary",
+      "display_name": "Summary/Title",
+      "info": "Summary (title) of the event.",
+      "show": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_transparency",
+      "display_name": "Event Transparency",
+      "info": "'opaque' (busy) or 'transparent' (available).",
+      "show": false,
+      "value": "opaque",
+      "advanced": true,
+      "default": "opaque"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_visibility",
+      "display_name": "Event Visibility",
+      "info": "Event visibility: 'default', 'public', 'private', or 'confidential'.",
+      "show": false,
+      "value": "default",
+      "advanced": true,
+      "default": "default"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_timezone",
+      "display_name": "Timezone",
+      "info": "IANA timezone name (e.g., 'America/New_York'). Required if datetime is naive. If datetime includes timezone info (Z or offset), this field is optional and defaults to UTC.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_recurrence",
+      "display_name": "Recurrence",
+      "info": "List of RRULE, EXRULE, RDATE, EXDATE lines for recurring events.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_guests_can_modify",
+      "display_name": "Guests Can Modify",
+      "info": "If True, guests can modify the event.",
+      "show": false,
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_attendees",
+      "display_name": "Attendees",
+      "info": "List of attendee emails (strings).",
+      "show": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_send_updates",
+      "display_name": "Send Updates",
+      "info": "Defaults to True. Whether to send updates to the attendees.",
+      "show": false,
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_start_datetime",
+      "display_name": "Start Datetime",
+      "info": "Naive date/time (YYYY-MM-DDTHH:MM:SS) with NO offsets or Z. e.g. '2025-01-16T13:00:00'",
+      "show": false,
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_event_duration_hour",
+      "display_name": "Event Duration Hour",
+      "info": "Number of hours (0-24).",
+      "show": false,
+      "value": 0,
+      "advanced": true,
+      "default": 0
+    },
+    {
+      "field_class": "IntInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_event_duration_minutes",
+      "display_name": "Event Duration Minutes",
+      "info": "Number of minutes (0-59).",
+      "show": false,
+      "value": 30,
+      "advanced": true,
+      "default": 30
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_calendar_id",
+      "display_name": "Calendar Id",
+      "info": "ID of the Google Calendar",
+      "show": false,
+      "value": "primary",
+      "default": "primary"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "GOOGLECALENDAR_UPDATE_EVENT_event_id",
+      "display_name": "Event Id",
+      "info": "ID of the event to be updated",
+      "show": false,
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "GOOGLECALENDAR_LIST_CALENDARS_max_results",
+    "GOOGLECALENDAR_LIST_CALENDARS_min_access_role",
+    "GOOGLECALENDAR_LIST_CALENDARS_page_token",
+    "GOOGLECALENDAR_LIST_CALENDARS_show_deleted",
+    "GOOGLECALENDAR_LIST_CALENDARS_show_hidden",
+    "GOOGLECALENDAR_LIST_CALENDARS_sync_token",
+    "GOOGLECALENDAR_FIND_EVENT_calendar_id",
+    "GOOGLECALENDAR_FIND_EVENT_query",
+    "GOOGLECALENDAR_FIND_EVENT_max_results",
+    "GOOGLECALENDAR_FIND_EVENT_order_by",
+    "GOOGLECALENDAR_FIND_EVENT_show_deleted",
+    "GOOGLECALENDAR_FIND_EVENT_single_events",
+    "GOOGLECALENDAR_FIND_EVENT_timeMax",
+    "GOOGLECALENDAR_FIND_EVENT_timeMin",
+    "GOOGLECALENDAR_FIND_EVENT_updated_min",
+    "GOOGLECALENDAR_FIND_EVENT_event_types",
+    "GOOGLECALENDAR_FIND_EVENT_page_token",
+    "GOOGLECALENDAR_DUPLICATE_CALENDAR_summary",
+    "GOOGLECALENDAR_REMOVE_ATTENDEE_calendar_id",
+    "GOOGLECALENDAR_REMOVE_ATTENDEE_event_id",
+    "GOOGLECALENDAR_REMOVE_ATTENDEE_attendee_email",
+    "GOOGLECALENDAR_GET_CALENDAR_calendar_id",
+    "GOOGLECALENDAR_CREATE_EVENT_description",
+    "GOOGLECALENDAR_CREATE_EVENT_eventType",
+    "GOOGLECALENDAR_CREATE_EVENT_create_meeting_room",
+    "GOOGLECALENDAR_CREATE_EVENT_guestsCanSeeOtherGuests",
+    "GOOGLECALENDAR_CREATE_EVENT_guestsCanInviteOthers",
+    "GOOGLECALENDAR_CREATE_EVENT_location",
+    "GOOGLECALENDAR_CREATE_EVENT_summary",
+    "GOOGLECALENDAR_CREATE_EVENT_transparency",
+    "GOOGLECALENDAR_CREATE_EVENT_visibility",
+    "GOOGLECALENDAR_CREATE_EVENT_timezone",
+    "GOOGLECALENDAR_CREATE_EVENT_recurrence",
+    "GOOGLECALENDAR_CREATE_EVENT_guests_can_modify",
+    "GOOGLECALENDAR_CREATE_EVENT_attendees",
+    "GOOGLECALENDAR_CREATE_EVENT_send_updates",
+    "GOOGLECALENDAR_CREATE_EVENT_start_datetime",
+    "GOOGLECALENDAR_CREATE_EVENT_event_duration_hour",
+    "GOOGLECALENDAR_CREATE_EVENT_event_duration_minutes",
+    "GOOGLECALENDAR_CREATE_EVENT_calendar_id",
+    "GOOGLECALENDAR_DELETE_EVENT_calendar_id",
+    "GOOGLECALENDAR_DELETE_EVENT_event_id",
+    "GOOGLECALENDAR_FIND_FREE_SLOTS_time_min",
+    "GOOGLECALENDAR_FIND_FREE_SLOTS_time_max",
+    "GOOGLECALENDAR_FIND_FREE_SLOTS_timezone",
+    "GOOGLECALENDAR_FIND_FREE_SLOTS_group_expansion_max",
+    "GOOGLECALENDAR_FIND_FREE_SLOTS_calendar_expansion_max",
+    "GOOGLECALENDAR_FIND_FREE_SLOTS_items",
+    "GOOGLECALENDAR_QUICK_ADD_calendar_id",
+    "GOOGLECALENDAR_QUICK_ADD_text",
+    "GOOGLECALENDAR_QUICK_ADD_send_updates",
+    "GOOGLECALENDAR_PATCH_CALENDAR_calendar_id",
+    "GOOGLECALENDAR_PATCH_CALENDAR_description",
+    "GOOGLECALENDAR_PATCH_CALENDAR_location",
+    "GOOGLECALENDAR_PATCH_CALENDAR_summary",
+    "GOOGLECALENDAR_PATCH_CALENDAR_timezone",
+    "GOOGLECALENDAR_GET_CURRENT_DATE_TIME_timezone",
+    "GOOGLECALENDAR_UPDATE_EVENT_description",
+    "GOOGLECALENDAR_UPDATE_EVENT_eventType",
+    "GOOGLECALENDAR_UPDATE_EVENT_create_meeting_room",
+    "GOOGLECALENDAR_UPDATE_EVENT_guestsCanSeeOtherGuests",
+    "GOOGLECALENDAR_UPDATE_EVENT_guestsCanInviteOthers",
+    "GOOGLECALENDAR_UPDATE_EVENT_location",
+    "GOOGLECALENDAR_UPDATE_EVENT_summary",
+    "GOOGLECALENDAR_UPDATE_EVENT_transparency",
+    "GOOGLECALENDAR_UPDATE_EVENT_visibility",
+    "GOOGLECALENDAR_UPDATE_EVENT_timezone",
+    "GOOGLECALENDAR_UPDATE_EVENT_recurrence",
+    "GOOGLECALENDAR_UPDATE_EVENT_guests_can_modify",
+    "GOOGLECALENDAR_UPDATE_EVENT_attendees",
+    "GOOGLECALENDAR_UPDATE_EVENT_send_updates",
+    "GOOGLECALENDAR_UPDATE_EVENT_start_datetime",
+    "GOOGLECALENDAR_UPDATE_EVENT_event_duration_hour",
+    "GOOGLECALENDAR_UPDATE_EVENT_event_duration_minutes",
+    "GOOGLECALENDAR_UPDATE_EVENT_calendar_id",
+    "GOOGLECALENDAR_UPDATE_EVENT_event_id"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ComposioGoogleCalendarAPIComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/composio/googlecalendar_composio.py#L14"
+}

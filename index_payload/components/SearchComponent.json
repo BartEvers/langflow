@@ -1,0 +1,82 @@
+{
+  "kind": "component",
+  "type": "SearchComponent",
+  "display_name": "SearchApi",
+  "description": "Calls the SearchApi API with result limiting. Supports Google, Bing and DuckDuckGo.",
+  "documentation": "https://www.searchapi.io/docs/google",
+  "icon": "SearchAPI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DropdownInput",
+      "name": "engine",
+      "display_name": "Engine",
+      "value": "google",
+      "options": [
+        "google",
+        "bing",
+        "duckduckgo"
+      ],
+      "default": "google"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "SearchAPI API Key",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "tool_mode": true
+    },
+    {
+      "field_class": "DictInput",
+      "name": "search_params",
+      "display_name": "Search parameters",
+      "advanced": true,
+      "is_list": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "value": 5,
+      "advanced": true,
+      "default": 5
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_snippet_length",
+      "display_name": "Max Snippet Length",
+      "value": 100,
+      "advanced": true,
+      "default": 100
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "fetch_content_dataframe"
+    }
+  ],
+  "template": [
+    "engine",
+    "api_key",
+    "input_value",
+    "search_params",
+    "max_results",
+    "max_snippet_length"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SearchComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/searchapi/search.py#L12"
+}

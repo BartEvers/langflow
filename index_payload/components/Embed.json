@@ -1,0 +1,20 @@
+{
+  "kind": "component",
+  "type": "Embed",
+  "display_name": "Embed Texts",
+  "description": "",
+  "documentation": null,
+  "icon": null,
+  "minimized": null,
+  "tags": [],
+  "inputs": [],
+  "outputs": [],
+  "template": [],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Embed"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/embed.py#L6"
+}

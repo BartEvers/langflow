@@ -1,0 +1,7 @@
+{
+  "kind": "schema",
+  "name": "FormatterType",
+  "fields": [],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/table.py#L19"
+}

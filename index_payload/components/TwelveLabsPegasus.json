@@ -1,0 +1,107 @@
+{
+  "kind": "component",
+  "type": "TwelveLabsPegasus",
+  "display_name": "TwelveLabs Pegasus",
+  "description": "Chat with videos using TwelveLabs Pegasus API.",
+  "documentation": "https://github.com/twelvelabs-io/twelvelabs-developer-experience/blob/main/integrations/Langflow/TWELVE_LABS_COMPONENTS_README.md",
+  "icon": "TwelveLabs",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "videodata",
+      "display_name": "Video Data",
+      "info": "Video Data",
+      "is_list": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "TwelveLabs API Key",
+      "info": "Enter your TwelveLabs API Key.",
+      "required": true
+    },
+    {
+      "field_class": "MessageInput",
+      "name": "video_id",
+      "display_name": "Pegasus Video ID",
+      "info": "Enter a Video ID for a previously indexed video."
+    },
+    {
+      "field_class": "MessageInput",
+      "name": "index_name",
+      "display_name": "Index Name",
+      "info": "Name of the index to use. If the index doesn't exist, it will be created.",
+      "required": false
+    },
+    {
+      "field_class": "MessageInput",
+      "name": "index_id",
+      "display_name": "Index ID",
+      "info": "ID of an existing index to use. If provided, index_name will be ignored.",
+      "required": false
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model",
+      "info": "Pegasus model to use for indexing",
+      "options": [
+        "pegasus1.2"
+      ],
+      "value": "pegasus1.2",
+      "advanced": false,
+      "default": "pegasus1.2"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "message",
+      "display_name": "Prompt",
+      "info": "Message to chat with the video.",
+      "required": true
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.7,
+      "range_spec": "RangeSpec(min=0, max=1, step=0.01)",
+      "info": "Controls randomness in responses. Lower values are more deterministic, higher values are more creative.",
+      "default": 0.7
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Message",
+      "name": "response",
+      "method": "process_video",
+      "type_": "Message"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Video ID",
+      "name": "processed_video_id",
+      "method": "get_video_id",
+      "type_": "Message"
+    }
+  ],
+  "template": [
+    "videodata",
+    "api_key",
+    "video_id",
+    "index_name",
+    "index_id",
+    "model_name",
+    "message",
+    "temperature"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "TwelveLabsPegasus"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/twelvelabs/twelvelabs_pegasus.py#L37"
+}

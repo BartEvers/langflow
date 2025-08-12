@@ -1,0 +1,117 @@
+{
+  "kind": "component",
+  "type": "ChunkDoclingDocument",
+  "display_name": "Chunk DoclingDocument",
+  "description": "Use the DocumentDocument chunkers to split the document into chunks.",
+  "documentation": "https://docling-project.github.io/docling/concepts/chunking/",
+  "icon": "Docling",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "data_inputs",
+      "display_name": "Data or DataFrame",
+      "info": "The data with documents to split in chunks.",
+      "input_types": [
+        "Data",
+        "DataFrame"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "chunker",
+      "display_name": "Chunker",
+      "options": [
+        "HybridChunker",
+        "HierarchicalChunker"
+      ],
+      "info": "Which chunker to use.",
+      "value": "HybridChunker",
+      "real_time_refresh": true,
+      "default": "HybridChunker"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "provider",
+      "display_name": "Provider",
+      "options": [
+        "Hugging Face",
+        "OpenAI"
+      ],
+      "info": "Which tokenizer provider.",
+      "value": "Hugging Face",
+      "show": true,
+      "real_time_refresh": true,
+      "advanced": true,
+      "dynamic": true,
+      "default": "Hugging Face"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "hf_model_name",
+      "display_name": "HF model name",
+      "info": "Model name of the tokenizer to use with the HybridChunker when Hugging Face is chosen as a tokenizer.",
+      "value": "sentence-transformers/all-MiniLM-L6-v2",
+      "show": true,
+      "advanced": true,
+      "dynamic": true,
+      "default": "sentence-transformers/all-MiniLM-L6-v2"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "openai_model_name",
+      "display_name": "OpenAI model name",
+      "info": "Model name of the tokenizer to use with the HybridChunker when OpenAI is chosen as a tokenizer.",
+      "value": "gpt-4o",
+      "show": false,
+      "advanced": true,
+      "dynamic": true,
+      "default": "gpt-4o"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_tokens",
+      "display_name": "Maximum tokens",
+      "info": "Maximum number of tokens for the HybridChunker.",
+      "show": true,
+      "required": false,
+      "advanced": true,
+      "dynamic": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "doc_key",
+      "display_name": "Doc Key",
+      "info": "The key to use for the DoclingDocument column.",
+      "value": "doc",
+      "advanced": true,
+      "default": "doc"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "chunk_documents"
+    }
+  ],
+  "template": [
+    "data_inputs",
+    "chunker",
+    "provider",
+    "hf_model_name",
+    "openai_model_name",
+    "max_tokens",
+    "doc_key"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ChunkDoclingDocument"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/docling/chunk_docling_document.py#L13"
+}

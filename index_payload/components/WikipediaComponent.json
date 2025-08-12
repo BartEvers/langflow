@@ -1,0 +1,71 @@
+{
+  "kind": "component",
+  "type": "WikipediaComponent",
+  "display_name": "Wikipedia",
+  "description": "Call Wikipedia API.",
+  "documentation": null,
+  "icon": "Wikipedia",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "tool_mode": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "lang",
+      "display_name": "Language",
+      "value": "en",
+      "default": "en"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "k",
+      "display_name": "Number of results",
+      "value": 4,
+      "required": true,
+      "default": 4
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "load_all_available_meta",
+      "display_name": "Load all available meta",
+      "value": false,
+      "advanced": true,
+      "default": false
+    },
+    {
+      "field_class": "IntInput",
+      "name": "doc_content_chars_max",
+      "display_name": "Document content characters max",
+      "value": 4000,
+      "advanced": true,
+      "default": 4000
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "fetch_content_dataframe"
+    }
+  ],
+  "template": [
+    "input_value",
+    "lang",
+    "k",
+    "load_all_available_meta",
+    "doc_content_chars_max"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "WikipediaComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/wikipedia/wikipedia.py#L10"
+}

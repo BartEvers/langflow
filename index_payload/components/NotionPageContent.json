@@ -1,0 +1,37 @@
+{
+  "kind": "component",
+  "type": "NotionPageContent",
+  "display_name": "Page Content Viewer ",
+  "description": "Retrieve the content of a Notion page as plain text.",
+  "documentation": "https://docs.langflow.org/integrations/notion/page-content-viewer",
+  "icon": "NotionDirectoryLoader",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "page_id",
+      "display_name": "Page ID",
+      "info": "The ID of the Notion page to retrieve."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "notion_secret",
+      "display_name": "Notion Secret",
+      "info": "The Notion integration token.",
+      "required": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "page_id",
+    "notion_secret"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NotionPageContent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/Notion/page_content_viewer.py#L12"
+}

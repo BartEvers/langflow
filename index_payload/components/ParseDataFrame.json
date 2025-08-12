@@ -1,0 +1,56 @@
+{
+  "kind": "component",
+  "type": "ParseDataFrame",
+  "display_name": "Parse DataFrame",
+  "description": "Convert a DataFrame into plain text following a specified template. Each column in the DataFrame is treated as a possible template key, e.g. {col_name}.",
+  "documentation": null,
+  "icon": "braces",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataFrameInput",
+      "name": "df",
+      "display_name": "DataFrame",
+      "info": "The DataFrame to convert to text rows."
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "template",
+      "display_name": "Template",
+      "info": "The template for formatting each row. Use placeholders matching column names in the DataFrame, for example '{col1}', '{col2}'.",
+      "value": "{text}",
+      "default": "{text}"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "sep",
+      "display_name": "Separator",
+      "advanced": true,
+      "value": "\n",
+      "info": "String that joins all row texts when building the single Text output.",
+      "default": "\n"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Text",
+      "name": "text",
+      "info": "All rows combined into a single text, each row formatted by the template and separated by `sep`.",
+      "method": "parse_data"
+    }
+  ],
+  "template": [
+    "df",
+    "template",
+    "sep"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ParseDataFrame"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/parse_dataframe.py#L6"
+}

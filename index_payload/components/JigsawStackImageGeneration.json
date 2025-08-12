@@ -1,0 +1,140 @@
+{
+  "kind": "component",
+  "type": "JigsawStackImageGeneration",
+  "display_name": "Image Generation",
+  "description": "Generate an image based on the given text by employing AI models like Flux,         Stable Diffusion, and other top models.",
+  "documentation": "https://jigsawstack.com/docs/api-reference/ai/image-generation",
+  "icon": "JigsawStack",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "JigsawStack API Key",
+      "info": "Your JigsawStack API key for authentication",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "prompt",
+      "display_name": "Prompt",
+      "info": "The text prompt to generate the image from. Must be between 1-5000 characters.",
+      "required": true,
+      "tool_mode": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "aspect_ratio",
+      "display_name": "Aspect Ratio",
+      "info": "The aspect ratio of the generated image. Must be one of the following:                '1:1', '16:9', '21:9', '3:2', '2:3', '4:5', '5:4', '3:4', '4:3', '9:16', '9:21'                 Default is 1:1.",
+      "required": false,
+      "tool_mode": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "url",
+      "display_name": "URL",
+      "info": "A valid URL where the generated image will be sent.",
+      "required": false
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "file_store_key",
+      "display_name": "File Store Key",
+      "info": "The key used to store the image on Jigsawstack File Storage. Not required if url is specified.",
+      "required": false,
+      "tool_mode": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "width",
+      "display_name": "Width",
+      "info": "The width of the image. Must be between 256-1920 pixels.",
+      "required": false
+    },
+    {
+      "field_class": "IntInput",
+      "name": "height",
+      "display_name": "Height",
+      "info": "The height of the image. Must be between 256-1920 pixels.",
+      "required": false
+    },
+    {
+      "field_class": "IntInput",
+      "name": "steps",
+      "display_name": "Steps",
+      "info": "The number of denoising steps. Must be between 1-90.                 Higher values produce better quality images but take more time to generate.",
+      "required": false
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "output_format",
+      "display_name": "Output Format",
+      "info": "The output format of the generated image. Must be one of the following values:                png or svg",
+      "required": false,
+      "options": [
+        "png",
+        "svg"
+      ],
+      "value": "png",
+      "default": "png"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "negative_prompt",
+      "display_name": "Negative Prompt",
+      "info": "The text prompt to avoid in the generated image.                 Must be between 1-5000 characters.",
+      "required": false,
+      "tool_mode": true,
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "seed",
+      "display_name": "Seed",
+      "info": "Makes generation deterministic.                Using the same seed and set of parameters will produce identical image each time.",
+      "required": false,
+      "tool_mode": true,
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "guidance",
+      "display_name": "Guidance Scale",
+      "info": "Higher guidance forces the model to better follow the prompt,                 but may result in lower quality output. Must be between 1-28.",
+      "required": false,
+      "tool_mode": true,
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Image Generation Results",
+      "name": "image_generation_results",
+      "method": "generate_image"
+    }
+  ],
+  "template": [
+    "api_key",
+    "prompt",
+    "aspect_ratio",
+    "url",
+    "file_store_key",
+    "width",
+    "height",
+    "steps",
+    "output_format",
+    "negative_prompt",
+    "seed",
+    "guidance"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JigsawStackImageGeneration"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/jigsawstack/image_generation.py#L6"
+}

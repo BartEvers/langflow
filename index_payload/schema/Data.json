@@ -1,0 +1,11 @@
+{
+  "kind": "schema",
+  "name": "Data",
+  "fields": [
+    "data",
+    "default_value",
+    "text_key"
+  ],
+  "doc": "Represents a record with text and optional data.\n\nAttributes:\n    data (dict, optional): Additional data associated with the record.",
+  "source": "src/backend/base/langflow/schema/data.py#L23"
+}

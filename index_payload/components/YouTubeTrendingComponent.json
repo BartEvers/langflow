@@ -1,0 +1,95 @@
+{
+  "kind": "component",
+  "type": "YouTubeTrendingComponent",
+  "display_name": "YouTube Trending",
+  "description": "Retrieves trending videos from YouTube with filtering options.",
+  "documentation": null,
+  "icon": "YouTube",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "YouTube API Key",
+      "info": "Your YouTube Data API key.",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "region",
+      "display_name": "Region",
+      "options": "list('COUNTRY_CODES.keys()')",
+      "value": "Global",
+      "info": "The region to get trending videos from.",
+      "default": "Global"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "category",
+      "display_name": "Category",
+      "options": "list('VIDEO_CATEGORIES.keys()')",
+      "value": "All",
+      "info": "The category of videos to retrieve.",
+      "default": "All"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "value": 10,
+      "info": "Maximum number of trending videos to return (1-50).",
+      "default": 10
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_statistics",
+      "display_name": "Include Statistics",
+      "value": true,
+      "info": "Include video statistics (views, likes, comments).",
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_content_details",
+      "display_name": "Include Content Details",
+      "value": true,
+      "info": "Include video duration and quality info.",
+      "advanced": true,
+      "default": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_thumbnails",
+      "display_name": "Include Thumbnails",
+      "value": true,
+      "info": "Include video thumbnail URLs.",
+      "advanced": true,
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "trending_videos",
+      "display_name": "Trending Videos",
+      "method": "get_trending_videos"
+    }
+  ],
+  "template": [
+    "api_key",
+    "region",
+    "category",
+    "max_results",
+    "include_statistics",
+    "include_content_details",
+    "include_thumbnails"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "YouTubeTrendingComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/youtube/trending.py#L17"
+}

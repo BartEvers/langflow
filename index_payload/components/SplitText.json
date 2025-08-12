@@ -1,0 +1,67 @@
+{
+  "kind": "component",
+  "type": "SplitText",
+  "display_name": "Split Text",
+  "description": "Split text into chunks based on specified criteria.",
+  "documentation": null,
+  "icon": "scissors-line-dashed",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "data_inputs",
+      "display_name": "Data Inputs",
+      "info": "The data to split.",
+      "input_types": [
+        "Data"
+      ],
+      "is_list": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "chunk_overlap",
+      "display_name": "Chunk Overlap",
+      "info": "Number of characters to overlap between chunks.",
+      "value": 200,
+      "default": 200
+    },
+    {
+      "field_class": "IntInput",
+      "name": "chunk_size",
+      "display_name": "Chunk Size",
+      "info": "The maximum number of characters in each chunk.",
+      "value": 1000,
+      "default": 1000
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "separator",
+      "display_name": "Separator",
+      "info": "The character to split on. Defaults to newline.",
+      "value": "\n",
+      "default": "\n"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Chunks",
+      "name": "chunks",
+      "method": "split_text"
+    }
+  ],
+  "template": [
+    "data_inputs",
+    "chunk_overlap",
+    "chunk_size",
+    "separator"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SplitText"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deactivated/split_text.py#L9"
+}

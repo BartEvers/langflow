@@ -1,0 +1,41 @@
+{
+  "kind": "component",
+  "type": "Listen",
+  "display_name": "Listen",
+  "description": "A component to listen for a notification.",
+  "documentation": null,
+  "icon": "Radio",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "context_key",
+      "display_name": "Context Key",
+      "info": "The key of the context to listen for.",
+      "input_types": [
+        "Message"
+      ],
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "data",
+      "display_name": "Data",
+      "method": "listen_for_data",
+      "cache": false
+    }
+  ],
+  "template": [
+    "context_key"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Listen"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/logic/listen.py#L6"
+}

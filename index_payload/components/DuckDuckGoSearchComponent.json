@@ -1,0 +1,60 @@
+{
+  "kind": "component",
+  "type": "DuckDuckGoSearchComponent",
+  "display_name": "DuckDuckGo Search",
+  "description": "Search the web using DuckDuckGo with customizable result limits",
+  "documentation": "https://python.langchain.com/docs/integrations/tools/ddg",
+  "icon": "DuckDuckGo",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "input_value",
+      "display_name": "Search Query",
+      "required": true,
+      "info": "The search query to execute with DuckDuckGo",
+      "tool_mode": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "value": 5,
+      "required": false,
+      "advanced": true,
+      "info": "Maximum number of search results to return",
+      "default": 5
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_snippet_length",
+      "display_name": "Max Snippet Length",
+      "value": 100,
+      "required": false,
+      "advanced": true,
+      "info": "Maximum length of each result snippet",
+      "default": 100
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "fetch_content_dataframe"
+    }
+  ],
+  "template": [
+    "input_value",
+    "max_results",
+    "max_snippet_length"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "DuckDuckGoSearchComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/duckduckgo/duck_duck_go_search_run.py#L10"
+}

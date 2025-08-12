@@ -1,0 +1,143 @@
+{
+  "kind": "component",
+  "type": "VectaraRAG",
+  "display_name": "Vectara RAG",
+  "description": "Vectara's full end to end RAG",
+  "documentation": "https://docs.vectara.com/docs",
+  "icon": "Vectara",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "StrInput",
+      "name": "vectara_customer_id",
+      "display_name": "Vectara Customer ID",
+      "required": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "vectara_corpus_id",
+      "display_name": "Vectara Corpus ID",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "vectara_api_key",
+      "display_name": "Vectara API Key",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "search_query",
+      "display_name": "Search Query",
+      "info": "The query to receive an answer on.",
+      "tool_mode": true
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "lexical_interpolation",
+      "display_name": "Hybrid Search Factor",
+      "range_spec": "RangeSpec(min=0.005, max=0.1, step=0.005)",
+      "value": 0.005,
+      "advanced": true,
+      "info": "How much to weigh lexical scores compared to the embedding score. 0 means lexical search is not used at all, and 1 means only lexical search is used.",
+      "default": 0.005
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "filter",
+      "display_name": "Metadata Filters",
+      "value": "",
+      "advanced": true,
+      "info": "The filter string to narrow the search to according to metadata attributes.",
+      "default": ""
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "reranker",
+      "display_name": "Reranker Type",
+      "options": "RERANKER_TYPES",
+      "value": "<Subscript>",
+      "info": "How to rerank the retrieved search results.",
+      "default": "<Subscript>"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "reranker_k",
+      "display_name": "Number of Results to Rerank",
+      "value": 50,
+      "range_spec": "RangeSpec(min=1, max=100, step=1)",
+      "advanced": true,
+      "default": 50
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "diversity_bias",
+      "display_name": "Diversity Bias",
+      "value": 0.2,
+      "range_spec": "RangeSpec(min=0, max=1, step=0.01)",
+      "advanced": true,
+      "info": "Ranges from 0 to 1, with higher values indicating greater diversity (only applies to MMR reranker).",
+      "default": 0.2
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results to Summarize",
+      "value": 7,
+      "range_spec": "RangeSpec(min=1, max=100, step=1)",
+      "advanced": true,
+      "info": "The maximum number of search results to be available to the prompt.",
+      "default": 7
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "response_lang",
+      "display_name": "Response Language",
+      "options": "RESPONSE_LANGUAGES",
+      "value": "eng",
+      "advanced": true,
+      "info": "Use the ISO 639-1 or 639-3 language code or auto to automatically detect the language.",
+      "default": "eng"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "prompt",
+      "display_name": "Prompt Name",
+      "options": "SUMMARIZER_PROMPTS",
+      "value": "<Subscript>",
+      "advanced": true,
+      "info": "Only vectara-summary-ext-24-05-sml is for Growth customers; all other prompts are for Scale customers only.",
+      "default": "<Subscript>"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "answer",
+      "display_name": "Answer",
+      "method": "generate_response"
+    }
+  ],
+  "template": [
+    "vectara_customer_id",
+    "vectara_corpus_id",
+    "vectara_api_key",
+    "search_query",
+    "lexical_interpolation",
+    "filter",
+    "reranker",
+    "reranker_k",
+    "diversity_bias",
+    "max_results",
+    "response_lang",
+    "prompt"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "VectaraRAG"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/vectorstores/vectara_rag.py#L7"
+}

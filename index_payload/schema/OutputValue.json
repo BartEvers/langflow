@@ -1,0 +1,10 @@
+{
+  "kind": "schema",
+  "name": "OutputValue",
+  "fields": [
+    "message",
+    "type"
+  ],
+  "doc": "",
+  "source": "src/backend/base/langflow/schema/schema.py#L38"
+}

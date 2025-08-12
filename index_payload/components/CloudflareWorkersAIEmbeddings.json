@@ -1,0 +1,91 @@
+{
+  "kind": "component",
+  "type": "CloudflareWorkersAIEmbeddings",
+  "display_name": "Cloudflare Workers AI Embeddings",
+  "description": "Generate embeddings using Cloudflare Workers AI models.",
+  "documentation": "https://python.langchain.com/docs/integrations/text_embedding/cloudflare_workersai/",
+  "icon": "Cloudflare",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "account_id",
+      "display_name": "Cloudflare account ID",
+      "info": "Find your account ID https://developers.cloudflare.com/fundamentals/setup/find-account-and-zone-ids/#find-account-id-workers-and-pages",
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_token",
+      "display_name": "Cloudflare API token",
+      "info": "Create an API token https://developers.cloudflare.com/fundamentals/api/get-started/create-token/",
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "info": "List of supported models https://developers.cloudflare.com/workers-ai/models/#text-embeddings",
+      "required": true,
+      "value": "@cf/baai/bge-base-en-v1.5",
+      "default": "@cf/baai/bge-base-en-v1.5"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "strip_new_lines",
+      "display_name": "Strip New Lines",
+      "advanced": true,
+      "value": true,
+      "default": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "batch_size",
+      "display_name": "Batch Size",
+      "advanced": true,
+      "value": 50,
+      "default": 50
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "api_base_url",
+      "display_name": "Cloudflare API base URL",
+      "advanced": true,
+      "value": "https://api.cloudflare.com/client/v4/accounts",
+      "default": "https://api.cloudflare.com/client/v4/accounts"
+    },
+    {
+      "field_class": "DictInput",
+      "name": "headers",
+      "display_name": "Headers",
+      "info": "Additional request headers",
+      "is_list": true,
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Embeddings",
+      "name": "embeddings",
+      "method": "build_embeddings"
+    }
+  ],
+  "template": [
+    "account_id",
+    "api_token",
+    "model_name",
+    "strip_new_lines",
+    "batch_size",
+    "api_base_url",
+    "headers"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "CloudflareWorkersAIEmbeddings"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/cloudflare/cloudflare.py#L8"
+}

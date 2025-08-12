@@ -1,0 +1,55 @@
+{
+  "kind": "component",
+  "type": "VectorStoreInfo",
+  "display_name": "VectorStoreInfo",
+  "description": "Information about a VectorStore",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "vectorstore_name",
+      "display_name": "Name",
+      "info": "Name of the VectorStore",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "vectorstore_description",
+      "display_name": "Description",
+      "info": "Description of the VectorStore",
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "input_vectorstore",
+      "display_name": "Vector Store",
+      "input_types": [
+        "VectorStore"
+      ],
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Vector Store Info",
+      "name": "info",
+      "method": "build_info"
+    }
+  ],
+  "template": [
+    "vectorstore_name",
+    "vectorstore_description",
+    "input_vectorstore"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "VectorStoreInfo"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/vector_store_info.py#L8"
+}

@@ -1,0 +1,101 @@
+{
+  "kind": "component",
+  "type": "DeepSeekModelComponent",
+  "display_name": "DeepSeek",
+  "description": "Generate text using DeepSeek LLMs.",
+  "documentation": null,
+  "icon": "DeepSeek",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_tokens",
+      "display_name": "Max Tokens",
+      "advanced": true,
+      "info": "Maximum number of tokens to generate. Set to 0 for unlimited.",
+      "range_spec": "RangeSpec(min=0, max=128000)"
+    },
+    {
+      "field_class": "DictInput",
+      "name": "model_kwargs",
+      "display_name": "Model Kwargs",
+      "advanced": true,
+      "info": "Additional keyword arguments to pass to the model."
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "json_mode",
+      "display_name": "JSON Mode",
+      "advanced": true,
+      "info": "If True, it will output JSON regardless of passing a schema."
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "info": "DeepSeek model to use",
+      "options": "DEEPSEEK_MODELS",
+      "value": "deepseek-chat",
+      "refresh_button": true,
+      "default": "deepseek-chat"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "api_base",
+      "display_name": "DeepSeek API Base",
+      "advanced": true,
+      "info": "Base URL for API requests. Defaults to https://api.deepseek.com",
+      "value": "https://api.deepseek.com",
+      "default": "https://api.deepseek.com"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "DeepSeek API Key",
+      "info": "The DeepSeek API Key",
+      "advanced": false,
+      "required": true
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "info": "Controls randomness in responses",
+      "value": 1.0,
+      "range_spec": "RangeSpec(min=0, max=2, step=0.01)",
+      "advanced": true,
+      "default": 1.0
+    },
+    {
+      "field_class": "IntInput",
+      "name": "seed",
+      "display_name": "Seed",
+      "info": "The seed controls the reproducibility of the job.",
+      "advanced": true,
+      "value": 1,
+      "default": 1
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "max_tokens",
+    "model_kwargs",
+    "json_mode",
+    "model_name",
+    "api_base",
+    "api_key",
+    "temperature",
+    "seed"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "DeepSeekModelComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/deepseek/deepseek.py#L13"
+}

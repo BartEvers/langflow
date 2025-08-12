@@ -1,0 +1,80 @@
+{
+  "kind": "component",
+  "type": "ApifyActors",
+  "display_name": "Apify Actors",
+  "description": "Use Apify Actors to extract data from hundreds of places fast. This component can be used in a flow to retrieve data or as a tool with an agent.",
+  "documentation": "http://docs.langflow.org/integrations-apify",
+  "icon": "Apify",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "apify_token",
+      "display_name": "Apify Token",
+      "info": "The API token for the Apify account.",
+      "required": true,
+      "password": true
+    },
+    {
+      "field_class": "StrInput",
+      "name": "actor_id",
+      "display_name": "Actor",
+      "info": "Actor name from Apify store to run. For example 'apify/website-content-crawler' to use the Website Content Crawler Actor.",
+      "value": "apify/website-content-crawler",
+      "required": true,
+      "default": "apify/website-content-crawler"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "run_input",
+      "display_name": "Run input",
+      "info": "The JSON input for the Actor run. For example for the \"apify/website-content-crawler\" Actor: {\"startUrls\":[{\"url\":\"https://docs.apify.com/academy/web-scraping-for-beginners\"}],\"maxCrawlDepth\":0}",
+      "value": "{\"startUrls\":[{\"url\":\"https://docs.apify.com/academy/web-scraping-for-beginners\"}],\"maxCrawlDepth\":0}",
+      "required": true,
+      "default": "{\"startUrls\":[{\"url\":\"https://docs.apify.com/academy/web-scraping-for-beginners\"}],\"maxCrawlDepth\":0}"
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "dataset_fields",
+      "display_name": "Output fields",
+      "info": "Fields to extract from the dataset, split by commas. Other fields will be ignored. Dots in nested structures will be replaced by underscores. Sample input: 'text, metadata.title'. Sample output: {'text': 'page content here', 'metadata_title': 'page title here'}. For example, for the 'apify/website-content-crawler' Actor, you can extract the 'markdown' field, which is the content of the website in markdown format."
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "flatten_dataset",
+      "display_name": "Flatten output",
+      "info": "The output dataset will be converted from a nested format to a flat structure. Dots in nested structure will be replaced by underscores. This is useful for further processing of the Data object. For example, {'a': {'b': 1}} will be flattened to {'a_b': 1}."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Output",
+      "name": "output",
+      "type_": "<Subscript>",
+      "method": "run_model"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Tool",
+      "name": "tool",
+      "type_": "Tool",
+      "method": "build_tool"
+    }
+  ],
+  "template": [
+    "apify_token",
+    "actor_id",
+    "run_input",
+    "dataset_fields",
+    "flatten_dataset"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ApifyActors"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/apify/apify_actor.py#L19"
+}

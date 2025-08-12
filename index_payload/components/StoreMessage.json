@@ -1,0 +1,75 @@
+{
+  "kind": "component",
+  "type": "StoreMessage",
+  "display_name": "Message Store",
+  "description": "Stores a chat message or text into Langflow tables or an external memory.",
+  "documentation": null,
+  "icon": "message-square-text",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "message",
+      "display_name": "Message",
+      "info": "The chat message to be stored.",
+      "required": true,
+      "tool_mode": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "memory",
+      "display_name": "External Memory",
+      "input_types": [
+        "Memory"
+      ],
+      "info": "The external memory to store the message. If empty, it will use the Langflow tables."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "sender",
+      "display_name": "Sender",
+      "info": "The sender of the message. Might be Machine or User. If empty, the current sender parameter will be used.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "sender_name",
+      "display_name": "Sender Name",
+      "info": "The name of the sender. Might be AI or User. If empty, the current sender parameter will be used.",
+      "advanced": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "session_id",
+      "display_name": "Session ID",
+      "info": "The session ID of the chat. If empty, the current session ID parameter will be used.",
+      "value": "",
+      "advanced": true,
+      "default": ""
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Stored Messages",
+      "name": "stored_messages",
+      "method": "store_message",
+      "hidden": true
+    }
+  ],
+  "template": [
+    "message",
+    "memory",
+    "sender",
+    "sender_name",
+    "session_id"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "StoreMessage"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/helpers/store_message.py#L12"
+}

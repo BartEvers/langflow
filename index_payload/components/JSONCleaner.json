@@ -1,0 +1,61 @@
+{
+  "kind": "component",
+  "type": "JSONCleaner",
+  "display_name": "JSON Cleaner",
+  "description": "Cleans the messy and sometimes incorrect JSON strings produced by LLMs so that they are fully compliant with the JSON spec.",
+  "documentation": null,
+  "icon": "braces",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "json_str",
+      "display_name": "JSON String",
+      "info": "The JSON string to be cleaned.",
+      "required": true
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "remove_control_chars",
+      "display_name": "Remove Control Characters",
+      "info": "Remove control characters from the JSON string.",
+      "required": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "normalize_unicode",
+      "display_name": "Normalize Unicode",
+      "info": "Normalize Unicode characters in the JSON string.",
+      "required": false
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "validate_json",
+      "display_name": "Validate JSON",
+      "info": "Validate the JSON string to ensure it is well-formed.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Cleaned JSON String",
+      "name": "output",
+      "method": "clean_json"
+    }
+  ],
+  "template": [
+    "json_str",
+    "remove_control_chars",
+    "normalize_unicode",
+    "validate_json"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "JSONCleaner"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/json_cleaner.py#L10"
+}

@@ -1,0 +1,271 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "description": "Langflow Component Index for PFU Generation",
+    "generated_at": "2024-01-01T00:00:00Z",
+    "total_components": 0
+  },
+  "component_categories": {
+    "input_output": {
+      "description": "Components for handling input and output operations",
+      "base_path": "src/backend/base/langflow/components/input_output",
+      "components": {}
+    },
+    "models": {
+      "description": "Language model components and providers",
+      "base_path": "src/backend/base/langflow/components/models",
+      "components": {}
+    },
+    "tools": {
+      "description": "Tool components for various operations",
+      "base_path": "src/backend/base/langflow/components/tools",
+      "components": {}
+    },
+    "agents": {
+      "description": "Agent components for autonomous operations",
+      "base_path": "src/backend/base/langflow/components/agents",
+      "components": {}
+    },
+    "vectorstores": {
+      "description": "Vector database and retrieval components",
+      "base_path": "src/backend/base/langflow/components/vectorstores",
+      "components": {}
+    },
+    "embeddings": {
+      "description": "Embedding model components",
+      "base_path": "src/backend/base/langflow/components/embeddings",
+      "components": {}
+    },
+    "logic": {
+      "description": "Logic and control flow components",
+      "base_path": "src/backend/base/langflow/components/logic",
+      "components": {}
+    },
+    "data": {
+      "description": "Data processing and manipulation components",
+      "base_path": "src/backend/base/langflow/components/data",
+      "components": {}
+    },
+    "processing": {
+      "description": "Text and data processing components",
+      "base_path": "src/backend/base/langflow/components/processing",
+      "components": {}
+    },
+    "helpers": {
+      "description": "Utility and helper components",
+      "base_path": "src/backend/base/langflow/components/helpers",
+      "components": {}
+    },
+    "custom_component": {
+      "description": "Custom component framework",
+      "base_path": "src/backend/base/langflow/components/custom_component",
+      "components": {}
+    }
+  },
+  "base_classes": {
+    "BaseComponent": {
+      "file_path": "src/backend/base/langflow/base/io/base.py",
+      "description": "Base class for all Langflow components",
+      "key_methods": [
+        "build",
+        "run",
+        "get_result",
+        "get_artifacts"
+      ],
+      "key_attributes": [
+        "template",
+        "frontend_node",
+        "display_name",
+        "description"
+      ]
+    },
+    "CustomComponent": {
+      "file_path": "src/backend/base/langflow/custom/custom_component/component.py",
+      "description": "Base class for custom components",
+      "key_methods": [
+        "build",
+        "run",
+        "get_result",
+        "get_artifacts",
+        "get_code"
+      ],
+      "key_attributes": [
+        "template",
+        "frontend_node",
+        "display_name",
+        "description",
+        "code"
+      ]
+    }
+  },
+  "template_structure": {
+    "component_template": {
+      "file_path": "src/backend/base/langflow/template/template/base.py",
+      "description": "Base template structure for components",
+      "fields": [
+        "display_name",
+        "description",
+        "icon",
+        "fields",
+        "output_types",
+        "documentation"
+      ]
+    },
+    "frontend_node": {
+      "file_path": "src/backend/base/langflow/template/frontend_node/base.py",
+      "description": "Frontend node structure for UI representation",
+      "fields": [
+        "template",
+        "base_classes",
+        "output_types",
+        "field_order"
+      ]
+    },
+    "input_field": {
+      "file_path": "src/backend/base/langflow/template/field/base.py",
+      "description": "Input field structure and validation",
+      "fields": [
+        "name",
+        "type",
+        "required",
+        "default",
+        "description",
+        "field_type",
+        "multiline",
+        "password",
+        "list",
+        "file_path",
+        "file_types",
+        "show",
+        "advanced"
+      ]
+    }
+  },
+  "connection_patterns": {
+    "input_output_rules": {
+      "description": "Rules for connecting components",
+      "patterns": [
+        "Text outputs can connect to Text inputs",
+        "List outputs can connect to List inputs",
+        "Dict outputs can connect to Dict inputs",
+        "BaseComponent outputs can connect to BaseComponent inputs"
+      ]
+    },
+    "type_compatibility": {
+      "description": "Type compatibility rules for connections",
+      "rules": [
+        "Exact type matches are always valid",
+        "Subtype relationships are valid (e.g., Text can connect to BaseComponent)",
+        "List types must match element types",
+        "Dict types must have compatible key-value types"
+      ]
+    }
+  },
+  "configuration_options": {
+    "field_types": [
+      "str",
+      "int",
+      "float",
+      "bool",
+      "list",
+      "dict",
+      "BaseComponent",
+      "Text",
+      "Image",
+      "Audio",
+      "Video",
+      "File",
+      "Data",
+      "Tool",
+      "Agent",
+      "Chain",
+      "LLM",
+      "Embeddings",
+      "VectorStore",
+      "Document",
+      "PromptTemplate"
+    ],
+    "field_configurations": {
+      "multiline": "For text fields that need multiple lines",
+      "password": "For sensitive input fields",
+      "list": "For fields that accept multiple values",
+      "file_path": "For file selection fields",
+      "file_types": "For restricting file types",
+      "show": "For conditional field display",
+      "advanced": "For advanced configuration options"
+    }
+  },
+  "best_practices": {
+    "component_design": [
+      "Inherit from appropriate base classes",
+      "Provide clear descriptions for all fields",
+      "Use appropriate field types and validation",
+      "Handle errors gracefully",
+      "Provide meaningful output types"
+    ],
+    "field_naming": [
+      "Use descriptive, lowercase names with underscores",
+      "Avoid reserved Python keywords",
+      "Be consistent with naming conventions",
+      "Use clear, user-friendly display names"
+    ],
+    "error_handling": [
+      "Validate inputs early",
+      "Provide clear error messages",
+      "Handle edge cases gracefully",
+      "Log errors for debugging"
+    ],
+    "performance": [
+      "Minimize unnecessary computations",
+      "Use async operations when possible",
+      "Cache expensive operations",
+      "Handle large data efficiently"
+    ]
+  },
+  "example_flows": {
+    "simple_chat": {
+      "description": "Basic chat flow with user input and LLM response",
+      "components": [
+        "User Input (Text)",
+        "LLM Chain",
+        "Chat Output"
+      ],
+      "connections": [
+        "User Input -> LLM Chain",
+        "LLM Chain -> Chat Output"
+      ]
+    },
+    "rag_pipeline": {
+      "description": "Retrieval-Augmented Generation pipeline",
+      "components": [
+        "User Input (Text)",
+        "Document Loader",
+        "Text Splitter",
+        "Embeddings",
+        "Vector Store",
+        "Retriever",
+        "LLM Chain",
+        "Chat Output"
+      ],
+      "connections": [
+        "User Input -> Retriever",
+        "Document Loader -> Text Splitter",
+        "Text Splitter -> Embeddings",
+        "Embeddings -> Vector Store",
+        "Vector Store -> Retriever",
+        "Retriever -> LLM Chain",
+        "LLM Chain -> Chat Output"
+      ]
+    }
+  },
+  "file_structure": {
+    "backend_root": "src/backend/base/langflow",
+    "components_dir": "src/backend/base/langflow/components",
+    "template_dir": "src/backend/base/langflow/template",
+    "base_dir": "src/backend/base/langflow/base",
+    "custom_dir": "src/backend/base/langflow/custom",
+    "api_dir": "src/backend/base/langflow/api"
+  }
+}
+
+

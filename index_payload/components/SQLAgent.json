@@ -1,0 +1,67 @@
+{
+  "kind": "component",
+  "type": "SQLAgent",
+  "display_name": "SQLAgent",
+  "description": "Construct an SQL agent from an LLM and tools.",
+  "documentation": null,
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "llm",
+      "display_name": "Language Model",
+      "input_types": [
+        "LanguageModel"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "database_uri",
+      "display_name": "Database URI",
+      "required": true
+    },
+    {
+      "field_class": "HandleInput",
+      "name": "extra_tools",
+      "display_name": "Extra Tools",
+      "input_types": [
+        "Tool"
+      ],
+      "is_list": true,
+      "advanced": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Response",
+      "name": "response",
+      "method": "message_response"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Agent",
+      "name": "agent",
+      "method": "build_agent",
+      "tool_mode": false
+    }
+  ],
+  "template": [
+    "llm",
+    "database_uri",
+    "extra_tools"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SQLAgent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/sql.py#L11"
+}

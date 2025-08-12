@@ -1,0 +1,92 @@
+{
+  "kind": "component",
+  "type": "PerplexityModel",
+  "display_name": "Perplexity",
+  "description": "Generate text using Perplexity LLMs.",
+  "documentation": "https://python.langchain.com/v0.2/docs/integrations/chat/perplexity/",
+  "icon": "Perplexity",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "advanced": false,
+      "options": [
+        "llama-3.1-sonar-small-128k-online",
+        "llama-3.1-sonar-large-128k-online",
+        "llama-3.1-sonar-huge-128k-online",
+        "llama-3.1-sonar-small-128k-chat",
+        "llama-3.1-sonar-large-128k-chat",
+        "llama-3.1-8b-instruct",
+        "llama-3.1-70b-instruct"
+      ],
+      "value": "llama-3.1-sonar-small-128k-online",
+      "default": "llama-3.1-sonar-small-128k-online"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_output_tokens",
+      "display_name": "Max Output Tokens",
+      "info": "The maximum number of tokens to generate."
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Perplexity API Key",
+      "info": "The Perplexity API Key to use for the Perplexity model.",
+      "advanced": false,
+      "required": true
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.75,
+      "range_spec": "RangeSpec(min=0, max=2, step=0.05)",
+      "default": 0.75
+    },
+    {
+      "field_class": "FloatInput",
+      "name": "top_p",
+      "display_name": "Top P",
+      "info": "The maximum cumulative probability of tokens to consider when sampling.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "n",
+      "display_name": "N",
+      "info": "Number of chat completions to generate for each prompt. Note that the API may not return the full n completions if duplicates are generated.",
+      "advanced": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "top_k",
+      "display_name": "Top K",
+      "info": "Decode using top-k sampling: consider the set of top_k most probable tokens. Must be positive.",
+      "advanced": true
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "model_name",
+    "max_output_tokens",
+    "api_key",
+    "temperature",
+    "top_p",
+    "n",
+    "top_k"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "PerplexityModel"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/perplexity/perplexity.py#L10"
+}

@@ -1,0 +1,44 @@
+{
+  "kind": "component",
+  "type": "Prompt Template",
+  "display_name": "Prompt Template",
+  "description": "Create a prompt template with dynamic variables.",
+  "documentation": "https://docs.langflow.org/components-prompts",
+  "icon": "braces",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "PromptInput",
+      "name": "template",
+      "display_name": "Template"
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "tool_placeholder",
+      "display_name": "Tool Placeholder",
+      "tool_mode": true,
+      "advanced": true,
+      "info": "A placeholder input for tool mode."
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Prompt",
+      "name": "prompt",
+      "method": "build_prompt"
+    }
+  ],
+  "template": [
+    "template",
+    "tool_placeholder"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "Prompt Template"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/prompt.py#L9"
+}

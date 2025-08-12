@@ -1,0 +1,69 @@
+{
+  "kind": "component",
+  "type": "TavilyExtractComponent",
+  "display_name": "Tavily Extract API",
+  "description": "**Tavily Extract** extract raw content from URLs.",
+  "documentation": null,
+  "icon": "TavilyIcon",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Tavily API Key",
+      "required": true,
+      "info": "Your Tavily API Key."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "urls",
+      "display_name": "URLs",
+      "info": "Comma-separated list of URLs to extract content from.",
+      "required": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "extract_depth",
+      "display_name": "Extract Depth",
+      "info": "The depth of the extraction process.",
+      "options": [
+        "basic",
+        "advanced"
+      ],
+      "value": "basic",
+      "advanced": true,
+      "default": "basic"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_images",
+      "display_name": "Include Images",
+      "info": "Include a list of images extracted from the URLs.",
+      "value": false,
+      "advanced": true,
+      "default": false
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "fetch_content"
+    }
+  ],
+  "template": [
+    "api_key",
+    "urls",
+    "extract_depth",
+    "include_images"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "TavilyExtractComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/tavily/tavily_extract.py#L10"
+}

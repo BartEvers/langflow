@@ -1,0 +1,65 @@
+{
+  "kind": "component",
+  "type": "ParseData",
+  "display_name": "Data to Message",
+  "description": "Convert Data objects into Messages using any {field_name} from input data.",
+  "documentation": null,
+  "icon": "message-square",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "DataInput",
+      "name": "data",
+      "display_name": "Data",
+      "info": "The data to convert to text.",
+      "is_list": true,
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "template",
+      "display_name": "Template",
+      "info": "The template to use for formatting the data. It can contain the keys {text}, {data} or any other key in the Data.",
+      "value": "{text}",
+      "required": true,
+      "default": "{text}"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "sep",
+      "display_name": "Separator",
+      "advanced": true,
+      "value": "\n",
+      "default": "\n"
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Message",
+      "name": "text",
+      "info": "Data as a single Message, with each input Data separated by Separator",
+      "method": "parse_data"
+    },
+    {
+      "output_class": "Output",
+      "display_name": "Data List",
+      "name": "data_list",
+      "info": "Data as a list of new Data, each having `text` formatted by Template",
+      "method": "parse_data_as_list"
+    }
+  ],
+  "template": [
+    "data",
+    "template",
+    "sep"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ParseData"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/parse_data.py#L8"
+}

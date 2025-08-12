@@ -1,0 +1,49 @@
+{
+  "kind": "component",
+  "type": "ParseJSONData",
+  "display_name": "Parse JSON",
+  "description": "Convert and extract JSON fields.",
+  "documentation": null,
+  "icon": "braces",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "HandleInput",
+      "name": "input_value",
+      "display_name": "Input",
+      "info": "Data object to filter.",
+      "required": true,
+      "input_types": [
+        "Message",
+        "Data"
+      ]
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "query",
+      "display_name": "JQ Query",
+      "info": "JQ Query to filter the data. The input is always a JSON list.",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "Filtered Data",
+      "name": "filtered_data",
+      "method": "filter_data"
+    }
+  ],
+  "template": [
+    "input_value",
+    "query"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ParseJSONData"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/processing/parse_json_data.py#L15"
+}

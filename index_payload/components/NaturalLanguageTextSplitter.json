@@ -1,0 +1,66 @@
+{
+  "kind": "component",
+  "type": "NaturalLanguageTextSplitter",
+  "display_name": "Natural Language Text Splitter",
+  "description": "Split text based on natural language boundaries, optimized for a specified language.",
+  "documentation": "https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/split_by_token/#nltk",
+  "icon": "LangChain",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "IntInput",
+      "name": "chunk_size",
+      "display_name": "Chunk Size",
+      "info": "The maximum number of characters in each chunk after splitting.",
+      "value": 1000,
+      "default": 1000
+    },
+    {
+      "field_class": "IntInput",
+      "name": "chunk_overlap",
+      "display_name": "Chunk Overlap",
+      "info": "The number of characters that overlap between consecutive chunks.",
+      "value": 200,
+      "default": 200
+    },
+    {
+      "field_class": "DataInput",
+      "name": "data_input",
+      "display_name": "Input",
+      "info": "The text data to be split.",
+      "input_types": [
+        "Document",
+        "Data"
+      ],
+      "required": true
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "separator",
+      "display_name": "Separator",
+      "info": "The character(s) to use as a delimiter when splitting text.\nDefaults to \"\\n\\n\" if left empty."
+    },
+    {
+      "field_class": "MessageTextInput",
+      "name": "language",
+      "display_name": "Language",
+      "info": "The language of the text. Default is \"English\". Supports multiple languages for better text boundary recognition."
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "chunk_size",
+    "chunk_overlap",
+    "data_input",
+    "separator",
+    "language"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "NaturalLanguageTextSplitter"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/langchain_utilities/natural_language.py#L10"
+}

@@ -1,0 +1,85 @@
+{
+  "kind": "component",
+  "type": "SambaNovaModel",
+  "display_name": "SambaNova",
+  "description": "Generate text using Sambanova LLMs.",
+  "documentation": "https://cloud.sambanova.ai/",
+  "icon": "SambaNova",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "Starred"
+    },
+    {
+      "field_class": "StrInput",
+      "name": "base_url",
+      "display_name": "SambaNova Cloud Base Url",
+      "advanced": true,
+      "info": "The base URL of the Sambanova Cloud API. Defaults to https://api.sambanova.ai/v1/chat/completions. You can change this to use other urls like Sambastudio"
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "model_name",
+      "display_name": "Model Name",
+      "advanced": false,
+      "options": "SAMBANOVA_MODEL_NAMES",
+      "value": "<Subscript>",
+      "default": "<Subscript>"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "Sambanova API Key",
+      "info": "The Sambanova API Key to use for the Sambanova model.",
+      "advanced": false,
+      "value": "SAMBANOVA_API_KEY",
+      "required": true,
+      "default": "SAMBANOVA_API_KEY"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_tokens",
+      "display_name": "Max Tokens",
+      "advanced": true,
+      "value": 2048,
+      "info": "The maximum number of tokens to generate.",
+      "default": 2048
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "top_p",
+      "display_name": "top_p",
+      "advanced": true,
+      "value": 1.0,
+      "range_spec": "RangeSpec(min=0, max=1, step=0.01)",
+      "info": "Model top_p",
+      "default": 1.0
+    },
+    {
+      "field_class": "SliderInput",
+      "name": "temperature",
+      "display_name": "Temperature",
+      "value": 0.1,
+      "range_spec": "RangeSpec(min=0, max=2, step=0.01)",
+      "advanced": true,
+      "default": 0.1
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "base_url",
+    "model_name",
+    "api_key",
+    "max_tokens",
+    "top_p",
+    "temperature"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SambaNovaModel"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/sambanova/sambanova.py#L11"
+}

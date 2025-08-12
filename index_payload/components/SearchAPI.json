@@ -1,0 +1,69 @@
+{
+  "kind": "component",
+  "type": "SearchAPI",
+  "display_name": "Search API [DEPRECATED]",
+  "description": "Call the searchapi.io API with result limiting",
+  "documentation": "https://www.searchapi.io/docs/google",
+  "icon": "SearchAPI",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "engine",
+      "display_name": "Engine",
+      "value": "google",
+      "default": "google"
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "SearchAPI API Key",
+      "required": true
+    },
+    {
+      "field_class": "MultilineInput",
+      "name": "input_value",
+      "display_name": "Input"
+    },
+    {
+      "field_class": "DictInput",
+      "name": "search_params",
+      "display_name": "Search parameters",
+      "advanced": true,
+      "is_list": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "value": 5,
+      "advanced": true,
+      "default": 5
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_snippet_length",
+      "display_name": "Max Snippet Length",
+      "value": 100,
+      "advanced": true,
+      "default": 100
+    }
+  ],
+  "outputs": [],
+  "template": [
+    "engine",
+    "api_key",
+    "input_value",
+    "search_params",
+    "max_results",
+    "max_snippet_length"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "SearchAPI"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/tools/search_api.py#L13"
+}

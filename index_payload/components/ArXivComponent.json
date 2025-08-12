@@ -1,0 +1,62 @@
+{
+  "kind": "component",
+  "type": "ArXivComponent",
+  "display_name": "arXiv",
+  "description": "Search and retrieve papers from arXiv.org",
+  "documentation": null,
+  "icon": "arXiv",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "search_query",
+      "display_name": "Search Query",
+      "info": "The search query for arXiv papers (e.g., 'quantum computing')",
+      "tool_mode": true
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "search_type",
+      "display_name": "Search Field",
+      "info": "The field to search in",
+      "options": [
+        "all",
+        "title",
+        "abstract",
+        "author",
+        "cat"
+      ],
+      "value": "all",
+      "default": "all"
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "info": "Maximum number of results to return",
+      "value": 10,
+      "default": 10
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "display_name": "DataFrame",
+      "name": "dataframe",
+      "method": "search_papers_dataframe"
+    }
+  ],
+  "template": [
+    "search_query",
+    "search_type",
+    "max_results"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "ArXivComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/arxiv/arxiv.py#L13"
+}

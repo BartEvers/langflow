@@ -1,0 +1,81 @@
+{
+  "kind": "component",
+  "type": "YouTubeSearchComponent",
+  "display_name": "YouTube Search",
+  "description": "Searches YouTube videos based on query.",
+  "documentation": null,
+  "icon": "YouTube",
+  "minimized": null,
+  "tags": [],
+  "inputs": [
+    {
+      "field_class": "MessageTextInput",
+      "name": "query",
+      "display_name": "Search Query",
+      "info": "The search query to look for on YouTube.",
+      "tool_mode": true,
+      "required": true
+    },
+    {
+      "field_class": "SecretStrInput",
+      "name": "api_key",
+      "display_name": "YouTube API Key",
+      "info": "Your YouTube Data API key.",
+      "required": true
+    },
+    {
+      "field_class": "IntInput",
+      "name": "max_results",
+      "display_name": "Max Results",
+      "value": 10,
+      "info": "The maximum number of results to return.",
+      "default": 10
+    },
+    {
+      "field_class": "DropdownInput",
+      "name": "order",
+      "display_name": "Sort Order",
+      "options": [
+        "relevance",
+        "date",
+        "rating",
+        "title",
+        "viewCount"
+      ],
+      "value": "relevance",
+      "info": "Sort order for the search results.",
+      "default": "relevance"
+    },
+    {
+      "field_class": "BoolInput",
+      "name": "include_metadata",
+      "display_name": "Include Metadata",
+      "value": true,
+      "info": "Include video metadata like description and statistics.",
+      "advanced": true,
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "output_class": "Output",
+      "name": "results",
+      "display_name": "Search Results",
+      "method": "search_videos"
+    }
+  ],
+  "template": [
+    "query",
+    "api_key",
+    "max_results",
+    "order",
+    "include_metadata"
+  ],
+  "examples": [
+    {
+      "op": "add_component",
+      "type": "YouTubeSearchComponent"
+    }
+  ],
+  "source": "src/backend/base/langflow/components/youtube/search.py#L13"
+}

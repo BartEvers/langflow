@@ -1,0 +1,11 @@
+{
+  "kind": "schema",
+  "name": "BaseContent",
+  "fields": [
+    "duration",
+    "header",
+    "type"
+  ],
+  "doc": "Base class for all content types.",
+  "source": "src/backend/base/langflow/schema/content_types.py#L15"
+}
