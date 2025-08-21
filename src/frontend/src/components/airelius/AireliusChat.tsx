@@ -2,11 +2,13 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, Send, X, Brain, Play, CheckCircle, XCircle, Upload, Database, RefreshCw, MessageSquare, MessageCircle, Zap } from "lucide-react";
+import { Loader2, Send, X, Brain, Play, CheckCircle, XCircle, Upload, Database, RefreshCw, MessageSquare, MessageCircle, Zap, Plus, Info } from "lucide-react";
 import useFlowStore from "@/stores/flowStore";
 import useFlowsManagerStore from "@/stores/flowsManagerStore";
 import { useTypesStore } from "@/stores/typesStore";
 import { useAddComponent } from "@/hooks/use-add-component";
+import { scapedJSONStringfy } from "@/utils/reactflowUtils";
+import { edgeParser } from "./EdgeParser";
 
 /**
  * AireliusChat Component
@@ -46,6 +48,26 @@ import { useAddComponent } from "@/hooks/use-add-component";
  * }
  * 
  * The component will automatically detect and format these responses beautifully.
+ * 
+ * Component Tag Format for LLM:
+ * The LLM can specify components to add using special tags with the following format:
+ * 
+ * 1. Single Component (no connections):
+ *    <ComponentName-GeneratedId>
+ *    Example: <ChatInput-abc123>
+ * 
+ * 2. Single Connection:
+ *    <ComponentName-GeneratedId:ExistingComponentId>
+ *    Example: <WebSearchNoAPI-xyz789:ChatInput-abc123>
+ * 
+ * 3. Multiple Connections (comma-separated):
+ *    <ComponentName-GeneratedId:ExistingComponentId1,ExistingComponentId2,ExistingComponentId3>
+ *    Example: <WebSearchNoAPI-xyz789:ChatInput-abc123,PromptTemplate-def456,MemoryStore-ghi789>
+ * 
+ * The system will automatically:
+ * - Create the specified component
+ * - Establish connections to all existing components listed after the colon
+ * - Handle edge creation with proper Langflow structure
  */
 
 
@@ -86,7 +108,11 @@ const AireliusChat = () => {
   
   // Get access to types store and addComponent hook
   const templates = useTypesStore((state) => state.templates);
+  const componentData = useTypesStore((state) => state.data);
   const addComponent = useAddComponent();
+  
+  // Get access to nodes for building instances map
+  const nodes = useFlowStore((state) => state.nodes);
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -159,48 +185,370 @@ const AireliusChat = () => {
     }
   };
 
+  // Function to create edges between components by name (legacy)
+  const createEdge = (sourceComponentName: string, targetComponentName: string) => {
+    // Get the flow store to add edges
+    const { setEdges, nodes } = useFlowStore.getState();
+    
+    // Find the actual nodes by component name
+    const sourceNode = nodes.find(node => {
+      if (node.data?.node && 'display_name' in node.data.node) {
+        return node.data.node.display_name === sourceComponentName;
+      }
+      return false;
+    });
+    
+    const targetNode = nodes.find(node => {
+      if (node.data?.node && 'display_name' in node.data.node) {
+        return node.data.node.display_name === targetComponentName;
+      }
+      return false;
+    });
+    
+    if (!sourceNode || !targetNode) {
+      //console.warn(`⚠️ Cannot create edge: ${sourceComponentName} -> ${targetComponentName}`);
+      //console.warn(`   Source node found: ${!!sourceNode}, Target node found: ${!!targetNode}`);
+      return;
+    }
+    
+    // Create proper handle objects
+    const sourceHandle = {
+      baseClasses: [],
+      dataType: "string",
+      id: sourceNode.id,
+      output_types: ["string"],
+      name: "output"
+    };
+    
+    const targetHandle = {
+      inputTypes: ["string"],
+      output_types: [],
+      type: "string",
+      fieldName: "input",
+      name: "input",
+      id: targetNode.id
+    };
+    
+    // Convert to JSON strings using the proper function
+    const sourceHandleString = scapedJSONStringfy(sourceHandle);
+    const targetHandleString = scapedJSONStringfy(targetHandle);
+    
+    // Create edge with proper handles
+    const newEdge = {
+      id: `edge-${Date.now()}`,
+      source: sourceNode.id,
+      target: targetNode.id,
+      sourceHandle: sourceHandleString,
+      targetHandle: targetHandleString
+    };
+    
+    // Add edge to flow store
+    setEdges((oldEdges) => [...oldEdges, newEdge]);
+    //console.log(`🔗 Created edge: ${sourceComponentName}(${sourceNode.id}) -> ${targetComponentName}(${targetNode.id})`, newEdge);
+  };
+
+  // Function to create edges between components using their actual node IDs
+  const createEdgeByIds = (sourceNodeId: string, targetNodeId: string) => {
+    // Get the current nodes directly from the flow store to avoid timing issues
+    const currentNodes = useFlowStore.getState().nodes;
+    //console.log(`🔍 Looking for nodes: source=${sourceNodeId}, target=${targetNodeId}`);
+    //console.log(`🔍 Available nodes from store:`, currentNodes.map(n => ({ id: n.id, type: n.data?.type })));
+    
+    const sourceNode = currentNodes.find(node => node.id === sourceNodeId);
+    const targetNode = currentNodes.find(node => node.id === targetNodeId);
+    
+    //console.log(`🔍 Source node found:`, sourceNode ? { id: sourceNode.id, type: sourceNode.data?.type } : 'NOT FOUND');
+    //console.log(`🔍 Target node found:`, targetNode ? { id: targetNode.id, type: targetNode.data?.type } : 'NOT FOUND');
+    
+    if (sourceNode && targetNode) {
+      // Use the new handle selection algorithm
+      const handleSelection = selectHandles(sourceNodeId, targetNodeId);
+      //console.log(`🔍 Handle selection result:`, handleSelection);
+      
+      if (handleSelection.needsAdapter) {
+        //console.log(`🔧 Adapter needed: ${handleSelection.adapterType}`);
+        // TODO: Implement automatic adapter insertion
+        //console.warn(`⚠️ Automatic adapter insertion not yet implemented. Need to add ${handleSelection.adapterType} between ${sourceNodeId} and ${targetNodeId}`);
+        return;
+      }
+      
+      if (!handleSelection.sourceHandle || !handleSelection.targetHandle) {
+        //console.warn(`⚠️ Could not select compatible handles for edge creation`);
+        return;
+      }
+      
+      // Create edge with proper Langflow structure using selected handles
+      const sourceHandle = {
+        dataType: sourceNode.data?.type || "string",
+        id: sourceNodeId,
+        name: handleSelection.sourceHandle.name,
+        output_types: handleSelection.sourceHandle.output_types
+      };
+      
+      const targetHandle = {
+        fieldName: handleSelection.targetHandle.fieldName,
+        id: targetNodeId,
+        inputTypes: handleSelection.targetHandle.inputTypes,
+        type: normalizeType(handleSelection.targetHandle.inputTypes[0] || "str")
+      };
+      
+      // Convert to JSON strings using the broken but required function
+      const sourceHandleString = scapedJSONStringfy(sourceHandle);
+      const targetHandleString = scapedJSONStringfy(targetHandle);
+      
+      // Create edge with proper structure
+      const edgeId = `xy-edge__${sourceNodeId}${sourceHandleString}-${targetNodeId}${targetHandleString}`;
+      
+      // Check for potential edge ID conflicts
+      const existingEdges = useFlowStore.getState().edges;
+      const conflictingEdge = existingEdges.find(e => e.id === edgeId);
+      if (conflictingEdge) {
+        //console.warn(`⚠️ EDGE ID CONFLICT DETECTED!`);
+        //console.warn(`   New edge ID: ${edgeId}`);
+        //console.warn(`   Conflicting edge:`, conflictingEdge);
+        //console.warn(`   This might cause the new edge to overwrite the existing one!`);
+      }
+      
+      const newEdge = {
+        id: edgeId,
+        source: sourceNodeId,
+        target: targetNodeId,
+        sourceHandle: sourceHandleString,
+        targetHandle: targetHandleString,
+        data: {
+          sourceHandle: sourceHandle,
+          targetHandle: targetHandle
+        }
+      };
+      
+      // Add edge to flow store with detailed debugging
+      //console.log(`🔍 BEFORE adding edge - Current edges count:`, useFlowStore.getState().edges.length);
+      //console.log(`🔍 New edge to add:`, newEdge);
+      
+      setEdges((oldEdges) => {
+        const newEdges = [...oldEdges, newEdge];
+        //console.log(`🔍 AFTER adding edge - New edges count: ${newEdges.length}`);
+        //console.log(`🔍 Edge ID being added: ${newEdge.id}`);
+        //console.log(`🔍 All edges after addition:`, newEdges.map(e => ({ id: e.id, source: e.source, target: e.target })));
+        return newEdges;
+      });
+      
+      //console.log(`🔗 Created edge by IDs with proper structure: ${sourceNodeId} -> ${targetNodeId}`);
+      
+      // Verify edge was actually added
+      setTimeout(() => {
+        const currentEdges = useFlowStore.getState().edges;
+        const edgeExists = currentEdges.some(e => e.id === newEdge.id);
+        //console.log(`🔍 VERIFICATION - Edge ${newEdge.id} exists in store: ${edgeExists}`);
+        //console.log(`🔍 Total edges in store: ${currentEdges.length}`);
+        if (!edgeExists) {
+          //console.error(`❌ EDGE CREATION FAILED - Edge ${newEdge.id} was not added to store!`);
+        }
+      }, 100);
+    } else {
+      //console.warn(`⚠️ Cannot create edge: source or target node not found`);
+      //console.warn(`   Source node found: ${!!sourceNode}, Target node found: ${!!targetNode}`);
+    }
+  };
+
+  // State to track pending edge connections
+  const [pendingEdges, setPendingEdges] = useState<Array<{source: string, target: string}>>([]);
+  
+  // Get current nodes and setEdges from flow store to watch for changes
+  const setEdges = useFlowStore((state) => state.setEdges);
+  
+  // Effect to create edges when components are added
+  useEffect(() => {
+    //console.log(`🔍 useEffect triggered - pendingEdges: ${pendingEdges.length}, nodes: ${nodes.length}`);
+    
+    if (pendingEdges.length === 0) {
+      //console.log('🔍 No pending edges, returning early');
+      return;
+    }
+    
+    //console.log('🔍 Current pending edges:', pendingEdges);
+    //console.log('🔍 Current nodes:', nodes.map(n => ({ 
+      //id: n.id, 
+      //type: n.data?.type, 
+      //display_name: n.data?.node && 'display_name' in n.data.node ? n.data.node.display_name : 'N/A' 
+    //})));
+    
+    // Try to create edges for pending connections
+    const remainingEdges = pendingEdges.filter(edge => {
+      //console.log(`🔍 Processing edge: ${edge.source} -> ${edge.target}`);
+      
+      const sourceNode = nodes.find(node => {
+        if (node.data?.node && 'display_name' in node.data.node) {
+          const matches = node.data.node.display_name === edge.source;
+          //console.log(`🔍 Source node ${node.id}: display_name="${node.data.node.display_name}" matches "${edge.source}": ${matches}`);
+          return matches;
+        }
+        //console.log(`🔍 Source node ${node.id}: no display_name property`);
+        return false;
+      });
+      
+      const targetNode = nodes.find(node => {
+        if (node.data?.node && 'display_name' in node.data.node) {
+          const matches = node.data.node.display_name === edge.target;
+          //console.log(`🔍 Target node ${node.id}: display_name="${node.data.node.display_name}" matches "${edge.target}": ${matches}`);
+          return matches;
+        }
+        //console.log(`🔍 Target node ${node.id}: no display_name property`);
+        return false;
+      });
+      
+      if (sourceNode && targetNode) {
+        //console.log(`🔍 Both nodes found! Creating edge: ${edge.source} -> ${edge.target}`);
+        // Both nodes found, create the edge
+        createEdge(edge.source, edge.target);
+        //console.log(`🔗 Successfully created edge: ${edge.source} -> ${edge.target}`);
+        return false; // Remove from pending
+      } else {
+        //console.log(`🔍 Nodes not found yet. Source: ${!!sourceNode}, Target: ${!!targetNode}`);
+      }
+      
+      return true; // Keep in pending
+    });
+    
+    if (remainingEdges.length !== pendingEdges.length) {
+      setPendingEdges(remainingEdges);
+      //console.log(`🔗 Processed edges, ${pendingEdges.length - remainingEdges.length} edges created, ${remainingEdges.length} remaining`);
+    } else {
+      //console.log(`🔍 No edges processed, all ${pendingEdges.length} edges still pending`);
+    }
+  }, [nodes, pendingEdges]);
+  
   // Function to add components when LLM outputs component tags
-  const handleComponentTags = (llmOutput: string) => {
+  const handleComponentTags = async (llmOutput: string) => {
     if (!flowId || !currentFlow) {
-      console.warn('No flow loaded, cannot add components');
+      //console.warn('No flow loaded, cannot add components');
       return;
     }
     
     if (Object.keys(templates).length === 0) {
-      console.warn('No templates loaded, cannot add components');
+      //console.warn('No templates loaded, cannot add components');
       return;
     }
     
-    console.log('🔍 LLM Output:', llmOutput);
-    console.log('🔍 Available templates:', Object.keys(templates));
+    //console.log('🔍 LLM Output:', llmOutput);
+    //console.log('🔍 Available templates:', Object.keys(templates));
     
     const componentTags = extractComponentTags(llmOutput);
-    console.log('🔍 Extracted component tags:', componentTags);
+    //console.log('🔍 Extracted component tags:', componentTags);
     
-    componentTags.forEach(tag => {
-      console.log(`🔍 Looking for component: "${tag}"`);
-      console.log(`🔍 Template exists:`, !!templates[tag]);
+    for (const tag of componentTags) {
+      //console.log(`🔍 Looking for component: "${tag.name}"`);
+      //console.log(`🔍 Template exists:`, !!templates[tag.name]);
       
-      if (templates[tag]) {
+      if (templates[tag.name]) {
         try {
-          // Add the component to the flow
-          addComponent(templates[tag], tag);
-          console.log(`✅ Added component: ${tag}`);
+          // Add the component to the flow with the generated ID
+          const fullComponentName = tag.generatedId; // Use just the generatedId to avoid duplicate prefixes
+          const nodeId = addComponent(templates[tag.name], tag.name, undefined, fullComponentName);
+          console.log(`✅ Added component: ${fullComponentName} with node ID: ${nodeId}`);
+          console.log(`🔍 Component details:`, {
+            name: tag.name,
+            generatedId: tag.generatedId,
+            fullComponentName: fullComponentName,
+            nodeId: nodeId,
+            template: templates[tag.name]
+          });
+          
+          // Handle multiple connections using the parsed addSimpleEdgeCalls data
+          if (tag.addSimpleEdgeCalls && tag.addSimpleEdgeCalls.length > 0) {
+            console.log(`🔗 Creating ${tag.addSimpleEdgeCalls.length} connection(s) for ${fullComponentName} using parsed handle data`);
+            console.log(`🔗 addSimpleEdgeCalls:`, tag.addSimpleEdgeCalls);
+            
+            // Start edge creation status reporting
+            setEdgeCreationStatus(prev => ({
+              ...prev,
+              isCreating: true,
+              currentOperation: `Creating ${tag.addSimpleEdgeCalls.length} connection(s) for ${tag.name}`,
+              progress: 0,
+              total: tag.addSimpleEdgeCalls.length
+            }));
+            
+            // Track edge creation results
+            const edgeResults: Array<{target: string, success: boolean, error?: string}> = [];
+            
+            // Process connections using the parsed handle data
+            for (let index = 0; index < tag.addSimpleEdgeCalls.length; index++) {
+              const edgeCall = tag.addSimpleEdgeCalls[index];
+              
+              // Update progress
+              reportEdgeProgress(`Creating connection ${index + 1}/${tag.addSimpleEdgeCalls.length}`, index, tag.addSimpleEdgeCalls.length);
+              
+              //console.log(`🔍 Processing connection ${index + 1}/${tag.addSimpleEdgeCalls.length}:`, edgeCall);
+              
+              // Find the target component by its ID in the flow
+              const targetNode = nodes.find(node => node.id === edgeCall.targetNodeId);
+              
+              if (targetNode) {
+                //console.log(`✅ Target node found for connection ${index + 1}:`, { id: targetNode.id, type: targetNode.data?.type });
+                
+                try {
+                  console.log(`🔗 Attempting to create edge ${index + 1}: ${edgeCall.sourceNodeId} -> ${edgeCall.targetNodeId}`);
+                  // Create edge using the parsed handle data
+                  const result = await createEdgeWithParsedHandles(edgeCall);
+                  if (result.success) {
+                    console.log(`✅ Created edge ${index + 1}: ${edgeCall.sourceNodeId} -> ${edgeCall.targetNodeId}`);
+                    edgeResults.push({ target: edgeCall.targetNodeId, success: true });
+                    reportEdgeResult(edgeCall.sourceNodeId, edgeCall.targetNodeId, true, `Connection ${index + 1} created successfully`);
+                  } else {
+                    console.error(`❌ Failed to create edge ${index + 1}: ${edgeCall.sourceNodeId} -> ${edgeCall.targetNodeId}`, result.error);
+                    edgeResults.push({ target: edgeCall.targetNodeId, success: false, error: result.error });
+                    reportEdgeResult(edgeCall.sourceNodeId, edgeCall.targetNodeId, false, `Connection ${index + 1} failed: ${result.error}`);
+                  }
+                } catch (error) {
+                  console.error(`❌ Failed to create edge ${index + 1}: ${edgeCall.sourceNodeId} -> ${edgeCall.targetNodeId}`, error);
+                  edgeResults.push({ target: edgeCall.targetNodeId, success: false, error: String(error) });
+                  reportEdgeResult(edgeCall.sourceNodeId, edgeCall.targetNodeId, false, `Connection ${index + 1} failed: ${String(error)}`);
+                }
+              } else {
+                //console.warn(`⚠️ Target component ${edgeCall.targetNodeId} not found in flow for connection ${index + 1}`);
+                edgeResults.push({ target: edgeCall.targetNodeId, success: false, error: 'Target not found' });
+                reportEdgeResult(edgeCall.sourceNodeId, edgeCall.targetNodeId, false, `Connection ${index + 1} failed: Target not found`);
+              }
+            }
+            
+            // Final progress update
+            reportEdgeProgress(`Completed ${tag.addSimpleEdgeCalls.length} connection(s)`, tag.addSimpleEdgeCalls.length, tag.addSimpleEdgeCalls.length);
+            
+            // Log summary of all edge creation attempts
+            //console.log(`📊 EDGE CREATION SUMMARY for ${fullComponentName}:`);
+            edgeResults.forEach((result, index) => {
+              const status = result.success ? '✅ SUCCESS' : '❌ FAILED';
+              const error = result.error ? ` (Error: ${result.error})` : '';
+              //console.log(`   Connection ${index + 1}: ${nodeId} -> ${result.target}: ${status}${error}`);
+            });
+            
+            const successCount = edgeResults.filter(r => r.success).length;
+            const failureCount = edgeResults.filter(r => !r.success).length;
+            //console.log(`📊 Final Result: ${successCount} successful, ${failureCount} failed out of ${tag.addSimpleEdgeCalls.length} total connections`);
+            
+            // Auto-clear status after a delay
+            setTimeout(() => {
+              clearEdgeStatus();
+            }, 5000);
+            
+          } else {
+            //console.log(`ℹ️ No connections specified for ${fullComponentName}, component added without edges`);
+          }
         } catch (error) {
-          console.error(`❌ Failed to add component ${tag}:`, error);
+          //console.error(`❌ Failed to add component ${tag.name}:`, error);
         }
       } else {
-        console.warn(`⚠️ Component type "${tag}" not found in templates`);
+        //console.warn(`⚠️ Component type "${tag.name}" not found in templates`);
         // Try to find similar component names
         const similarComponents = Object.keys(templates).filter(name => 
-          name.toLowerCase().includes(tag.toLowerCase()) || 
-          tag.toLowerCase().includes(name.toLowerCase())
+          name.toLowerCase().includes(tag.name.toLowerCase()) || 
+          tag.name.toLowerCase().includes(name.toLowerCase())
         );
         if (similarComponents.length > 0) {
-          console.log(`💡 Similar components found:`, similarComponents);
+          //console.log(`💡 Similar components found:`, similarComponents);
         }
       }
-    });
+    }
   };
 
   // Click outside handler to close dialog immediately
@@ -214,7 +562,7 @@ const AireliusChat = () => {
         const isOutsideInput = !target.closest('[data-chat-input]');
         
         if (isOutsideDialog && isOutsideInput) {
-          console.log('Click outside detected, closing dialog');
+          //console.log('Click outside detected, closing dialog');
           setIsHovered(false);
           if (hoverTimeoutRef.current) {
             clearTimeout(hoverTimeoutRef.current);
@@ -488,7 +836,10 @@ const AireliusChat = () => {
                     <div className="space-y-1">
                       {extractComponentTags(op.response).map((tag, tagIndex) => (
                         <div key={tagIndex} className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded border">
-                          {tag}
+                          {tag.connectToIds && tag.connectToIds.length > 0 
+                            ? `${tag.name}-${tag.generatedId} → ${tag.connectToIds.join(', ')}`
+                            : `${tag.name}-${tag.generatedId}`
+                          }
                         </div>
                       ))}
                     </div>
@@ -567,27 +918,259 @@ const AireliusChat = () => {
     return <div>{elements}</div>;
   };
 
-  // Helper function to extract component tags from text
-  const extractComponentTags = (text: string): string[] => {
+  // Inject component registry and instances into EdgeParser before using it
+  useEffect(() => {
+    if (componentData && nodes.length > 0) {
+      (async () => {
+
+      
+
+      
+      // Convert component data to the format expected by EdgeParser
+      // Prefer authoritative registry file if available; fall back to typesStore mapping
+      let registry: { components: Array<{ type: string; inputs: Record<string, string[]>; outputs: Record<string, string[]> }> };
+
+      // Try loading the authoritative registry JSON via dynamic import
+      // Note: bundlers resolve this at build time; if it fails, we'll fall back below
+      let jsonRegistry: any | null = null;
+      try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore - allow dynamic json import outside src alias
+        jsonRegistry = await import('../../../../../component_registry_v2.json');
+      } catch (e) {
+        jsonRegistry = null;
+      }
+
+      if (!jsonRegistry) {
+        try {
+          const resp = await fetch('/component_registry_v2.json');
+          if (resp.ok) {
+            jsonRegistry = await resp.json();
+          }
+        } catch (err) {
+          jsonRegistry = null;
+        }
+      }
+
+      if (jsonRegistry?.components && Array.isArray(jsonRegistry.components)) {
+        registry = {
+          components: jsonRegistry.components.map((comp: any) => ({
+            // Prefer display_name for matching with EdgeParser types (e.g., "Language Model")
+            type: (comp.display_name || comp.type || '').trim(),
+            inputs: comp.inputs || {},
+            outputs: comp.outputs || {}
+          }))
+        };
+      } else {
+        // Fallback: build from typesStore (may have incomplete outputs)
+        // DEBUG: Let's see what the actual componentData structure looks like
+        console.log('🔍 DEBUG: componentData structure:', JSON.stringify(componentData, null, 2));
+        registry = {
+          components: Object.keys(componentData).flatMap(category => 
+            Object.keys(componentData[category]).map(kind => {
+              const component = componentData[category][kind];
+
+              // Extract inputs from template (the actual structure from API)
+              const inputs: { [key: string]: string[] } = {};
+              if (component.template) {
+                Object.keys(component.template).forEach(fieldName => {
+                  const field = component.template[fieldName];
+                  if (field.input_types && Array.isArray(field.input_types)) {
+                    inputs[fieldName] = field.input_types;
+                  } else if (field.type) {
+                    inputs[fieldName] = [field.type];
+                  } else {
+                    inputs[fieldName] = [];
+                  }
+                });
+              }
+              
+              // Extract outputs from component.outputs array
+              const outputs: { [key: string]: string[] } = {};
+              if (component.outputs && Array.isArray(component.outputs)) {
+                component.outputs.forEach((output: any) => {
+                  if (output.name && output.output_types) {
+                    outputs[output.name] = output.output_types;
+                  }
+                });
+              }
+              
+              // Use the exact type from the registry to ensure proper matching
+              const componentType = (component.type || component.display_name || kind).trim();
+              
+              return {
+                type: componentType,
+                inputs: inputs,
+                outputs: outputs
+              };
+            })
+          )
+        };
+      }
+      
+
+      
+      // Debug: Check if we have the expected components (removed duplicate declarations)
+      
+      // Debug: Check all component types to see what we actually have
+      console.log('🔍 All component types in registry:', registry.components.map(c => c.type));
+      
+      // Debug: Check if we have the specific components we need
+      const promptComponent = registry.components.find(c => c.type === 'Prompt Template');
+      const textInputComponent = registry.components.find(c => c.type === 'TextInput');
+      console.log('🔍 Found Prompt Template component:', !!promptComponent);
+      console.log('🔍 Found TextInput component:', !!textInputComponent);
+      
+      // Debug: Show all components that contain "Text" or "Input" to see what we actually have
+      const textLikeComponents = registry.components.filter(c => 
+        c.type.toLowerCase().includes('text') || c.type.toLowerCase().includes('input')
+      );
+      console.log('🔍 Text/Input-like components:', textLikeComponents.map(c => c.type));
+      
+      // Debug: Show the first few components to see the structure
+      console.log('🔍 First 5 components:', registry.components.slice(0, 5).map(c => ({ type: c.type, inputs: Object.keys(c.inputs || {}), outputs: Object.keys(c.outputs || {}) })));
+      
+      // Build instances map from current nodes
+      const instancesMap = new Map();
+      nodes.forEach(node => {
+        if (node.data?.node) {
+          // Use node.id as the key and get the component type from various possible locations
+          const componentType = (node.data.node as any)._type || (node.data.node as any).type || node.data.node.display_name;
+          instancesMap.set(node.id, {
+            id: node.id,
+            type: componentType
+          });
+          //console.log('🔍 Added to instances map:', { nodeId: node.id, componentType });
+          
+          // Also log the full node data to see what we're working with
+          //console.log('🔍 Full node data for', node.id, ':', JSON.stringify(node.data.node, null, 2));
+        }
+      });
+      
+      // Inject into EdgeParser
+      edgeParser.setComponentRegistry(registry);
+      edgeParser.setInstancesMap(instancesMap);
+      
+      console.log('🔍 EdgeParser injected with registry:', registry.components.length, 'components and', instancesMap.size, 'instances');
+      
+      // Test the EdgeParser to make sure it's working
+      if (registry.components.length > 0) {
+        const testEdge = edgeParser.parseEdgeDefinitions(
+          "TestComponent.out:test -> TargetComponent.in:input", 
+          "TestComponent", 
+          "test-id"
+        );
+        console.log('🔍 EdgeParser test result:', testEdge);
+      }
+      })();
+    }
+  }, [componentData, nodes]);
+
+  // Helper function to extract component tags using the new EdgeParser
+  const extractComponentTags = (text: string): Array<{
+    name: string;
+    generatedId: string;
+    connectToIds: string[];
+    addSimpleEdgeCalls: Array<{
+      sourceNodeId: string;
+      targetNodeId: string;
+      sourceHandle: string;
+      targetHandle: string;
+      sourceHandleData: {
+        dataType: string;
+        name: string;
+        output_types: string[];
+      };
+      targetHandleData: {
+        fieldName: string;
+        inputTypes: string[];
+        type: string;
+      };
+    }>;
+  }> => {
     if (!text || typeof text !== 'string') {
       return [];
     }
     
-    // Look for simple component tags like <ComponentType> or <ComponentType>content</ComponentType>
-    // This regex will match <ComponentType> and extract ComponentType
-    const componentRegex = /<(\w+)>/g;
+    // Use EdgeParser to find and parse all component tags
+    // We need to manually find the complete tag since regex can't handle nested > characters in edge definitions
+    const componentRegex = /<(\w+):/g;
+    const matches: Array<{
+      name: string;
+      generatedId: string;
+      connectToIds: string[];
+      addSimpleEdgeCalls: Array<{
+        sourceNodeId: string;
+        targetNodeId: string;
+        sourceHandle: string;
+        targetHandle: string;
+        sourceHandleData: {
+          dataType: string;
+          name: string;
+          output_types: string[];
+        };
+        targetHandleData: {
+          fieldName: string;
+          inputTypes: string[];
+          type: string;
+        };
+      }>;
+    }> = [];
     
-    const matches: string[] = [];
     let match;
     
     while ((match = componentRegex.exec(text)) !== null) {
-      // match[1] contains the captured group (the component type)
-      matches.push(match[1]);
+      // Find the complete component tag by looking for the next < or end of string
+      const startIndex = match.index;
+      const nextTagIndex = text.indexOf('<', startIndex + 1);
+      const endIndex = nextTagIndex > -1 ? nextTagIndex : text.length;
+      
+      // Extract the complete tag content
+      const fullTagContent = text.substring(startIndex, endIndex);
+      console.log('🔍 Found complete tag:', fullTagContent);
+      
+      // Extract componentType and the rest of the content
+      const componentType = match[1];
+      const tagContent = fullTagContent.substring(componentType.length + 1); // +1 for ":"
+      
+      // Reconstruct the full tag for EdgeParser
+      // The format should be: <ComponentType:ComponentId: EDGES>
+      const componentTag = componentType + ':' + tagContent;
+      
+      console.log('🔍 DEBUG: reconstructed componentTag:', componentTag);
+      
+      // Use the new EdgeParser to parse the component tag
+      const parsedComponent = edgeParser.parseComponentTag(`<${componentTag}>`);
+      
+      if (parsedComponent) {
+        // Convert EdgeParser edges to the expected format
+        const addSimpleEdgeCalls = parsedComponent.edges.map(edge => ({
+          sourceNodeId: edge.source,
+          targetNodeId: edge.target,
+          sourceHandle: edge.sourceHandle,
+          targetHandle: edge.targetHandle,
+          sourceHandleData: edge.data?.sourceHandle,  // ✅ Get from data.sourceHandle
+          targetHandleData: edge.data?.targetHandle   // ✅ Get from data.targetHandle
+        }));
+        
+        // Extract connectToIds from edges
+        const connectToIds = parsedComponent.edges.flatMap(edge => [
+          edge.source,
+          edge.target
+        ]).filter(id => id !== parsedComponent.componentId);
+        
+        matches.push({
+          name: parsedComponent.componentType,
+          generatedId: parsedComponent.componentId,
+          connectToIds,
+          addSimpleEdgeCalls
+        });
+      }
     }
     
-    // Remove duplicates and filter out common HTML tags
-    const filteredMatches = Array.from(new Set(matches)).filter(tag => 
-      !['html', 'head', 'body', 'div', 'span', 'p', 'br', 'hr', 'img', 'a', 'ul', 'ol', 'li', 'table', 'tr', 'td', 'th'].includes(tag.toLowerCase())
+    // Filter out common HTML tags
+    const filteredMatches = matches.filter(tag => 
+      !['html', 'head', 'body', 'div', 'span', 'p', 'br', 'hr', 'img', 'a', 'ul', 'ol', 'li', 'table', 'tr', 'td', 'th'].includes(tag.name.toLowerCase())
     );
     
     return filteredMatches;
@@ -617,7 +1200,7 @@ const AireliusChat = () => {
 
   // Global error handler
   const handleGlobalError = (error: Error, errorInfo: any) => {
-    console.error("Global error in AireliusChat:", error, errorInfo);
+    //console.error("Global error in AireliusChat:", error, errorInfo);
     setError(`Unexpected error: ${error.message}`);
     setHasError(true);
   };
@@ -663,7 +1246,7 @@ const AireliusChat = () => {
       
       // If we removed any duplicates, log it
       if (uniqueMessages.length !== prev.length) {
-        console.log(`🧹 Cleaned up ${prev.length - uniqueMessages.length} duplicate messages`);
+        //console.log(`🧹 Cleaned up ${prev.length - uniqueMessages.length} duplicate messages`);
       }
       
       return uniqueMessages;
@@ -715,7 +1298,7 @@ const AireliusChat = () => {
     setMessages(prev => {
       const hasDuplicate = prev.some(msg => msg.id === newId);
       if (hasDuplicate) {
-        console.warn(`⚠️ Duplicate message ID detected: ${newId}, regenerating...`);
+        //console.warn(`⚠️ Duplicate message ID detected: ${newId}, regenerating...`);
         // Regenerate ID and retry
         const timestamp = Date.now();
         const randomStr = Math.random().toString(36).substr(2, 9);
@@ -762,14 +1345,14 @@ const AireliusChat = () => {
       abortController.abort();
       setAbortController(null);
       setIsGenerating(false);
-      console.log('🛑 Streaming stopped by user');
+      //console.log('🛑 Streaming stopped by user');
     }
   };
 
   const streamingChat = async (prompt: string) => {
     if (!prompt.trim() || !flowId) return;
 
-    console.log(`🚀 Starting streaming chat with prompt: "${prompt}"`);
+    //console.log(`🚀 Starting streaming chat with prompt: "${prompt}"`);
     setIsGenerating(true);
     setError(null);
     let aiMessageId: string | undefined;
@@ -806,13 +1389,13 @@ const AireliusChat = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      console.log(`📡 API response received, status: ${response.status}`);
+      //console.log(`📡 API response received, status: ${response.status}`);
       const reader = response.body?.getReader();
       if (!reader) {
         throw new Error('No response body');
       }
 
-      console.log(`📖 Starting to read streaming response...`);
+      //console.log(`📖 Starting to read streaming response...`);
 
       let streamedContent = '';
       
@@ -820,7 +1403,7 @@ const AireliusChat = () => {
         while (true) {
           // Check if streaming was aborted
           if (controller.signal.aborted) {
-            console.log('🛑 Streaming aborted by user');
+            //console.log('🛑 Streaming aborted by user');
             if (aiMessageId) {
               updateStreamingMessage(aiMessageId, 'Streaming stopped by user.');
             }
@@ -829,10 +1412,10 @@ const AireliusChat = () => {
 
           const { done, value } = await reader.read();
           if (done) {
-            console.log(`📖 Reader finished, done: ${done}`);
+            //console.log(`📖 Reader finished, done: ${done}`);
             // If we have content but didn't get a done signal, finalize the message
             if (streamedContent && aiMessageId) {
-              console.log(`⚠️ Reader finished unexpectedly, finalizing message with content: "${streamedContent}"`);
+              //console.log(`⚠️ Reader finished unexpectedly, finalizing message with content: "${streamedContent}"`);
               setMessages(prev => prev.map(msg => 
                 msg.id === aiMessageId 
                   ? { ...msg, isStreaming: false, content: streamedContent, streamedContent: streamedContent }
@@ -844,16 +1427,16 @@ const AireliusChat = () => {
           
           const text = new TextDecoder().decode(value);
           const lines = text.split('\n');
-          //console.log(`📦 Received ${lines.length} lines, total bytes: ${value?.length || 0}`);
+          ////console.log(`📦 Received ${lines.length} lines, total bytes: ${value?.length || 0}`);
           
           for (const line of lines) {
             if (line.startsWith('data: ')) {
               try {
                 const data = JSON.parse(line.slice(6));
-                //console.log(`📦 Parsed streaming data:`, data);
+                ////console.log(`📦 Parsed streaming data:`, data);
                 
                 if (data.error) {
-                  console.error('Streaming error:', data.error);
+                  //console.error('Streaming error:', data.error);
                   setError(data.error);
                   // Update the streaming message to show the error
                   if (aiMessageId) {
@@ -864,7 +1447,7 @@ const AireliusChat = () => {
                 
                 if (data.content) {
                   streamedContent += data.content;
-                  console.log(`🔄 Streaming content: "${data.content}" -> Total: "${streamedContent}"`);
+                  //console.log(`🔄 Streaming content: "${data.content}" -> Total: "${streamedContent}"`);
                   if (aiMessageId) {
                     updateStreamingMessage(aiMessageId, streamedContent);
                     // Small delay to make streaming visible (adjust this value for desired speed)
@@ -872,11 +1455,11 @@ const AireliusChat = () => {
                   }
                 } else if (data.content === '') {
                   // Handle empty content gracefully
-                  console.log(`📭 Received empty content chunk`);
+                  //console.log(`📭 Received empty content chunk`);
                 }
                 
                 if (data.done) {
-                  console.log(`✅ Streaming completed. Final content: "${streamedContent}"`);
+                  //console.log(`✅ Streaming completed. Final content: "${streamedContent}"`);
                   // Mark message as no longer streaming and finalize content
                   if (aiMessageId) {
                     setMessages(prev => prev.map(msg => 
@@ -886,9 +1469,9 @@ const AireliusChat = () => {
                     ));
                     
                     // Check for component tags and add components automatically
-                    console.log('🔍 Final streamed content:', streamedContent);
-                    console.log('🔍 Calling handleComponentTags with:', streamedContent);
-                    handleComponentTags(streamedContent);
+                    //console.log('🔍 Final streamed content:', streamedContent);
+                    //console.log('🔍 Calling handleComponentTags with:', streamedContent);
+                    await handleComponentTags(streamedContent);
                     
                     // Final scroll to bottom
                     setTimeout(() => {
@@ -904,16 +1487,16 @@ const AireliusChat = () => {
                 }
                 
               } catch (e) {
-                console.error('Failed to parse streaming data:', e, 'Raw line:', line);
+                //console.error('Failed to parse streaming data:', e, 'Raw line:', line);
                 // Continue processing other lines even if one fails
               }
             } else if (line.trim()) {
-              console.log(`📝 Non-data line received: "${line}"`);
+              //console.log(`📝 Non-data line received: "${line}"`);
             }
           }
         }
       } catch (streamError: any) {
-        console.error('Error during streaming loop:', streamError);
+        //console.error('Error during streaming loop:', streamError);
         if (aiMessageId) {
           if (streamError.name === 'AbortError') {
             updateStreamingMessage(aiMessageId, 'Streaming stopped by user.');
@@ -925,7 +1508,7 @@ const AireliusChat = () => {
         }
       } finally {
         reader.releaseLock();
-        console.log(`🔒 Reader released, streaming loop completed`);
+        //console.log(`🔒 Reader released, streaming loop completed`);
         
         // Safety check: ensure the message is properly finalized
         if (aiMessageId && streamedContent) {
@@ -936,19 +1519,19 @@ const AireliusChat = () => {
           ));
           
           // Check for component tags in the final content
-          handleComponentTags(streamedContent);
+          await handleComponentTags(streamedContent);
         }
       }
       
     } catch (error: any) {
-      console.error('Streaming chat failed:', error);
+      //console.error('Streaming chat failed:', error);
       setError(error.message);
       // Update the streaming message to show the error
       if (aiMessageId) {
         updateStreamingMessage(aiMessageId, `❌ Failed to start streaming: ${error.message}`);
       }
     } finally {
-      console.log(`🏁 Streaming chat finished, cleaning up...`);
+      //console.log(`🏁 Streaming chat finished, cleaning up...`);
       setIsGenerating(false);
     }
   };
@@ -956,7 +1539,7 @@ const AireliusChat = () => {
   const generateAgentPlan = async (prompt: string) => {
     if (!prompt.trim() || !flowId) return;
 
-    console.log(`🚀 Starting AI agent planning with prompt: "${prompt}"`);
+    //console.log(`🚀 Starting AI agent planning with prompt: "${prompt}"`);
     setIsGenerating(true);
     setIsStreaming(true);
     setError(null);
@@ -982,6 +1565,7 @@ const AireliusChat = () => {
         body: JSON.stringify({
           prompt: prompt,
           flow_id: flowId,
+          available_templates: Object.keys(templates),
         }),
         signal: controller.signal,
       });
@@ -990,19 +1574,19 @@ const AireliusChat = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      console.log(`📡 Plan API response received, status: ${response.status}`);
+      //console.log(`📡 Plan API response received, status: ${response.status}`);
       const reader = response.body?.getReader();
       if (!reader) {
         throw new Error('No response body');
       }
 
-      console.log(`📖 Starting to read plan streaming response...`);
+      //console.log(`📖 Starting to read plan streaming response...`);
 
       try {
         while (true) {
           // Check if streaming was aborted
           if (controller.signal.aborted) {
-            console.log('🛑 Plan generation aborted by user');
+            //console.log('🛑 Plan generation aborted by user');
                     if (aiMessageId) {
           updateStreamingMessage(aiMessageId, 'Agent plan generation stopped by user.');
         }
@@ -1011,22 +1595,22 @@ const AireliusChat = () => {
 
           const { done, value } = await reader.read();
           if (done) {
-            console.log(`📖 Plan reader finished, done: ${done}`);
+            //console.log(`📖 Plan reader finished, done: ${done}`);
             break;
           }
           
           const text = new TextDecoder().decode(value);
           const lines = text.split('\n');
-          //console.log(`📦 Received ${lines.length} lines, total bytes: ${value?.length || 0}`);
+          ////console.log(`📦 Received ${lines.length} lines, total bytes: ${value?.length || 0}`);
           
           for (const line of lines) {
             if (line.startsWith('data: ')) {
               try {
                 const data = JSON.parse(line.slice(6));
-                //console.log(`📦 Parsed plan streaming data:`, data);
+                ////console.log(`📦 Parsed plan streaming data:`, data);
                 
                 if (data.error) {
-                  console.error('Plan streaming error:', data.error);
+                  //console.error('Plan streaming error:', data.error);
                   setError(data.error);
                   if (aiMessageId) {
                     updateStreamingMessage(aiMessageId, `❌ Error: ${data.error}`);
@@ -1035,7 +1619,7 @@ const AireliusChat = () => {
                 }
                 
                 if (data.status === 'starting') {
-                  console.log('🔄 Step starting:', data);
+                  //console.log('🔄 Step starting:', data);
                   setCurrentStep(data.step);
                   setStepResults(prev => ({
                     ...prev,
@@ -1045,12 +1629,12 @@ const AireliusChat = () => {
                   // Add a new message for each step starting
                   addMessage('ai', `Step ${data.step}: ${data.message}...`, undefined, undefined, false);
                   
-                  console.log(`Step ${data.step} starting: ${data.message}`);
+                  //console.log(`Step ${data.step} starting: ${data.message}`);
                 }
                 
                 // Handle streaming content for each step
                 if (data.type === 'streaming' && data.content) {
-                  //console.log(`🔄 Streaming content for step ${data.step}:`, data.content);
+                  ////console.log(`🔄 Streaming content for step ${data.step}:`, data.content);
                   
                   setStepResults(prev => {
                     const currentStep = prev[data.step] || { status: 'streaming', streamed_content: '' };
@@ -1097,10 +1681,10 @@ const AireliusChat = () => {
                 
                 // Handle step completion with streaming LLM output
                 if (data.status === 'completed') {
-                  console.log('✅ Step completed:', data);
-                  console.log('🔍 Raw data.result:', data.result);
-                  console.log('🔍 data.result type:', typeof data.result);
-                  console.log('🔍 data.result keys:', data.result && typeof data.result === 'object' ? Object.keys(data.result) : 'Not an object');
+                  //console.log('✅ Step completed:', data);
+                  //console.log('🔍 Raw data.result:', data.result);
+                  //console.log('🔍 data.result type:', typeof data.result);
+                  //console.log('🔍 data.result keys:', data.result && typeof data.result === 'object' ? Object.keys(data.result) : 'Not an object');
                   
                   // Format the LLM output to be readable
                   let llmOutput = '';
@@ -1135,7 +1719,7 @@ const AireliusChat = () => {
                   } else {
                     llmOutput = 'No output available';
                   }
-                  console.log('🔍 Final llmOutput:', llmOutput);
+                  //console.log('🔍 Final llmOutput:', llmOutput);
                   
                   setStepResults(prev => {
                     const newStepResults = {
@@ -1147,7 +1731,7 @@ const AireliusChat = () => {
                         llm_output: llmOutput
                       }
                     };
-                    console.log('🔍 Updated stepResults:', newStepResults);
+                    //console.log('🔍 Updated stepResults:', newStepResults);
                     return newStepResults;
                   });
                   
@@ -1177,15 +1761,15 @@ const AireliusChat = () => {
                   ));
                   
                                       // Check for component tags and add components automatically
-                    console.log('🔍 LLM output for step:', llmOutput);
-                    handleComponentTags(llmOutput);
+                    //console.log('🔍 LLM output for step:', llmOutput);
+                    await handleComponentTags(llmOutput);
                   
-                  console.log(`Step ${data.step} completed: ${data.message}`, data.result);
-                  console.log(`LLM Output extracted:`, llmOutput);
+                  //console.log(`Step ${data.step} completed: ${data.message}`, data.result);
+                  //console.log(`LLM Output extracted:`, llmOutput);
                 }
                 
                 if (data.status === 'completed' && data.final_plan) {
-                  console.log('🎯 Final plan received:', data);
+                  //console.log('🎯 Final plan received:', data);
                   setFinalPlan(data.final_plan);
                   setIsStreaming(false);
                   
@@ -1194,25 +1778,25 @@ const AireliusChat = () => {
                   
                                       // Check for component tags in the AI's response
                     if (data.message) {
-                      console.log('🔍 AI response:', data.message);
-                      handleComponentTags(data.message);
+                      //console.log('🔍 AI response:', data.message);
+                      await handleComponentTags(data.message);
                     }
                   
-                  console.log('AI response received:', data.message);
+                  //console.log('AI response received:', data.message);
                   break;
                 }
                 
               } catch (e) {
-                console.error('Failed to parse plan streaming data:', e, 'Raw line:', line);
+                //console.error('Failed to parse plan streaming data:', e, 'Raw line:', line);
                 // Continue processing other lines even if one fails
               }
             } else if (line.trim()) {
-              console.log(`📝 Non-data line received: "${line}"`);
+              //console.log(`📝 Non-data line received: "${line}"`);
             }
           }
         }
       } catch (streamError: any) {
-        console.error('Error during plan streaming loop:', streamError);
+        //console.error('Error during plan streaming loop:', streamError);
         if (streamError.name === 'AbortError') {
           if (aiMessageId) {
             updateStreamingMessage(aiMessageId, 'Agent plan generation stopped by user.');
@@ -1228,18 +1812,18 @@ const AireliusChat = () => {
         }
       } finally {
         reader.releaseLock();
-        console.log(`🔒 Plan reader released, streaming loop completed`);
+        //console.log(`🔒 Plan reader released, streaming loop completed`);
       }
       
     } catch (error: any) {
-      console.error('Plan generation failed:', error);
+      //console.error('Plan generation failed:', error);
       setError(error.message);
       if (aiMessageId) {
         updateStreamingMessage(aiMessageId, `❌ Failed to start agent plan generation: ${error.message}`);
       }
       setIsStreaming(false);
     } finally {
-      console.log(`🏁 Plan generation finished, cleaning up...`);
+      //console.log(`🏁 Plan generation finished, cleaning up...`);
       setIsGenerating(false);
       setIsStreaming(false);
     }
@@ -1253,18 +1837,18 @@ const AireliusChat = () => {
 
     try {
       // Console log the API call being made in copy-pasteable format
-      console.log("=== EXECUTING PFU PLAN - API CALL DETAILS ===");
-      console.log("URL: /api/v1/airelius/pfu/execute");
-      console.log("Method: POST");
-      console.log("Flow ID:", flowId);
-      console.log("Max Steps: 10");
-      console.log("Request Body:");
-      console.log(JSON.stringify({
-        plan: plan,
-        flow_id: flowId,
-        max_steps: 10,
-      }, null, 2));
-      console.log("=== END API CALL DETAILS ===");
+      //console.log("=== EXECUTING PFU PLAN - API CALL DETAILS ===");
+      //console.log("URL: /api/v1/airelius/pfu/execute");
+      //console.log("Method: POST");
+      //console.log("Flow ID:", flowId);
+      //console.log("Max Steps: 10");
+      //console.log("Request Body:");
+      //console.log(JSON.stringify({
+        //plan: plan,
+        //flow_id: flowId,
+        //max_steps: 10,
+      //}, null, 2));
+      //console.log("=== END API CALL DETAILS ===");
       
       const response = await fetch("/api/v1/airelius/pfu/execute", {
         method: "POST",
@@ -1285,15 +1869,15 @@ const AireliusChat = () => {
       let data;
       try {
         data = await response.json();
-        console.log("Received execution response:", data); // Debug logging
+        //console.log("Received execution response:", data); // Debug logging
       } catch (jsonError) {
-        console.error("JSON parse error in execution:", jsonError); // Debug logging
+        //console.error("JSON parse error in execution:", jsonError); // Debug logging
         throw new Error("Invalid JSON response from server");
       }
 
       // Validate response structure
       if (!data || typeof data !== 'object') {
-        console.error("Invalid execution response structure:", data); // Debug logging
+        //console.error("Invalid execution response structure:", data); // Debug logging
         throw new Error("Invalid response format from server");
       }
       
@@ -1309,12 +1893,12 @@ const AireliusChat = () => {
       
       // Check for component tags in the execution result
       if (data.message) {
-        console.log('🔍 Execution result message:', data.message);
-        handleComponentTags(data.message);
+        //console.log('🔍 Execution result message:', data.message);
+        await handleComponentTags(data.message);
       }
       
     } catch (err) {
-      console.error("Error executing plan:", err);
+      //console.error("Error executing plan:", err);
       const errorMessage = err instanceof Error ? err.message : "Failed to execute agent plan";
       setError(errorMessage);
       
@@ -1326,7 +1910,7 @@ const AireliusChat = () => {
       ));
       
       // Check for component tags in the error message
-      handleComponentTags(errorMessage);
+      await handleComponentTags(errorMessage);
     } finally {
       setIsExecuting(false);
     }
@@ -1408,6 +1992,839 @@ const AireliusChat = () => {
     );
   }
 
+  // Type compatibility system based on PFU spec
+  type NormalizedType = "str" | "Message" | "Document" | "List[str]" | "List[Document]";
+
+  // Type normalization function
+  const normalizeType = (type: string): NormalizedType => {
+    const t = type.toLowerCase();
+    if (["str", "string", "text", "textinput"].includes(t)) return "str";
+    if (["message", "chatmessage"].includes(t)) return "Message";
+    if (["document", "doc", "langchaindocument"].includes(t)) return "Document";
+    if (["list[str]", "stringlist", "texts"].includes(t)) return "List[str]";
+    if (["list[document]", "documents", "docs"].includes(t)) return "List[Document]";
+    return type as NormalizedType; // fallback: treat as-is
+  };
+
+  // Type compatibility checking
+  const isCompatible = (sourceType: NormalizedType, targetType: NormalizedType): boolean => {
+    if (sourceType === targetType) return true;
+    
+    // Direct easy wins
+    if (sourceType === "str" && targetType === "Message") return true;
+    if (sourceType === "Message" && targetType === "str") return true;
+    
+    // For now, return false for other mismatches (adapters will handle them)
+    return false;
+  };
+
+  // Find adapters in the catalog
+  const findAdapters = (fromType: NormalizedType, toType: NormalizedType): string[] => {
+    const adapters: string[] = [];
+    
+    // Common single-hop adapters
+    if (fromType === "Message" && toType === "str") {
+      // Look for components that convert Message to str
+      Object.keys(templates).forEach(name => {
+        const template = templates[name];
+        if (template.template) {
+          // Check if this component has Message input and str output
+          const hasMessageInput = Object.values(template.template).some((field: any) => 
+            field.input_types && field.input_types.some((t: string) => normalizeType(t) === "Message")
+          );
+          const hasStrOutput = template.outputs && template.outputs.some((output: any) => 
+            output.output_types && output.output_types.some((t: string) => normalizeType(t) === "str")
+          );
+          
+          if (hasMessageInput && hasStrOutput) {
+            adapters.push(name);
+          }
+        }
+      });
+    }
+    
+    if (fromType === "str" && toType === "Message") {
+      // Look for components that convert str to Message
+      Object.keys(templates).forEach(name => {
+        const template = templates[name];
+        if (template.template) {
+          const hasStrInput = Object.values(template.template).some((field: any) => 
+            field.input_types && field.input_types.some((t: string) => normalizeType(t) === "str")
+          );
+          const hasMessageOutput = template.outputs && template.outputs.some((output: any) => 
+            output.output_types && output.output_types.some((t: string) => normalizeType(t) === "Message")
+          );
+          
+          if (hasStrInput && hasMessageOutput) {
+            adapters.push(name);
+          }
+        }
+      });
+    }
+    
+    // Additional adapter types
+    if (fromType === "str" && toType === "List[str]") {
+      // Look for text splitters
+      Object.keys(templates).forEach(name => {
+        const template = templates[name];
+        if (template.template && name.toLowerCase().includes('split')) {
+          const hasStrInput = Object.values(template.template).some((field: any) => 
+            field.input_types && field.input_types.some((t: string) => normalizeType(t) === "str")
+          );
+          const hasListStrOutput = template.outputs && template.outputs.some((output: any) => 
+            output.output_types && output.output_types.some((t: string) => normalizeType(t) === "List[str]")
+          );
+          
+          if (hasStrInput && hasListStrOutput) {
+            adapters.push(name);
+          }
+        }
+      });
+    }
+    
+    if (fromType === "str" && toType === "Document") {
+      // Look for document creators
+      Object.keys(templates).forEach(name => {
+        const template = templates[name];
+        if (template.template && (name.toLowerCase().includes('document') || name.toLowerCase().includes('loader'))) {
+          const hasStrInput = Object.values(template.template).some((field: any) => 
+            field.input_types && field.input_types.some((t: string) => normalizeType(t) === "str")
+          );
+          const hasDocumentOutput = template.outputs && template.outputs.some((output: any) => 
+            output.output_types && output.output_types.some((t: string) => normalizeType(t) === "Document")
+          );
+          
+          if (hasStrInput && hasDocumentOutput) {
+            adapters.push(name);
+          }
+        }
+      });
+    }
+    
+    if (fromType === "List[Document]" && toType === "Document") {
+      // Look for document selectors/mergers
+      Object.keys(templates).forEach(name => {
+        const template = templates[name];
+        if (template.template && (name.toLowerCase().includes('select') || name.toLowerCase().includes('merge'))) {
+          const hasListDocInput = Object.values(template.template).some((field: any) => 
+            field.input_types && field.input_types.some((t: string) => normalizeType(t) === "List[Document]")
+          );
+          const hasDocumentOutput = template.outputs && template.outputs.some((output: any) => 
+            output.output_types && output.output_types.some((t: string) => normalizeType(t) === "Document")
+          );
+          
+          if (hasListDocInput && hasDocumentOutput) {
+            adapters.push(name);
+          }
+        }
+      });
+    }
+    
+    return adapters;
+  };
+
+  // Get component outputs
+  const getComponentOutputs = (nodeId: string): Array<{name: string, output_types: string[]}> => {
+    const node = nodes.find(n => n.id === nodeId);
+    if (!node || !node.data?.node?.outputs) return [];
+    
+    return node.data.node.outputs.map((output: any) => ({
+      name: output.name,
+      output_types: output.output_types || []
+    }));
+  };
+
+  // Get component inputs
+  const getComponentInputs = (nodeId: string): Array<{fieldName: string, inputTypes: string[]}> => {
+    const node = nodes.find(n => n.id === nodeId);
+    if (!node || !node.data?.node?.template) return [];
+    
+    const inputs: Array<{fieldName: string, inputTypes: string[]}> = [];
+    
+    Object.entries(node.data.node.template).forEach(([fieldName, field]: [string, any]) => {
+      if (field.input_types) {
+        inputs.push({
+          fieldName,
+          inputTypes: field.input_types
+        });
+      }
+    });
+    
+    return inputs;
+  };
+
+  // Handle selection algorithm based on PFU spec
+  const selectHandles = (sourceNodeId: string, targetNodeId: string): {
+    sourceHandle: { name: string, output_types: string[], id: string } | null,
+    targetHandle: { fieldName: string, inputTypes: string[], id: string } | null,
+    needsAdapter: boolean,
+    adapterType?: string
+  } => {
+    const sourceOutputs = getComponentOutputs(sourceNodeId);
+    const targetInputs = getComponentInputs(targetNodeId);
+    
+    if (sourceOutputs.length === 0 || targetInputs.length === 0) {
+      return { sourceHandle: null, targetHandle: null, needsAdapter: false };
+    }
+    
+    // Pick source handle - prefer primary outputs
+    let sourceHandle = sourceOutputs[0]; // Default to first
+    if (sourceOutputs.length > 1) {
+      // Prefer outputs named in this order: text_output, output, message, data
+      const preferredNames = ["text_output", "output", "message", "data"];
+      for (const name of preferredNames) {
+        const preferred = sourceOutputs.find(o => o.name === name);
+        if (preferred) {
+          sourceHandle = preferred;
+          break;
+        }
+      }
+    }
+    
+    // Pick target handle - prefer variable handles for Prompt components
+    const targetNode = nodes.find(n => n.id === targetNodeId);
+    let targetHandle = targetInputs[0]; // Default to first
+    
+    if (targetNode?.data?.type === "Prompt") {
+      // For Prompt components, prefer variable handles
+      const promptTemplate = targetNode.data?.node?.template?.template?.value || "";
+      const variableMatches = promptTemplate.match(/\{\{([^}]+)\}\}/g);
+      
+      if (variableMatches && variableMatches.length > 0) {
+        const firstVariable = variableMatches[0].replace(/\{\{|\}\}/g, '');
+        const variableInput = targetInputs.find(input => input.fieldName === firstVariable);
+        if (variableInput) {
+          targetHandle = variableInput;
+        }
+      }
+    } else {
+      // For other components, prefer common input names by type
+      const sourceType = normalizeType(sourceHandle.output_types[0] || "str");
+      
+      if (sourceType === "str") {
+        const preferredNames = ["input", "query", "text", "template", "prompt"];
+        for (const name of preferredNames) {
+          const preferred = targetInputs.find(input => input.fieldName === name);
+          if (preferred) {
+            targetHandle = preferred;
+            break;
+          }
+        }
+      } else if (sourceType === "Message") {
+        const preferredNames = ["message", "chat_history", "input_message"];
+        for (const name of preferredNames) {
+          const preferred = targetInputs.find(input => input.fieldName === name);
+          if (preferred) {
+            targetHandle = preferred;
+            break;
+          }
+        }
+      }
+    }
+    
+    // Check compatibility
+    const sourceType = normalizeType(sourceHandle.output_types[0] || "str");
+    const targetType = normalizeType(targetHandle.inputTypes[0] || "str");
+    
+    if (isCompatible(sourceType, targetType)) {
+      return {
+        sourceHandle: {
+          name: sourceHandle.name,
+          output_types: sourceHandle.output_types,
+          id: sourceNodeId
+        },
+        targetHandle: {
+          fieldName: targetHandle.fieldName,
+          inputTypes: targetHandle.inputTypes,
+          id: targetNodeId
+        },
+        needsAdapter: false
+      };
+    }
+    
+    // Types don't match, need adapter
+    const adapters = findAdapters(sourceType, targetType);
+    if (adapters.length > 0) {
+      return {
+        sourceHandle: null,
+        targetHandle: null,
+        needsAdapter: true,
+        adapterType: adapters[0] // Use first available adapter
+      };
+    }
+    
+    // No adapter available
+    return { sourceHandle: null, targetHandle: null, needsAdapter: false };
+  };
+
+  // Automatic adapter insertion when types don't match
+  const insertAdapter = async (sourceNodeId: string, targetNodeId: string, adapterType: string): Promise<string | null> => {
+    try {
+      //console.log(`🔧 Inserting adapter ${adapterType} between ${sourceNodeId} and ${targetNodeId}`);
+      
+      if (!templates[adapterType]) {
+        //console.error(`❌ Adapter type ${adapterType} not found in templates`);
+        return null;
+      }
+      
+      // Generate a unique ID for the adapter
+      const adapterId = `${adapterType}-adapter-${Date.now()}`;
+      
+      // Add the adapter component to the canvas
+      const adapterNodeId = addComponent(templates[adapterType], adapterType, undefined, adapterId);
+      //console.log(`✅ Adapter component added with ID: ${adapterNodeId}`);
+      
+      // Position the adapter between source and target
+      const sourceNode = nodes.find(n => n.id === sourceNodeId);
+      const targetNode = nodes.find(n => n.id === targetNodeId);
+      
+      if (sourceNode && targetNode) {
+        // Calculate position between source and target
+        const sourcePos = sourceNode.position;
+        const targetPos = targetNode.position;
+        const adapterPos = {
+          x: (sourcePos.x + targetPos.x) / 2,
+          y: (sourcePos.y + targetPos.y) / 2
+        };
+        
+        // Update adapter position
+        useFlowStore.getState().setNode(adapterNodeId, (node) => ({
+          ...node,
+          position: adapterPos
+        }));
+        
+        //console.log(`🔧 Adapter positioned at:`, adapterPos);
+      }
+      
+      // Create edges: source -> adapter -> target
+      // First, create edge from source to adapter
+      const sourceToAdapterResult = await createEdgeWithAdapter(sourceNodeId, adapterNodeId);
+      if (!sourceToAdapterResult.success) {
+        //console.error(`❌ Failed to create edge from source to adapter:`, sourceToAdapterResult.error);
+        return null;
+      }
+      
+      // Then, create edge from adapter to target
+      const adapterToTargetResult = await createEdgeWithAdapter(adapterNodeId, targetNodeId);
+      if (!adapterToTargetResult.success) {
+        //console.error(`❌ Failed to create edge from adapter to target:`, adapterToTargetResult.error);
+        return null;
+      }
+      
+      //console.log(`✅ Adapter insertion completed successfully`);
+      //console.log(`   Source -> Adapter: ${sourceToAdapterResult.success ? '✅' : '❌'}`);
+      //console.log(`   Adapter -> Target: ${adapterToTargetResult.success ? '✅' : '❌'}`);
+      
+      return adapterNodeId;
+      
+    } catch (error) {
+      //console.error(`❌ Adapter insertion failed:`, error);
+      return null;
+    }
+  };
+
+  // Create edge using parsed handle data from component tags
+  const createEdgeWithParsedHandles = async (edgeCall: {
+    sourceNodeId: string;
+    targetNodeId: string;
+    sourceHandle: string;
+    targetHandle: string;
+    sourceHandleData: {
+      dataType: string;
+      name: string;
+      output_types: string[];
+    };
+    targetHandleData: {
+      fieldName: string;
+      inputTypes: string[];
+      type: string;
+    };
+  }): Promise<{success: boolean, error?: string}> => {
+    try {
+      console.log(`🔗 Creating edge with parsed handles:`, edgeCall);
+      
+      // Get the current nodes and edges from the flow store
+      const { setEdges, nodes, edges } = useFlowStore.getState();
+      console.log(`🔗 Current nodes in flow:`, nodes.map(n => ({ id: n.id, type: n.data?.type })));
+      console.log(`🔗 Looking for source: ${edgeCall.sourceNodeId}, target: ${edgeCall.targetNodeId}`);
+      
+      // Check if both nodes exist
+      const sourceNode = nodes.find(n => n.id === edgeCall.sourceNodeId);
+      const targetNode = nodes.find(n => n.id === edgeCall.targetNodeId);
+      
+      if (!sourceNode) {
+        console.log(`❌ Source node ${edgeCall.sourceNodeId} not found in flow`);
+        return { success: false, error: `Source node ${edgeCall.sourceNodeId} not found` };
+      }
+      
+      if (!targetNode) {
+        console.log(`❌ Target node ${edgeCall.targetNodeId} not found in flow`);
+        return { success: false, error: `Target node ${edgeCall.targetNodeId} not found` };
+      }
+      
+      console.log(`✅ Both nodes found:`, { source: sourceNode.id, target: targetNode.id });
+      
+      // Create the edge with the exact handle data from the parsed tags
+      const newEdge = {
+        id: `xy-edge__${edgeCall.sourceNodeId}-${edgeCall.targetNodeId}`,
+        source: edgeCall.sourceNodeId,
+        target: edgeCall.targetNodeId,
+        sourceHandle: `{œdataTypeœ:œ${edgeCall.sourceHandleData.dataType}œ,œidœ:œ${edgeCall.sourceNodeId}œ,œnameœ:œ${edgeCall.sourceHandleData.name}œ,œoutput_typesœ:[${edgeCall.sourceHandleData.output_types.map(t => `œ${t}œ`).join(',')}]}`,
+        targetHandle: `{œfieldNameœ:œ${edgeCall.targetHandleData.fieldName}œ,œidœ:œ${edgeCall.targetNodeId}œ,œinputTypesœ:[${edgeCall.targetHandleData.inputTypes.map(t => `œ${t}œ`).join(',')}],œtypeœ:œ${edgeCall.targetHandleData.type}œ}`,
+        data: {
+          sourceHandle: {
+            ...edgeCall.sourceHandleData,
+            id: edgeCall.sourceNodeId
+          },
+          targetHandle: {
+            ...edgeCall.targetHandleData,
+            id: edgeCall.targetNodeId
+          }
+        }
+      };
+      
+      // Check for duplicate edges
+      const existingEdge = edges.find(edge => 
+        edge.source === edgeCall.sourceNodeId && 
+        edge.target === edgeCall.targetNodeId
+      );
+      
+      if (existingEdge) {
+        return { success: false, error: `Edge already exists between ${edgeCall.sourceNodeId} and ${edgeCall.targetNodeId}` };
+      }
+      
+      // Add the edge to the flow store
+      setEdges((oldEdges) => [...oldEdges, newEdge]);
+      
+      //console.log(`✅ Edge created successfully with parsed handles:`, newEdge);
+      return { success: true };
+      
+    } catch (error) {
+      //console.error(`❌ Failed to create edge with parsed handles:`, error);
+      return { success: false, error: String(error) };
+    }
+  };
+
+  // Create edge with adapter support
+  const createEdgeWithAdapter = async (sourceNodeId: string, targetNodeId: string): Promise<{success: boolean, error?: string}> => {
+    try {
+      // Use the handle selection algorithm
+      const handleSelection = selectHandles(sourceNodeId, targetNodeId);
+      
+      if (handleSelection.needsAdapter) {
+        //console.log(`🔧 Adapter needed for ${sourceNodeId} -> ${targetNodeId}: ${handleSelection.adapterType}`);
+        
+        if (handleSelection.adapterType) {
+          // Insert the adapter
+          const adapterId = await insertAdapter(sourceNodeId, targetNodeId, handleSelection.adapterType);
+          if (adapterId) {
+            // Now try to create edges through the adapter
+            const sourceToAdapter = await createEdgeWithAdapter(sourceNodeId, adapterId);
+            const adapterToTarget = await createEdgeWithAdapter(adapterId, targetNodeId);
+            
+            return {
+              success: sourceToAdapter.success && adapterToTarget.success,
+              error: sourceToAdapter.error || adapterToTarget.error
+            };
+          } else {
+            return { success: false, error: 'Failed to insert adapter' };
+          }
+        } else {
+          return { success: false, error: 'No adapter type specified' };
+        }
+      }
+      
+      if (!handleSelection.sourceHandle || !handleSelection.targetHandle) {
+        return { success: false, error: 'Could not select compatible handles' };
+      }
+      
+      // Use the validated edge creation
+      const result = createValidatedEdge(sourceNodeId, targetNodeId);
+      
+      if (result.success) {
+        //console.log(`✅ Edge created successfully: ${sourceNodeId} -> ${targetNodeId}`);
+        if (result.warnings.length > 0) {
+          //console.warn(`⚠️ Edge created with warnings:`, result.warnings);
+        }
+        return { success: true };
+      } else {
+        //console.error(`❌ Edge creation failed:`, result.errors);
+        return { success: false, error: result.errors.join(', ') };
+      }
+      
+    } catch (error) {
+      return { success: false, error: String(error) };
+    }
+  };
+
+  // Edge validation functions
+  const validateEdge = (sourceNodeId: string, targetNodeId: string, sourceHandle: any, targetHandle: any): {
+    isValid: boolean;
+    errors: string[];
+    warnings: string[];
+  } => {
+    const errors: string[] = [];
+    const warnings: string[] = [];
+    
+    // Check if both nodes exist
+    const sourceNode = nodes.find(n => n.id === sourceNodeId);
+    const targetNode = nodes.find(n => n.id === targetNodeId);
+    
+    if (!sourceNode) {
+      errors.push(`Source node ${sourceNodeId} not found`);
+    }
+    if (!targetNode) {
+      errors.push(`Target node ${targetNodeId} not found`);
+    }
+    
+    if (errors.length > 0) {
+      return { isValid: false, errors, warnings };
+    }
+    
+    // Check if source handle exists on source node
+    if (sourceNode && sourceHandle) {
+      const sourceOutputs = getComponentOutputs(sourceNodeId);
+      const sourceHandleExists = sourceOutputs.some(output => output.name === sourceHandle.name);
+      if (!sourceHandleExists) {
+        errors.push(`Source handle '${sourceHandle.name}' not found on source node ${sourceNodeId}`);
+      }
+    }
+    
+    // Check if target handle exists on target node
+    if (targetNode && targetHandle) {
+      const targetInputs = getComponentInputs(targetNodeId);
+      const targetHandleExists = targetInputs.some(input => input.fieldName === targetHandle.fieldName);
+      if (!targetHandleExists) {
+        errors.push(`Target handle '${targetHandle.fieldName}' not found on target node ${targetNodeId}`);
+      }
+    }
+    
+    // Check for circular connections
+    if (sourceNodeId === targetNodeId) {
+      errors.push(`Cannot connect node to itself: ${sourceNodeId}`);
+    }
+    
+    // Check for duplicate edges
+    const existingEdges = useFlowStore.getState().edges;
+    const duplicateEdge = existingEdges.find(edge => 
+      edge.source === sourceNodeId && edge.target === targetNodeId &&
+      edge.sourceHandle === JSON.stringify(sourceHandle) && edge.targetHandle === JSON.stringify(targetHandle)
+    );
+    
+    if (duplicateEdge) {
+      warnings.push(`Edge already exists between ${sourceNodeId} and ${targetNodeId} with same handles`);
+    }
+    
+    // Check type compatibility
+    if (sourceHandle && targetHandle) {
+      const sourceType = normalizeType(sourceHandle.output_types?.[0] || "str");
+      const targetType = normalizeType(targetHandle.inputTypes?.[0] || "str");
+      
+      if (!isCompatible(sourceType, targetType)) {
+        warnings.push(`Type mismatch: ${sourceType} -> ${targetType}. Consider using an adapter.`);
+      }
+    }
+    
+    return {
+      isValid: errors.length === 0,
+      errors,
+      warnings
+    };
+  };
+
+  // Enhanced edge creation with validation
+  const createValidatedEdge = (sourceNodeId: string, targetNodeId: string): {
+    success: boolean;
+    edgeId?: string;
+    errors: string[];
+    warnings: string[];
+  } => {
+    const handleSelection = selectHandles(sourceNodeId, targetNodeId);
+    
+    if (handleSelection.needsAdapter) {
+      return {
+        success: false,
+        errors: [`Adapter needed: ${handleSelection.adapterType}`],
+        warnings: []
+      };
+    }
+    
+    if (!handleSelection.sourceHandle || !handleSelection.targetHandle) {
+      return {
+        success: false,
+        errors: ['Could not select compatible handles'],
+        warnings: []
+      };
+    }
+    
+    // Validate the edge before creating it
+    const validation = validateEdge(sourceNodeId, targetNodeId, handleSelection.sourceHandle, handleSelection.targetHandle);
+    
+    if (!validation.isValid) {
+      return {
+        success: false,
+        errors: validation.errors,
+        warnings: validation.warnings
+      };
+    }
+    
+    // Create the edge
+    try {
+      createEdgeByIds(sourceNodeId, targetNodeId);
+      
+      // Generate edge ID for return
+      const edgeId = `xy-edge__${sourceNodeId}-${targetNodeId}`;
+      
+      return {
+        success: true,
+        edgeId,
+        errors: [],
+        warnings: validation.warnings
+      };
+    } catch (error) {
+      return {
+        success: false,
+        errors: [String(error)],
+        warnings: validation.warnings
+      };
+    }
+  };
+
+  // Status reporting for edge creation
+  const [edgeCreationStatus, setEdgeCreationStatus] = useState<{
+    isCreating: boolean;
+    currentOperation: string;
+    progress: number;
+    total: number;
+    results: Array<{source: string, target: string, success: boolean, message: string}>;
+  }>({
+    isCreating: false,
+    currentOperation: '',
+    progress: 0,
+    total: 0,
+    results: []
+  });
+
+  // State for status display
+  const [statusDisplay, setStatusDisplay] = useState({
+    sourceNode: false,
+    targetNode: false,
+    edgeConnected: false
+  });
+
+  // Update status display when nodes or edges change
+  useEffect(() => {
+    const updateStatus = () => {
+      const { nodes, edges } = useFlowStore.getState();
+      const sourceNode = nodes.find(n => n.id === "TextInput-NEWID");
+      const targetNode = nodes.find(n => n.id === "LanguageModelComponent-lRD6W");
+      const edgeConnected = edges.some(e => e.source === 'TextInput-NEWID' && e.target === 'LanguageModelComponent-lRD6W');
+      
+      setStatusDisplay({
+        sourceNode: !!sourceNode,
+        targetNode: !!targetNode,
+        edgeConnected
+      });
+    };
+    
+    // Initial update
+    updateStatus();
+    
+    // Subscribe to store changes
+    const unsubscribe = useFlowStore.subscribe(updateStatus);
+    
+    return unsubscribe;
+  }, []);
+
+  // Helper function to check if required nodes exist
+  const checkRequiredNodes = () => {
+    const { nodes } = useFlowStore.getState();
+    const sourceNode = nodes.find(n => n.id === "TextInput-NEWID");
+    const targetNode = nodes.find(n => n.id === "LanguageModelComponent-lRD6W");
+    
+    return {
+      sourceNode: !!sourceNode,
+      targetNode: !!targetNode,
+      sourceNodeData: sourceNode,
+      targetNodeData: targetNode
+    };
+  };
+
+  // Function to create the required nodes if they don't exist
+  const createRequiredNodes = () => {
+    const { setNodes } = useFlowStore.getState();
+    const nodeStatus = checkRequiredNodes();
+    
+    if (nodeStatus.sourceNode && nodeStatus.targetNode) {
+      console.log('✅ All required nodes already exist');
+      return;
+    }
+    
+    console.log('🔧 Creating missing required nodes...');
+    
+    if (!nodeStatus.sourceNode) {
+      const textInputNode = {
+        id: "TextInput-NEWID",
+        type: "genericNode",
+        position: { x: 100, y: 200 },
+        data: {
+          type: "TextInput",
+          id: "TextInput-NEWID",
+          showNode: true,
+          node: {
+            display_name: "Text Input",
+            type: "TextInput",
+            description: "Text input component",
+            documentation: "",
+            tool_mode: false,
+            frozen: false,
+            template: {
+              text: {
+                type: "str",
+                required: true,
+                show: true,
+                value: ""
+              }
+            }
+          }
+        }
+      };
+      
+      setNodes((oldNodes) => [...oldNodes, textInputNode as any]);
+      console.log('✅ Created TextInput-NEWID node');
+    }
+    
+    if (!nodeStatus.targetNode) {
+      const llmNode = {
+        id: "LanguageModelComponent-lRD6W",
+        type: "genericNode",
+        position: { x: 400, y: 200 },
+        data: {
+          type: "LanguageModelComponent",
+          id: "LanguageModelComponent-lRD6W",
+          showNode: true,
+          node: {
+            display_name: "Language Model",
+            type: "LanguageModelComponent",
+            description: "Language model component",
+            documentation: "",
+            tool_mode: false,
+            frozen: false,
+            template: {
+              system_message: {
+                type: "str",
+                required: false,
+                show: true,
+                value: ""
+              }
+            }
+          }
+        }
+      };
+      
+      setNodes((oldNodes) => [...oldNodes, llmNode as any]);
+      console.log('✅ Created LanguageModelComponent-lRD6W node');
+    }
+    
+    console.log('🎯 All required nodes created successfully');
+  };
+
+  // Function to add the specific edge structure provided by the user
+  const addSimpleEdge = () => {
+    const { setEdges, nodes, edges } = useFlowStore.getState();
+    
+    // Check if the required nodes exist
+    const nodeStatus = checkRequiredNodes();
+    
+    if (!nodeStatus.sourceNode) {
+      console.log('❌ Source node TextInput-NEWID not found in flow');
+      console.log('💡 Available nodes:', nodes.map(n => n.id));
+      console.log('💡 Use "Create Nodes" button to create missing nodes');
+      return;
+    }
+    
+    if (!nodeStatus.targetNode) {
+      console.log('❌ Target node LanguageModelComponent-lRD6W not found in flow');
+      console.log('💡 Available nodes:', nodes.map(n => n.id));
+      console.log('💡 Use "Create Nodes" button to create missing nodes');
+      return;
+    }
+    
+    console.log('🔗 Creating specific edge from TextInput-NEWID to LanguageModelComponent-lRD6W');
+    console.log('📋 Source node:', nodeStatus.sourceNodeData?.data?.type);
+    console.log('📋 Target node:', nodeStatus.targetNodeData?.data?.type);
+    
+    const newEdge = {
+      id: "xy-edge__TextInput-NEWID-LanguageModelComponent-lRD6W",
+      source: "TextInput-NEWID",
+      target: "LanguageModelComponent-lRD6W",
+      sourceHandle: "{œdataTypeœ:œTextInputœ,œidœ:œTextInput-NEWIDœ,œnameœ:œtextœ,œoutput_typesœ:[œMessageœ]}",
+      targetHandle: "{œfieldNameœ:œsystem_messageœ,œidœ:œLanguageModelComponent-lRD6Wœ,œinputTypesœ:[œMessageœ],œtypeœ:œstrœ}",
+      data: {
+        sourceHandle: {
+          dataType: "TextInput",
+          id: "TextInput-NEWID",
+          name: "text",
+          output_types: ["Message"]
+        },
+        targetHandle: {
+          fieldName: "system_message",
+          id: "LanguageModelComponent-lRD6W",
+          inputTypes: ["Message"],
+          type: "str"
+        }
+      }
+    };
+    
+    // Check for duplicate edges
+    const existingEdge = edges.find(edge => 
+      edge.source === "TextInput-NEWID" && 
+      edge.target === "LanguageModelComponent-lRD6W"
+    );
+    
+    if (existingEdge) {
+      console.log('⚠️ Edge already exists between TextInput-NEWID and LanguageModelComponent-lRD6W');
+      console.log('📋 Existing edge:', existingEdge);
+      return;
+    }
+    
+    // Add the edge to the flow store
+    setEdges((oldEdges) => [...oldEdges, newEdge]);
+    
+    console.log('✅ Specific edge created successfully:', newEdge);
+    console.log('🎯 Edge ID:', newEdge.id);
+    console.log('🔗 Source → Target:', `${newEdge.source} → ${newEdge.target}`);
+  };
+
+  // Report edge creation progress
+  const reportEdgeProgress = (operation: string, progress: number, total: number) => {
+    setEdgeCreationStatus(prev => ({
+      ...prev,
+      currentOperation: operation,
+      progress,
+      total
+    }));
+  };
+
+  // Report edge creation result
+  const reportEdgeResult = (source: string, target: string, success: boolean, message: string) => {
+    setEdgeCreationStatus(prev => ({
+      ...prev,
+      results: [...prev.results, { source, target, success, message }]
+    }));
+  };
+
+  // Clear edge creation status
+  const clearEdgeStatus = () => {
+    setEdgeCreationStatus({
+      isCreating: false,
+      currentOperation: '',
+      progress: 0,
+      total: 0,
+      results: []
+    });
+  };
+
   return (
     <>
       {/* Hover-Expanded Chat Conversation */}
@@ -1475,13 +2892,13 @@ const AireliusChat = () => {
                   size="sm"
                   variant="outline"
                   onClick={() => {
-                    console.log('🔍 Templates object:', templates);
-                    console.log('🔍 Available template keys:', Object.keys(templates));
-                    console.log('🔍 Sample template (first 3):', Object.keys(templates).slice(0, 3).map(key => ({
-                      key,
-                      display_name: templates[key]?.display_name,
-                      description: templates[key]?.description
-                    })));
+                    //console.log('🔍 Templates object:', templates);
+                    //console.log('🔍 Available template keys:', Object.keys(templates));
+                    //console.log('🔍 Sample template (first 3):', Object.keys(templates).slice(0, 3).map(key => ({
+                    //  key,
+                    //  display_name: templates[key]?.display_name,
+                    //  description: templates[key]?.description
+                    //})));
                   }}
                   className="h-6 px-2 text-xs"
                 >
@@ -1492,19 +2909,25 @@ const AireliusChat = () => {
                   size="sm"
                   variant="outline"
                   onClick={() => {
-                    const testText = 'Here is a <ChatInput> component and a <ChatOutput> component';
-                    console.log('🧪 Testing component tag extraction...');
-                    console.log('🧪 Test text:', testText);
+                    const testText = 'Here is a <ChatInput-abc123> component and a <ChatOutput-def456> component';
+                    //console.log('🧪 Testing component tag extraction...');
+                    //console.log('🧪 Test text:', testText);
                     const extracted = extractComponentTags(testText);
-                    console.log('🧪 Extracted tags:', extracted);
+                    //console.log('🧪 Extracted tags:', extracted);
+                    
+                    // Test with multiple connections
+                    const testWithConnections = 'Add a <WebSearchNoAPI-xyz789:ChatInput-abc123,PromptTemplate-def456> component';
+                    //console.log('🧪 Test with multiple connections:', testWithConnections);
+                    const extractedWithConnections = extractComponentTags(testWithConnections);
+                    //console.log('🧪 Extracted with connections:', extractedWithConnections);
                     
                     // Test with actual template keys
                     const firstTemplateKey = Object.keys(templates)[0];
                     if (firstTemplateKey) {
-                      const testWithRealComponent = `Add a <${firstTemplateKey}> component`;
-                      console.log('🧪 Test with real component:', testWithRealComponent);
+                      const testWithRealComponent = `Add a <${firstTemplateKey}-test123> component`;
+                      //console.log('🧪 Test with real component:', testWithRealComponent);
                       const extractedReal = extractComponentTags(testWithRealComponent);
-                      console.log('🧪 Extracted real component:', extractedReal);
+                      //console.log('🧪 Extracted real component:', extractedReal);
                     }
                   }}
                   className="h-6 px-2 text-xs"
@@ -1512,30 +2935,88 @@ const AireliusChat = () => {
                   <Play className="h-3 w-3 mr-1" />
                   Test Tags
                 </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => {
-                    console.log('🧪 Testing component addition...');
-                    const firstTemplateKey = Object.keys(templates)[0];
-                    if (firstTemplateKey && flowId) {
-                      try {
-                        console.log(`🧪 Adding component: ${firstTemplateKey}`);
-                        console.log(`🧪 Template:`, templates[firstTemplateKey]);
-                        addComponent(templates[firstTemplateKey], firstTemplateKey);
-                        console.log(`✅ Test: Added component ${firstTemplateKey}`);
-                      } catch (error) {
-                        console.error(`❌ Test: Failed to add component ${firstTemplateKey}:`, error);
-                      }
-                    } else {
-                      console.warn('🧪 Test: No components or flow available for testing');
-                    }
-                  }}
-                  className="h-6 px-2 text-xs"
-                >
-                  <CheckCircle className="h-3 w-3 mr-1" />
-                  Test Add
-                </Button>
+                                 <Button
+                   size="sm"
+                   variant="outline"
+                   onClick={() => {
+                     //console.log('🧪 Testing component addition...');
+                     const firstTemplateKey = Object.keys(templates)[0];
+                     if (firstTemplateKey && flowId) {
+                       try {
+                         //console.log(`🧪 Adding component: ${firstTemplateKey}`);
+                         //console.log(`🧪 Template:`, templates[firstTemplateKey]);
+                         addComponent(templates[firstTemplateKey], firstTemplateKey);
+                         //console.log(`✅ Test: Added component ${firstTemplateKey}`);
+                       } catch (error) {
+                         //console.error(`❌ Test: Failed to add component ${firstTemplateKey}:`, error);
+                       }
+                     } else {
+                       //console.warn('🧪 Test: No components or flow available for testing');
+                     }
+                   }}
+                   className="h-6 px-2 text-xs"
+                 >
+                   <CheckCircle className="h-3 w-3 mr-1" />
+                   Test Add
+                 </Button>
+                 <Button
+                   size="sm"
+                   variant="outline"
+                   onClick={() => {
+                     addSimpleEdge();
+                   }}
+                   className="h-6 px-2 text-xs"
+                 >
+                   <Zap className="h-3 w-3 mr-1" />
+                   Add TextInput→LLM Edge
+                 </Button>
+                 <Button
+                   size="sm"
+                   variant="outline"
+                   onClick={() => {
+                     createRequiredNodes();
+                   }}
+                   className="h-6 px-2 text-xs"
+                 >
+                   <Plus className="h-3 w-3 mr-1" />
+                   Create Nodes
+                 </Button>
+                 <Button
+                   size="sm"
+                   variant="outline"
+                   onClick={() => {
+                     const status = checkRequiredNodes();
+                     console.log('📊 Node Status:', status);
+                     console.log('💡 Available nodes:', useFlowStore.getState().nodes.map(n => n.id));
+                   }}
+                   className="h-6 px-2 text-xs"
+                 >
+                   <Info className="h-3 w-3 mr-1" />
+                   Check Status
+                 </Button>
+              </div>
+              <div className="mb-3 p-2 bg-muted/50 rounded text-xs">
+                <div className="font-medium mb-1">Edge Creation Status:</div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span>TextInput-NEWID:</span>
+                    <span className={`px-2 py-0.5 rounded text-xs ${statusDisplay.sourceNode ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                      {statusDisplay.sourceNode ? '✅ Found' : '❌ Missing'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>LanguageModelComponent-lRD6W:</span>
+                    <span className={`px-2 py-0.5 rounded text-xs ${statusDisplay.targetNode ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                      {statusDisplay.targetNode ? '✅ Found' : '❌ Missing'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>Edge:</span>
+                    <span className={`px-2 py-0.5 rounded text-xs ${statusDisplay.edgeConnected ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+                      {statusDisplay.edgeConnected ? '✅ Connected' : '🔗 Not Connected'}
+                    </span>
+                  </div>
+                </div>
               </div>
               <div ref={chatContainerRef} className="overflow-y-auto max-h-[50vh]">
                 <div className="space-y-3">

@@ -1070,6 +1070,20 @@ export function scapedJSONStringfy(json: object): string {
   return customStringify(json).replace(/"/g, "œ");
 }
 export function scapeJSONParse(json: string): any {
+  // If it's not a JSON string, return a default object structure
+  if (!json.includes('{') || !json.includes('}')) {
+    // Return a default structure for plain handle names
+    return {
+      name: json,
+      fieldName: json,
+      dataType: 'unknown',
+      id: 'unknown',
+      output_types: [],
+      inputTypes: [],
+      type: 'str'
+    };
+  }
+  
   const parsed = json.replace(/œ/g, '"');
   return JSON.parse(parsed);
 }

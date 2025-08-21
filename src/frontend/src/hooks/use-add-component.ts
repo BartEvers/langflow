@@ -17,7 +17,8 @@ export function useAddComponent() {
       component: APIClassType,
       type: string,
       position?: { x: number; y: number },
-    ) => {
+      customId?: string,
+    ): string => {
       track("Component Added", { componentType: component.display_name });
 
       const {
@@ -48,7 +49,7 @@ export function useAddComponent() {
         };
       }
 
-      const newId = getNodeId(type);
+      const newId = customId || getNodeId(type);
 
       const newNode: AllNodeType = {
         id: newId,
@@ -62,7 +63,17 @@ export function useAddComponent() {
         },
       };
 
-      paste({ nodes: [newNode], edges: [] }, pos);
+      if (customId) {
+        // If custom ID is provided, add directly to flow store to preserve the ID
+        const { setNodes } = useFlowStore.getState();
+        setNodes((oldNodes) => [...oldNodes, newNode]);
+      } else {
+        // Use paste for default behavior when no custom ID
+        paste({ nodes: [newNode], edges: [] }, pos);
+      }
+      
+      // Return the generated node ID so callers can use it for edge creation
+      return newId;
     },
     [store, paste],
   );

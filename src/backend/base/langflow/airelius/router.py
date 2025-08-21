@@ -59,6 +59,7 @@ class PFUPlanRequest(BaseModel):
     prompt: str = Field(..., description="User prompt to drive PFU plan")
     flow_id: str | None = Field(None, description="Optional flow to target")
     files: list[str] | None = Field(default=None, description="Optional server-side file paths to include")
+    available_templates: list[str] | None = Field(default=None, description="List of available component templates")
 
 
 class PFUPlanResponse(BaseModel):
@@ -287,7 +288,7 @@ async def plan_pfu_step_by_step(
 
         # Execute dynamic step-by-step PFU using the new method
         logger.info("[PFU] Starting dynamic step-by-step PFU execution...")
-        result = service.execute_step_by_step_pfu(request.prompt, flow_data, retrieved)
+        result = service.execute_step_by_step_pfu(request.prompt, flow_data, retrieved, request.available_templates)
         
         return {
             "status": result["status"],
@@ -872,7 +873,7 @@ async def plan_pfu_step_by_step_stream(
                 yield f"data: {json.dumps({'step': step_num, 'name': step_name, 'status': 'starting', 'message': f'Starting {step_name}...'})}\n\n"
                 
                 # Execute this step
-                step_result = await service.execute_single_step(step_name, request.prompt, flow_data, retrieved, previous_steps)
+                step_result = await service.execute_single_step(step_name, request.prompt, flow_data, retrieved, previous_steps, request.available_templates)
                 print(f"✅ Step {step_num}/{total_steps + 1}: {step_name} - Completed")
                 print(f"   Result: {str(step_result)[:200]}...")
                 
